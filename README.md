@@ -247,3 +247,7 @@ import { TypeMarker } from './type-marker';
 })
 export class AppModule { }
 ```
+
+## Demo package
+
+[Demo package](https://github.com/ebrehault/angular-traversal-demo)
