@@ -1,0 +1,53 @@
+{
+    "name": "angular-traversal",
+    "version": "1.0.0-alpha.1",
+    "license": "MIT",
+    "author": {
+        "name": "Eric Brehault",
+        "email": "ebrehault@gmail.com"
+    },
+    "engines": {
+        "node": ">= 5.4.1"
+    },
+    "contributors": [],
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:makinacorpus/angular-traversal.git"
+    },
+    "homepage": "https://github.com/makinacorpus/angular-traversal",
+    "bugs": "https://github.com/makinacorpus/angular-traversal/issues",
+    "description": "A traversal navigation library for Angular (v2+)",
+    "main": "dist/index.js",
+    "scripts": {
+        "clean": "rimraf dist/",
+        "build:aot": "ngc -p tsconfig.json",
+        "build:jit": "tsc -p tsconfig.json",
+        "build": "npm run clean && npm run build:aot"
+    },
+    "types": "dist/index.d.ts",
+    "private": false,
+    "keywords": [
+        "angular",
+        "traversal",
+        "routing",
+        "router"
+    ],
+    "dependencies": {
+        "@angular/common": "2.2.4",
+        "@angular/compiler": "2.2.4",
+        "@angular/core": "2.2.4",
+        "@angular/http": "2.2.4",
+        "@angular/platform-browser": "2.2.4",
+        "core-js": "2.4.1",
+        "rimraf": "^2.5.4",
+        "rxjs": "5.0.0-beta.12",
+        "typescript": "2.0.10",
+        "zone.js": "0.6.21"
+    },
+    "devDependencies": {
+        "@angular/compiler-cli": "2.2.4",
+        "@angular/platform-server": "2.2.4",
+        "@types/jasmine": "2.2.30",
+        "@types/node": "6.0.54"
+    }
+}
