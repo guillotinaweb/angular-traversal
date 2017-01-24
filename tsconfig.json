@@ -38,6 +38,7 @@
     "angularCompilerOptions": {
         "genDir": "dist",
         "entryModule": "src/lib/app.module#AppModule",
+        "skipTemplateCodegen": true,
         "strictMetadataEmit": true
     }
 }
