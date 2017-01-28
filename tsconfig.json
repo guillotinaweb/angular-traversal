@@ -32,6 +32,7 @@
     "exclude": [
         "node_modules",
         "dist",
+        "tests",
         "**/*.ngfactory.ts",
         "**/*.shim.ts"
     ],

@@ -31,3 +31,18 @@ testem.log
 #System Files
 .DS_Store
 Thumbs.db
+
+# test subproject
+/tests/dist
+/tests/tmp
+/tests/node_modules
+/tests/.idea
+/tests/.vscode
+/tests/.sass-cache
+/tests/connect.lock
+/tests/coverage/*
+/tests/libpeerconnection.log
+/tests/typings
+/tests/e2e/*.js
+/tests/e2e/*.map
+
