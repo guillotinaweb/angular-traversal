@@ -10,6 +10,7 @@ export class FileComponent implements OnInit {
 
   private name: string;
   private code: string;
+  private path: string;
 
   constructor(private traverser: Traverser) { }
 
@@ -18,6 +19,7 @@ export class FileComponent implements OnInit {
       let context = target.context;
       this.name = context.name;
       this.code = atob(context.content);
+      this.path = target.path.split('?')[0];
     });
   }
 

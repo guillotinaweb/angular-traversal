@@ -14,12 +14,14 @@ import { TypeMarker } from './marker';
 import { AppComponent } from './app.component';
 import { FileComponent } from './file/file.component';
 import { FolderComponent } from './folder/folder.component';
+import { FileInfoComponent } from './file-info/file-info.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FileComponent,
-    FolderComponent
+    FolderComponent,
+    FileInfoComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +32,8 @@ import { FolderComponent } from './folder/folder.component';
   ],
   entryComponents: [
     FileComponent,
-    FolderComponent
+    FolderComponent,
+    FileInfoComponent
   ],
   providers: [
     { provide: Resolver, useClass: BasicHttpResolver },
