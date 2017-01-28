@@ -23,14 +23,16 @@ export class Traverser {
     });
   }
 
-  traverse(path: string) {
+  traverse(path: string, navigate: boolean = true) {
     let contextPath:string = path;
     let view:string = 'view';
     if(path.indexOf('@@') > -1) {
       contextPath = path.split('/@@')[0];
       view = path.split('/@@')[1];
     }
-    this.location.go(path);
+    if(navigate) {
+      this.location.go(path);
+    }
     if(this.views[view]) {
       this.resolver.resolve(contextPath).subscribe(context => {
         let marker = this.marker.mark(context);
