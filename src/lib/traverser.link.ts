@@ -5,7 +5,7 @@ import {
 import { Traverser } from './traverser';
 
 @Directive({
-  selector: 'a[traverseTo]',
+  selector: '*[traverseTo]',
   host: {
     '(click)': 'onClick()'
   }
