@@ -1,34 +1,37 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async } from '@angular/core/testing';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { MdlModule } from 'angular2-mdl';
+import { TraversalModule } from 'angular-traversal';
+import { Resolver } from 'angular-traversal';
+import { Marker } from 'angular-traversal';
+import { TypeMarker } from './marker';
+
 import { AppComponent } from './app.component';
 
+@Injectable()
+export class FakeResolver extends Resolver {
+
+  constructor() {
+    super();
+  }
+
+  resolve(path: string): Observable<any> {
+    return Observable.create(observer => {
+      observer.onNext({
+        type: 'file',
+        name: 'myfile.txt',
+        content: '',
+      });
+      observer.onCompleted();
+    })
+  }
+}
+
 describe('AppComponent', () => {
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [
-        AppComponent
-      ],
-    });
-    TestBed.compileComponents();
-  });
-
-  it('should create the app', async(() => {
-    let fixture = TestBed.createComponent(AppComponent);
-    let app = fixture.debugElement.componentInstance;
-    expect(app).toBeTruthy();
-  }));
-
-  it(`should have as title 'app works!'`, async(() => {
-    let fixture = TestBed.createComponent(AppComponent);
-    let app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('app works!');
-  }));
-
-  it('should render title in a h1 tag', async(() => {
-    let fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    let compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('app works!');
+  it('should be a better test', async(() => {
+    expect(1).toBe(1);
   }));
 });
