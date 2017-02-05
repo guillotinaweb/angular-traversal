@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Traverser } from 'angular-traversal';
+import { Traverser } from '../../../dist';
 
 @Component({
   selector: 'app-folder',

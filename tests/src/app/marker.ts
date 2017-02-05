@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Marker } from 'angular-traversal';
+import { Marker } from '../../dist';
 
 @Injectable()
 export class TypeMarker extends Marker {

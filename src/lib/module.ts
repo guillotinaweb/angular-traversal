@@ -1,4 +1,4 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { HttpModule } from '@angular/http';
 
@@ -25,10 +25,4 @@ import { Traverser } from './traverser';
   ]
 })
 export class TraversalModule {
-  static forRoot(): ModuleWithProviders {
-    return {
-      ngModule: TraversalModule,
-      providers: []
-    };
-  }
 }

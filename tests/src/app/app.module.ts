@@ -4,10 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { MdlModule } from 'angular2-mdl';
 
-import { TraversalModule } from 'angular-traversal';
-import { Resolver } from 'angular-traversal';
-import { Marker } from 'angular-traversal';
-import { BasicHttpResolver, BACKEND_BASE_URL } from 'angular-traversal';
+import { TraversalModule } from '../../dist';
+import { Resolver } from '../../dist';
+import { Marker } from '../../dist';
+import { BasicHttpResolver, BACKEND_BASE_URL } from '../../dist';
 
 import { TypeMarker } from './marker';
 
@@ -28,7 +28,7 @@ import { FileInfoComponent } from './file-info/file-info.component';
     FormsModule,
     HttpModule,
     MdlModule,
-    TraversalModule.forRoot()
+    TraversalModule,
   ],
   entryComponents: [
     FileComponent,

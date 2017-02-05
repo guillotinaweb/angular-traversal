@@ -231,7 +231,7 @@ import { TypeMarker } from './type-marker';
     BrowserModule,
     FormsModule,
     HttpModule,
-    TraversalModule.forRoot(),
+    TraversalModule,
   ],
   entryComponents: [
     EditComponent,
