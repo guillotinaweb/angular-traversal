@@ -2,6 +2,8 @@
 
 **When routing is not good enough**
 
+[![Build Status](https://travis-ci.org/makinacorpus/angular-traversal.svg?branch=master)](https://travis-ci.org/makinacorpus/angular-traversal)
+
 ## Demo
 
 In this [demo](https://makinacorpus.github.io/angular-traversal/demo/) we allow to navigate in any public Github repository. There is not specific routing implemented in the app, we just rely on the Github routing itself.

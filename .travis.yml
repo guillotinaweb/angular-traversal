@@ -1,0 +1,23 @@
+language: node_js
+
+node_js:
+  - '6'
+  - 'node'
+
+env:
+  global:
+    - DBUS_SESSION_BUS_ADDRESS=/dev/null
+    - DISPLAY=:99.0
+    - CHROME_BIN=chromium-browser
+
+before_script:
+  - sh -e /etc/init.d/xvfb start
+
+install:
+  - npm install
+  - cd ./tests && npm install && cd ..
+
+script:
+  - npm run test
+
+sudo: required
