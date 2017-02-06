@@ -20,7 +20,7 @@
     "main": "dist/index.js",
     "scripts": {
         "clean": "rimraf dist/",
-        "test": "npm run build && rm -rf ./tests/dist && cp -r ./dist ./tests && cd tests && ng test --single-run",
+        "test": "npm run build && rimraf ./tests/dist && cp -r ./dist ./tests && cd tests && ng test --single-run",
         "build:aot": "ngc -p tsconfig.json",
         "build:jit": "tsc -p tsconfig.json",
         "build": "npm run clean && npm run build:aot"
@@ -33,14 +33,13 @@
         "routing",
         "router"
     ],
-    "dependencies": {
+    "peerDependencies": {
         "@angular/common": "2.2.4",
         "@angular/compiler": "2.2.4",
         "@angular/core": "2.2.4",
         "@angular/http": "2.2.4",
         "@angular/platform-browser": "2.2.4",
         "core-js": "2.4.1",
-        "rimraf": "^2.5.4",
         "rxjs": "5.0.0-beta.12",
         "typescript": "2.0.10",
         "zone.js": "0.6.21"
@@ -49,6 +48,7 @@
         "@angular/compiler-cli": "2.2.4",
         "@angular/platform-server": "2.2.4",
         "@types/jasmine": "2.2.30",
-        "@types/node": "6.0.54"
+        "@types/node": "6.0.54",
+        "rimraf": "^2.5.4"
     }
 }
