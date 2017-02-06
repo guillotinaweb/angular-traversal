@@ -2,6 +2,10 @@
 
 **When routing is not good enough**
 
+## Demo
+
+In this [demo](https://makinacorpus.github.io/angular-traversal/demo/) we allow to navigate in any public Github repository. There is not specific routing implemented in the app, we just rely on the Github routing itself.
+
 ## Why routing is not always good
 
 Routing is the most common way to associate a given rendering to a given URL.
@@ -248,6 +252,6 @@ import { TypeMarker } from './type-marker';
 export class AppModule { }
 ```
 
-## Demo package
+## Other demo package
 
-[Demo package](https://github.com/ebrehault/angular-traversal-demo)
+[Plone demo package](https://github.com/ebrehault/angular-traversal-demo)
