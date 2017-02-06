@@ -32,7 +32,8 @@ testem.log
 .DS_Store
 Thumbs.db
 
-# test subproject
+# test subproject and demo
+/demo
 /tests/dist
 /tests/tmp
 /tests/node_modules
