@@ -1,6 +1,7 @@
 <mdl-layout mdl-layout-fixed-header>
     <mdl-layout-header>
-        <mdl-button traverseTo="/makinacorpus/angular-traversal/contents/">Go to root</mdl-button>
+        Github package: <input type="text" [(ngModel)]="repository" />
+        <mdl-button [traverseTo]="'/' + repository +'/contents/'">Go</mdl-button>
     </mdl-layout-header>
     <mdl-layout-content>
         <traverser-outlet></traverser-outlet>

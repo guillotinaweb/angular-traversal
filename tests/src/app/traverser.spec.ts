@@ -5,6 +5,7 @@ import { APP_BASE_HREF } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Location } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { MdlModule } from 'angular2-mdl';
 import { TraversalModule, Traverser } from '../../dist';
 import { Resolver } from '../../dist';
@@ -44,7 +45,7 @@ describe('AppComponent', () => {
         FolderComponent,
         FileInfoComponent
       ],
-      imports: [TraversalModule, MdlModule],
+      imports: [TraversalModule, FormsModule, MdlModule],
       providers: [
         { provide: Resolver, useClass: FakeResolver },
         { provide: Marker, useClass: TypeMarker },

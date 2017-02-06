@@ -11,6 +11,8 @@ import { FolderComponent } from './folder/folder.component';
 })
 export class AppComponent {
 
+  private repository: string = 'makinacorpus/angular-traversal';
+
   constructor(traverser:Traverser) {
     traverser.addView('view', 'file', FileComponent);
     traverser.addView('info', 'file', FileInfoComponent);
