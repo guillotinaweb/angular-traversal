@@ -38,7 +38,7 @@
     ],
     "angularCompilerOptions": {
         "genDir": "dist",
-        "entryModule": "src/lib/app.module#AppModule",
+        "entryModule": "src/lib/module#TraversalModule",
         "skipTemplateCodegen": true,
         "strictMetadataEmit": true
     }
