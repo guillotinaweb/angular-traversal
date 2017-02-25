@@ -18,7 +18,7 @@ import { FolderComponent } from './folder/folder.component';
 import { FileInfoComponent } from './file-info/file-info.component';
 
 @Injectable()
-export class FakeResolver extends Resolver {
+export class FakeResolver1 extends Resolver {
 
   constructor() {
     super();
@@ -35,7 +35,7 @@ export class FakeResolver extends Resolver {
   }
 }
 
-describe('AppComponent', () => {
+describe('Traverser', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -47,7 +47,7 @@ describe('AppComponent', () => {
       ],
       imports: [TraversalModule, FormsModule, MdlModule],
       providers: [
-        { provide: Resolver, useClass: FakeResolver },
+        { provide: Resolver, useClass: FakeResolver1 },
         { provide: Marker, useClass: TypeMarker },
         { provide: APP_BASE_HREF, useValue: '/' }
       ]
@@ -72,7 +72,7 @@ describe('AppComponent', () => {
     });
   }));
 
-  it('should use the metionned view', async(() => {
+  it('should use the mentionned view', async(() => {
     let fixture = TestBed.createComponent(AppComponent);
     const traverser: Traverser = TestBed.get(Traverser);
     traverser.traverse('/file1/@@info');
@@ -100,4 +100,54 @@ describe('AppComponent', () => {
     expect(location.path()).toBe('/file1');
     });
   }));
+});
+
+
+@Injectable()
+export class FakeResolver2 extends Resolver {
+
+  constructor() {
+    super();
+  }
+
+  resolve(path: string): Observable<any> {
+    return Observable.create(observer => {
+      observer.next({
+        type: ['blue', 'file', 'bird'],
+        name: 'myfile.txt',
+        content: '',
+      });
+    })
+  }
+}
+
+describe('Marker', () => {
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        AppComponent,
+        FileComponent,
+        FolderComponent,
+        FileInfoComponent
+      ],
+      imports: [TraversalModule, FormsModule, MdlModule],
+      providers: [
+        { provide: Resolver, useClass: FakeResolver2 },
+        { provide: Marker, useClass: TypeMarker },
+        { provide: APP_BASE_HREF, useValue: '/' }
+      ]
+    }); 
+  });
+
+  it('should pick first match if marker returns a list', async(() => {
+    let fixture = TestBed.createComponent(AppComponent);
+    const traverser: Traverser = TestBed.get(Traverser);
+    traverser.traverse('/file1/@@info');
+    traverser.target.subscribe(target => {
+      expect(target.view).toBe('info');
+      expect(target.component).toBe(FileInfoComponent);
+    });
+  }));
+
 });

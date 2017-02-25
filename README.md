@@ -104,6 +104,9 @@ return context.type
 
 And `'*'` allows to match any context.
 
+Note: if our marker returns an array of strings, the traverser will pick the first
+item of the array which matches a view definition.
+
 ## Usage
 
 ### Create a view component

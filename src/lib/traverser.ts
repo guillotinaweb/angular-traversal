@@ -33,12 +33,21 @@ export class Traverser {
     if(navigate) {
       this.location.go(path);
     }
-    if(this.views[view]) {
+    let viewComponents = this.views[view];
+    if(viewComponents) {
       this.resolver.resolve(contextPath).subscribe(context => {
         let marker = this.marker.mark(context);
-        let component = this.views[view][marker];
+        let component;
+        if(marker instanceof Array) {
+          let matches = marker.filter(m => viewComponents[m]);
+          if(matches.length > 0){
+            component = viewComponents[matches[0]];
+          }
+        } else {
+          component = viewComponents[marker];
+        }
         if(!component) {
-          component = this.views[view]['*'];
+          component = viewComponents['*'];
         }
         if(component) {
           this.target.next({
