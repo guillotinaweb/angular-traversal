@@ -4,10 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { MdlModule } from 'angular2-mdl';
 
-import { TraversalModule } from '../../dist';
-import { Resolver } from '../../dist';
-import { Marker } from '../../dist';
-import { BasicHttpResolver, BACKEND_BASE_URL } from '../../dist';
+import { TraversalModule } from '../dist';
+import { Resolver } from '../dist';
+import { Marker } from '../dist';
+import { BasicHttpResolver, BACKEND_BASE_URL } from '../dist';
 
 import { TypeMarker } from './marker';
 

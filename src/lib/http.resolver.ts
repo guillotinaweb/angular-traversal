@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Resolver } from './resolver';
 
 // the actual value will be provided by the module
-export var BACKEND_BASE_URL: string = '';
+export const BACKEND_BASE_URL: string = '';
 
 @Injectable()
 export class BasicHttpResolver extends Resolver {

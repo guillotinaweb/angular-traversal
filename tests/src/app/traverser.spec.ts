@@ -7,9 +7,9 @@ import { Observable } from 'rxjs/Observable';
 import { Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MdlModule } from 'angular2-mdl';
-import { TraversalModule, Traverser } from '../../dist';
-import { Resolver } from '../../dist';
-import { Marker } from '../../dist';
+import { TraversalModule, Traverser } from '../dist';
+import { Resolver } from '../dist';
+import { Marker } from '../dist';
 import { TypeMarker } from './marker';
 
 import { AppComponent } from './app.component';
@@ -28,6 +28,24 @@ export class FakeResolver1 extends Resolver {
     return Observable.create(observer => {
       observer.next({
         type: 'file',
+        name: 'myfile.txt',
+        content: '',
+      });
+    })
+  }
+}
+
+@Injectable()
+export class FakeResolver2 extends Resolver {
+
+  constructor() {
+    super();
+  }
+
+  resolve(path: string): Observable<any> {
+    return Observable.create(observer => {
+      observer.next({
+        type: ['blue', 'file', 'bird'],
         name: 'myfile.txt',
         content: '',
       });
@@ -101,25 +119,6 @@ describe('Traverser', () => {
     });
   }));
 });
-
-
-@Injectable()
-export class FakeResolver2 extends Resolver {
-
-  constructor() {
-    super();
-  }
-
-  resolve(path: string): Observable<any> {
-    return Observable.create(observer => {
-      observer.next({
-        type: ['blue', 'file', 'bird'],
-        name: 'myfile.txt',
-        content: '',
-      });
-    })
-  }
-}
 
 describe('Marker', () => {
 

@@ -26,7 +26,7 @@
     "main": "dist/index.js",
     "scripts": {
         "clean": "rimraf dist/",
-        "test": "npm run build && rimraf ./tests/dist && cp -r ./dist ./tests && cd tests && ng test --single-run",
+        "test": "npm run build && rm -rf ./tests/src/dist && cp -r ./dist ./tests/src/dist && cd tests && ng test --single-run",
         "build:aot": "ngc -p tsconfig.json",
         "build:jit": "tsc -p tsconfig.json",
         "build": "npm run clean && npm run build:aot"
@@ -40,21 +40,21 @@
         "router"
     ],
     "peerDependencies": {
-        "@angular/common": "2.2.4",
-        "@angular/compiler": "2.2.4",
-        "@angular/core": "2.2.4",
-        "@angular/http": "2.2.4",
-        "@angular/platform-browser": "2.2.4",
+        "@angular/common": "2.4.0",
+        "@angular/compiler": "2.4.0",
+        "@angular/core": "2.4.0",
+        "@angular/http": "2.4.0",
+        "@angular/platform-browser": "2.4.0",
         "core-js": "2.4.1",
-        "rxjs": "5.0.0-beta.12",
+        "rxjs": "^5.1.0",
         "typescript": "2.0.10",
-        "zone.js": "0.6.21"
+        "zone.js": "^0.7.6"
     },
     "devDependencies": {
-        "@angular/compiler-cli": "2.2.4",
-        "@angular/platform-server": "2.2.4",
-        "@types/jasmine": "2.2.30",
-        "@types/node": "6.0.54",
+        "@angular/compiler-cli": "2.4.0",
+        "@angular/platform-server": "2.4.0",
+        "@types/jasmine": "2.5.38",
+        "@types/node": "6.0.60",
         "rimraf": "^2.5.4"
     }
 }
