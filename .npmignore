@@ -1,8 +1,9 @@
-*.ts
+*.ngFactory.ts
 /node_modules
 /src
 /tests
 /tmp
+/demo
 
 # IDEs and editors
 /.idea
