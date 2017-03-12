@@ -27,7 +27,7 @@ export class TraverserOutlet implements OnInit {
     this.traverser.target.subscribe(target => this.render(target));
     this.traverser.traverse(this.location.path());
     this.location.subscribe(location => {
-      this.traverser.traverse(location.url, false);
+      this.traverser.traverse(String(location.url), false);
     });
   }
 
