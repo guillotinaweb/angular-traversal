@@ -35,7 +35,7 @@ export class Traverser {
     }
     let viewComponents = this.views[view];
     if(viewComponents) {
-      this.resolver.resolve(contextPath).subscribe(context => {
+      this.resolver.resolve(contextPath, view).subscribe(context => {
         let marker = this.marker.mark(context);
         let component;
         if(marker instanceof Array) {
