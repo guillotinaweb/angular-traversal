@@ -6,7 +6,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MdlModule } from 'angular2-mdl';
 import { TraversalModule, Traverser } from '../dist';
 import { Resolver } from '../dist';
 import { Marker } from '../dist';
@@ -31,7 +30,7 @@ export class FakeResolver1 extends Resolver {
         name: 'myfile.txt',
         content: '',
       });
-    })
+    });
   }
 }
 
@@ -49,7 +48,7 @@ export class FakeResolver2 extends Resolver {
         name: 'myfile.txt',
         content: '',
       });
-    })
+    });
   }
 }
 
@@ -63,7 +62,7 @@ describe('Traverser', () => {
         FolderComponent,
         FileInfoComponent
       ],
-      imports: [TraversalModule, FormsModule, MdlModule],
+      imports: [TraversalModule, FormsModule],
       providers: [
         { provide: Resolver, useClass: FakeResolver1 },
         { provide: Marker, useClass: TypeMarker },
@@ -130,7 +129,7 @@ describe('Marker', () => {
         FolderComponent,
         FileInfoComponent
       ],
-      imports: [TraversalModule, FormsModule, MdlModule],
+      imports: [TraversalModule, FormsModule],
       providers: [
         { provide: Resolver, useClass: FakeResolver2 },
         { provide: Marker, useClass: TypeMarker },

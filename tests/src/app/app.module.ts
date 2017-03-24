@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { MdlModule } from 'angular2-mdl';
 
 import { TraversalModule } from '../dist';
 import { Resolver } from '../dist';
@@ -27,7 +26,6 @@ import { FileInfoComponent } from './file-info/file-info.component';
     BrowserModule,
     FormsModule,
     HttpModule,
-    MdlModule,
     TraversalModule,
   ],
   entryComponents: [

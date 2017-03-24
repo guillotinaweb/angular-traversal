@@ -8,7 +8,7 @@ import { Traverser } from '../../dist';
 })
 export class FileInfoComponent implements OnInit {
 
-  private context: any;
+  public context: any;
 
   constructor(private traverser: Traverser) { }
 

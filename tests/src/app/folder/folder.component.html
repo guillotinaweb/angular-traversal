@@ -1,9 +1,7 @@
-<mdl-list>
-    <mdl-list-item *ngFor="let entry of context">
+<ul>
+    <li *ngFor="let entry of context">
         <a [traverseTo]="entry.url.slice(28)">
-            <mdl-icon *ngIf="entry.type=='dir'">folder</mdl-icon>
-            <mdl-icon *ngIf="entry.type=='file'">description</mdl-icon>
             {{ entry.name }}
         </a>
-    </mdl-list-item>
-</mdl-list>
+    </li>
+</ul>

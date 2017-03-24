@@ -8,9 +8,9 @@ import { Traverser } from '../../dist';
 })
 export class FileComponent implements OnInit {
 
-  private name: string;
-  private code: string;
-  private path: string;
+  public name: string;
+  public code: string;
+  public path: string;
 
   constructor(private traverser: Traverser) { }
 

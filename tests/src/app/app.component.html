@@ -1,9 +1,7 @@
-<mdl-layout mdl-layout-fixed-header>
-    <mdl-layout-header>
-        Github package: <input type="text" [(ngModel)]="repository" />
-        <mdl-button [traverseTo]="'/' + repository +'/contents/'">Go</mdl-button>
-    </mdl-layout-header>
-    <mdl-layout-content>
-        <traverser-outlet></traverser-outlet>
-    </mdl-layout-content>
-</mdl-layout>
+<header>
+    Github package: <input type="text" [(ngModel)]="repository" />
+    <button [traverseTo]="'/' + repository +'/contents/'">Go</button>
+</header>
+<section>
+    <traverser-outlet></traverser-outlet>
+</section>
