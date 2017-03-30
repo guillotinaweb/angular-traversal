@@ -1,3 +1,9 @@
+# 1.0.0-alpha.10 (2017-03-30)
+
+## New features
+
+Allow to provide path normalizer.
+
 # 1.0.0-alpha.9 (2017-03-24)
 
 ## New features
