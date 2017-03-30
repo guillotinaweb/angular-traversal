@@ -3,6 +3,7 @@ import { Location } from '@angular/common';
 import { BehaviorSubject } from "rxjs/Rx";
 import { Resolver } from './resolver';
 import { Marker } from './marker';
+import { Normalizer } from './normalizer';
 
 @Injectable()
 export class Traverser {
@@ -14,6 +15,7 @@ export class Traverser {
     private location: Location,
     private resolver: Resolver,
     private marker: Marker,
+    private normalizer: Normalizer,
   ) {
     this.target = new BehaviorSubject({
       context: {},
@@ -24,6 +26,7 @@ export class Traverser {
   }
 
   traverse(path: string, navigate: boolean = true) {
+    path = this.normalizer.normalize(path);
     let contextPath:string = path;
     let view:string = 'view';
     if(path.indexOf('@@') > -1) {

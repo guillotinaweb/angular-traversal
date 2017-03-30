@@ -6,8 +6,10 @@ import { HttpModule } from '@angular/http';
 import { TraversalModule } from '../dist';
 import { Resolver } from '../dist';
 import { Marker } from '../dist';
+import { Normalizer } from '../dist';
 import { BasicHttpResolver, BACKEND_BASE_URL } from '../dist';
 
+import { FullPathNormalizer } from './normalizer';
 import { TypeMarker } from './marker';
 
 import { AppComponent } from './app.component';
@@ -37,6 +39,7 @@ import { FileInfoComponent } from './file-info/file-info.component';
     { provide: Resolver, useClass: BasicHttpResolver },
     { provide: BACKEND_BASE_URL, useValue: 'https://api.github.com/repos' },
     { provide: Marker, useClass: TypeMarker },
+    { provide: Normalizer, useClass: FullPathNormalizer },
   ],
   bootstrap: [AppComponent]
 })

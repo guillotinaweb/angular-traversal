@@ -257,6 +257,63 @@ import { TypeMarker } from './type-marker';
 export class AppModule { }
 ```
 
+## Path normalizer
+
+The main use case is to call a REST backend based on the current path.
+For instance, by calling http://localhost:4200/makinacorpus/angular-traversal/contents
+the traverser will call https://api.github.com/repos/makinacorpus/angular-traversal/contents
+and use the result as the view context.
+
+But, if the result contains some path to other resources, in most cases they will be
+provided as full URL, like in our case with the GitHub API, the folder items are like that:
+
+```javascript
+{
+    "name": "CHANGELOG.md",
+    ...
+    "url": "https://api.github.com/repos/makinacorpus/angular-traversal/contents/CHANGELOG.md?ref=master",
+    ...
+}
+```
+
+So if we want to use this url to create a traversable link, we need to shorten it:
+
+```html
+<a traverseTo="/makinacorpus/angular-traversal/contents/CHANGELOG.md?ref=master">CHANGELOG.md</a>
+```
+
+Of course, our resolver could support full pathes, but them the displayed location in the browser
+would be:
+
+```http://localhost:4200/https://api.github.com/repos/makinacorpus/angular-traversal/contents/CHANGELOG.md?ref=master```
+
+which does work, but is pretty ugly.
+
+To avoid that, we can implement a Normalizer:
+```javascript
+import { Injectable } from '@angular/core';
+import { Normalizer } from 'angular-traversal';
+
+@Injectable()
+export class FullPathNormalizer extends Normalizer {
+  normalize(path): string {
+    if (path.startsWith('https://api.github.com/repos')) {
+      return path.slice(28);
+    } else {
+      return path;
+    }
+  }
+}
+```
+and provide it in the module:
+```javascript
+import { Normalizer } from 'angular-traversal';
+import { FullPathNormalizer } from './my-normalizer';
+...
+  { provide: Normalizer, useClass: FullPathNormalizer },
+...
+```
+
 ## Other demo package
 
 [Plone demo package](https://github.com/ebrehault/angular-traversal-demo)
