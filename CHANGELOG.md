@@ -1,3 +1,9 @@
+# 1.0.0-alpha.11 (2017-04-19)
+
+## New features
+
+Return the context path.
+
 # 1.0.0-alpha.10 (2017-03-30)
 
 ## New features

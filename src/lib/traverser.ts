@@ -56,6 +56,7 @@ export class Traverser {
           this.target.next({
             context: context,
             path: path,
+            contextPath: contextPath,
             view: view,
             component: component,
           });
