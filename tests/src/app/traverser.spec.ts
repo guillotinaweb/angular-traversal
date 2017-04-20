@@ -10,6 +10,8 @@ import { TraversalModule, Traverser } from '../dist';
 import { Resolver } from '../dist';
 import { Marker } from '../dist';
 import { TypeMarker } from './marker';
+import { Normalizer } from '../dist';
+import { FullPathNormalizer } from './normalizer';
 
 import { AppComponent } from './app.component';
 import { FileComponent } from './file/file.component';
@@ -66,9 +68,10 @@ describe('Traverser', () => {
       providers: [
         { provide: Resolver, useClass: FakeResolver1 },
         { provide: Marker, useClass: TypeMarker },
+        { provide: Normalizer, useClass: FullPathNormalizer },
         { provide: APP_BASE_HREF, useValue: '/' }
       ]
-    }); 
+    });
   });
 
   it('should traverse using the current path', async(() => {
@@ -133,6 +136,7 @@ describe('Marker', () => {
       providers: [
         { provide: Resolver, useClass: FakeResolver2 },
         { provide: Marker, useClass: TypeMarker },
+        { provide: Normalizer, useClass: FullPathNormalizer },
         { provide: APP_BASE_HREF, useValue: '/' }
       ]
     }); 
