@@ -28,17 +28,22 @@ export class Traverser {
   traverse(path: string, navigate: boolean = true) {
     path = this.normalizer.normalize(path);
     let contextPath:string = path;
+    let queryString: string = '';
     let view:string = 'view';
+    if (path.indexOf('?') > -1) {
+      queryString = contextPath.split('?')[1];
+      contextPath = contextPath.split('?')[0];
+    }
     if(path.indexOf('@@') > -1) {
-      contextPath = path.split('/@@')[0];
-      view = path.split('/@@')[1];
+      view = contextPath.split('/@@')[1];
+      contextPath = contextPath.split('/@@')[0];
     }
     if(navigate) {
       this.location.go(path);
     }
     let viewComponents = this.views[view];
     if(viewComponents) {
-      this.resolver.resolve(contextPath, view).subscribe(context => {
+      this.resolver.resolve(contextPath, view, queryString).subscribe(context => {
         let marker = this.marker.mark(context);
         let component;
         if(marker instanceof Array) {

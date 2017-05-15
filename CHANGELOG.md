@@ -1,3 +1,9 @@
+# 1.0.0-alpha.12 (2017-05-15)
+
+## New features
+
+Extract querystring from path and pass it to resolver.
+
 # 1.0.0-alpha.11 (2017-04-19)
 
 ## New features
