@@ -1,3 +1,9 @@
+# 1.0.0-alpha.13 (2017-05-20)
+
+## Bug fixes
+
+Initialize contextPath properly.
+
 # 1.0.0-alpha.12 (2017-05-15)
 
 ## New features
