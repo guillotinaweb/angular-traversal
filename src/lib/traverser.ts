@@ -20,6 +20,7 @@ export class Traverser {
     this.target = new BehaviorSubject({
       context: {},
       path: '',
+      contextPath: '',
       view: 'view',
       component: null,
     });
