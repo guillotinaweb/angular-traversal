@@ -1,3 +1,9 @@
+# 1.0.0-alpha.14 (2017-05-29)
+
+## New features
+
+Expose real href attribute on A tags.
+
 # 1.0.0-alpha.13 (2017-05-20)
 
 ## Bug fixes
