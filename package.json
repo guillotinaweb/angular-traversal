@@ -1,13 +1,7 @@
 {
   "name": "angular-traversal",
   "version": "1.0.0-alpha.14",
-  "license": "BSD-3-Clause",
-  "licenses": [
-    {
-      "type": "BSD",
-      "url": "http://opensource.org/licenses/BSD-3-Clause"
-    }
-  ],
+  "license": "MIT",
   "author": {
     "name": "Eric Brehault",
     "email": "ebrehault@gmail.com"
