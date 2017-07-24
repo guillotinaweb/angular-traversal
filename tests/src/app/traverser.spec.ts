@@ -118,7 +118,6 @@ describe('Traverser', () => {
     const location: Location = TestBed.get(Location);
     traverser.traverse('/file1');
     expect(location.path()).toBe('/file1');
-    });
   }));
 });
 
@@ -139,7 +138,7 @@ describe('Marker', () => {
         { provide: Normalizer, useClass: FullPathNormalizer },
         { provide: APP_BASE_HREF, useValue: '/' }
       ]
-    }); 
+    });
   });
 
   it('should pick first match if marker returns a list', async(() => {
