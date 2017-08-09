@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Location } from '@angular/common';
-import { BehaviorSubject } from "rxjs/Rx";
+import { BehaviorSubject, Observable } from "rxjs/Rx";
 import { Resolver } from './resolver';
 import { Marker } from './marker';
 import { Normalizer } from './normalizer';
@@ -35,39 +35,52 @@ export class Traverser {
       queryString = contextPath.split('?')[1];
       contextPath = contextPath.split('?')[0];
     }
-    if(path.indexOf('@@') > -1) {
-      view = contextPath.split('/@@')[1];
-      contextPath = contextPath.split('/@@')[0];
+    if (path.indexOf('@@') > -1) {
+      view = contextPath.split('@@')[1];
+      contextPath = contextPath.split('@@')[0];
+      if (contextPath.slice(-1) === '/') {
+        contextPath = contextPath.slice(0, -1);
+      }
     }
     if(navigate) {
       this.location.go(path);
     }
     let viewComponents = this.views[view];
-    if(viewComponents) {
-      this.resolver.resolve(contextPath, view, queryString).subscribe(context => {
-        let marker = this.marker.mark(context);
-        let component;
-        if(marker instanceof Array) {
-          let matches = marker.filter(m => viewComponents[m]);
-          if(matches.length > 0){
-            component = viewComponents[matches[0]];
+    if (viewComponents) {
+      let resolver;
+      if (!contextPath) {
+        // if no context path, we keep the current context
+        resolver = Observable.of(this.target.value.context);
+        contextPath = this.target.value.contextPath;
+      } else {
+        resolver = this.resolver.resolve(contextPath, view, queryString);
+      }
+      if (resolver) {  
+        resolver.subscribe(context => {
+          let marker = this.marker.mark(context);
+          let component;
+          if(marker instanceof Array) {
+            let matches = marker.filter(m => viewComponents[m]);
+            if(matches.length > 0){
+              component = viewComponents[matches[0]];
+            }
+          } else {
+            component = viewComponents[marker];
           }
-        } else {
-          component = viewComponents[marker];
-        }
-        if(!component) {
-          component = viewComponents['*'];
-        }
-        if(component) {
-          this.target.next({
-            context: context,
-            path: path,
-            contextPath: contextPath,
-            view: view,
-            component: component,
-          });
-        }
-      });
+          if(!component) {
+            component = viewComponents['*'];
+          }
+          if(component) {
+            this.target.next({
+              context: context,
+              path: path,
+              contextPath: contextPath,
+              view: view,
+              component: component,
+            });
+          }
+        });
+      }
     }
   }
 

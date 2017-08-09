@@ -92,6 +92,8 @@ In many cases, we will retrieve this context from a backend, so Angular Traversa
 
 The traverser will give this context object to the view component so it can be rendered.
 
+If we traverse to a view without context (like ``@@login``), we will not re-call the resolver, we will just keep the current context and change the view.
+
 ### How the traverser knows which component to use?
 
 As mentionned earlier, the view mapping is based on a *context marker* (in our example, we have `'Document'` and `'Folder'`). It is a string computed from the context object using a custom *marker* class.
@@ -282,7 +284,7 @@ So if we want to use this url to create a traversable link, we need to shorten i
 <a traverseTo="/makinacorpus/angular-traversal/contents/CHANGELOG.md?ref=master">CHANGELOG.md</a>
 ```
 
-Of course, our resolver could support full pathes, but them the displayed location in the browser
+Of course, our resolver could support full pathes, but then the displayed location in the browser
 would be:
 
 ```http://localhost:4200/https://api.github.com/repos/makinacorpus/angular-traversal/contents/CHANGELOG.md?ref=master```
