@@ -42,8 +42,13 @@ export class Traverser {
         contextPath = contextPath.slice(0, -1);
       }
     }
-    if(navigate) {
-      this.location.go(path);
+    if (navigate) {
+      let navigateTo = path;
+      if (!contextPath) {
+        // if no contextPath, preserve the previous one
+        navigateTo = this.target.value.contextPath + '/' + navigateTo;
+      }
+      this.location.go(navigateTo);
     }
     let viewComponents = this.views[view];
     if (viewComponents) {
