@@ -1,3 +1,9 @@
+# 1.0.1 (2017-09-06)
+
+## Bug fixes
+
+- Preserve previous location if no context path
+
 # 1.0.0-alpha.14 (2017-05-29)
 
 ## New features
