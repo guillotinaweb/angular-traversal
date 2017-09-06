@@ -46,15 +46,18 @@ export class Traverser {
       let navigateTo = path;
       if (!contextPath) {
         // if no contextPath, preserve the previous one
-        navigateTo = this.target.value.contextPath + '/' + navigateTo;
+        if (navigateTo[0] != '/') {
+          navigateTo = '/' + navigateTo;
+        }
+        navigateTo = this.target.value.contextPath + navigateTo;
       }
       this.location.go(navigateTo);
     }
     let viewComponents = this.views[view];
     if (viewComponents) {
       let resolver;
-      if (!contextPath) {
-        // if no context path, we keep the current context
+      if (!contextPath && Object.keys(this.target.value.context).length) {
+        // if no context path, we keep the current context if exists
         resolver = Observable.of(this.target.value.context);
         contextPath = this.target.value.contextPath;
       } else {
