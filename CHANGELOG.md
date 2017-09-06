@@ -1,3 +1,9 @@
+# 1.0.2 (2017-09-06)
+
+## Bug fixes
+
+- Do not re-use context if empty
+
 # 1.0.1 (2017-09-06)
 
 ## Bug fixes
