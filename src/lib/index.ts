@@ -6,3 +6,4 @@ export { Normalizer } from './normalizer';
 export { Resolver } from './resolver';
 export { BasicHttpResolver, BACKEND_BASE_URL } from './http.resolver';
 export { Marker } from './marker';
+export * from './interfaces';
