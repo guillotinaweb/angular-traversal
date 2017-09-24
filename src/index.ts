@@ -6,3 +6,4 @@ export { Normalizer } from './lib';
 export { Resolver } from './lib';
 export { BasicHttpResolver, BACKEND_BASE_URL } from './lib';
 export { Marker } from './lib';
+export { Target } from './lib';
