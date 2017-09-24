@@ -1,3 +1,9 @@
+# 1.0.3 (2017-09-24)
+
+## Bug fixes
+
+- Declare Target interface and no implicit any (Thomas Desvenain)
+
 # 1.0.2 (2017-09-06)
 
 ## Bug fixes
