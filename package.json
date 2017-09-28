@@ -20,7 +20,7 @@
   "main": "dist/index.js",
   "scripts": {
     "clean": "rimraf dist/",
-    "test": "npm run build && rm -rf ./tests/src/dist && cp -r ./dist ./tests/src/dist && cd tests && ng test --single-run",
+    "test": "npm run build && rm -rf ./tests/src/dist && cp -r ./dist ./tests/src/dist && cd tests && npm install && ng test --single-run",
     "build:aot": "ngc -p tsconfig.json",
     "build:jit": "tsc -p tsconfig.json",
     "build": "npm run clean && npm run build:aot"

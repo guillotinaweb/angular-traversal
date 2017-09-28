@@ -18,11 +18,12 @@ export class Traverser {
               private marker: Marker,
               private normalizer: Normalizer) {
     this.target = new BehaviorSubject({
+      component: null,
       context: {},
-      path: '',
       contextPath: '',
+      path: '',
+      query: new URLSearchParams(''),
       view: 'view',
-      component: null
     });
   }
 
@@ -84,7 +85,8 @@ export class Traverser {
               path: path,
               contextPath: contextPath,
               view: view,
-              component: component
+              component: component,
+              query: new URLSearchParams(queryString || '')
             });
           }
         });
