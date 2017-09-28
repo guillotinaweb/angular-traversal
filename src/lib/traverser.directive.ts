@@ -14,7 +14,6 @@ import { Target } from './interfaces';
   selector: 'traverser-outlet',
 })
 export class TraverserOutlet implements OnInit {
-  private ref: ComponentRef<any>;
   private viewInstance: any;
 
   constructor(

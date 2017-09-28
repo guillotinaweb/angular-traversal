@@ -17,6 +17,7 @@ import { AppComponent } from './app.component';
 import { FileComponent } from './file/file.component';
 import { FolderComponent } from './folder/folder.component';
 import { FileInfoComponent } from './file-info/file-info.component';
+import { Target } from '../../../src/lib/interfaces';
 
 @Injectable()
 export class FakeResolver1 extends Resolver {
@@ -119,6 +120,18 @@ describe('Traverser', () => {
     traverser.traverse('/file1');
     expect(location.path()).toBe('/file1');
   }));
+
+  it('should get queryString at traverse', async(() => {
+    let fixture = TestBed.createComponent(AppComponent);
+    const traverser: Traverser = TestBed.get(Traverser);
+    traverser.traverse('/file1?format=pdf');
+    traverser.target.subscribe((target: Target) => {
+      expect(target.path).toBe('/file1?format=pdf');
+      expect(target.contextPath).toBe('/file1');
+      expect(target.query.get('format')).toBe('pdf');
+    });
+  }));
+
 });
 
 describe('Marker', () => {
