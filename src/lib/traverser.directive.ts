@@ -3,6 +3,7 @@ import {
   ComponentRef,
   Directive,
   OnInit,
+  OnDestroy,
   ReflectiveInjector,
   ViewContainerRef,
 } from '@angular/core';
@@ -13,7 +14,7 @@ import { Target } from './interfaces';
 @Directive({
   selector: 'traverser-outlet',
 })
-export class TraverserOutlet implements OnInit {
+export class TraverserOutlet implements OnInit, OnDestroy {
   private viewInstance: any;
 
   constructor(
@@ -32,16 +33,16 @@ export class TraverserOutlet implements OnInit {
   }
 
   ngOnDestroy() {
-    if(this.viewInstance) {
+    if (this.viewInstance) {
       this.viewInstance.destroy();
     }
   }
 
   render(target: Target) {
-    if(this.viewInstance) {
+    if (this.viewInstance) {
       this.viewInstance.destroy();
     }
-    if(target.component) {
+    if (target.component) {
       let componentFactory = this.resolver.resolveComponentFactory(
         target.component);
       this.viewInstance = this.container.createComponent(componentFactory);

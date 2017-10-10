@@ -2,6 +2,7 @@ import {
   Directive,
   HostBinding,
   Input,
+  OnInit,
 } from '@angular/core';
 import { Traverser } from './traverser';
 import { Normalizer } from './normalizer';
@@ -31,7 +32,7 @@ export class TraverserButton {
     '(click)': 'onClick()'
   }
 })
-export class TraverserLink extends TraverserButton {
+export class TraverserLink extends TraverserButton implements OnInit {
   @HostBinding() href: string;
 
   constructor(
