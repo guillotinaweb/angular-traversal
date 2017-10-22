@@ -47,7 +47,7 @@ export class Traverser {
       let navigateTo = path;
       if (!contextPath) {
         // if no contextPath, preserve the previous one
-        if (navigateTo[0] != '/') {
+        if (navigateTo[0] !== '/') {
           navigateTo = '/' + navigateTo;
         }
         navigateTo = this.target.value.contextPath + navigateTo;
