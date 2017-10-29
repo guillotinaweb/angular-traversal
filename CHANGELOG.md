@@ -1,3 +1,13 @@
+# 1.0.4 (Unreleased)
+
+## New features
+
+- add querystring to target (Thomas Desvenain)
+
+- Use tsconfig path mapping to configure module-name-> location for test project (Sune Wøller)
+
+- Switch from angular/http to angular/common/http (HttpClient) (Sune Wøller)
+
 # 1.0.3 (2017-09-24)
 
 ## Bug fixes
