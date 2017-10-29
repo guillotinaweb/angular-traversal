@@ -5,11 +5,14 @@
         "module": "es2015",
         "moduleResolution": "node",
         "declaration": true,
+        "allowUnusedLabels": false,
         "noImplicitAny": true,
+        "noImplicitReturns": true,
         "strictNullChecks": true,
         "sourceMap": false,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
+        "preserveSymlinks": true,
         "outDir": "./dist",
         "rootDir": "./src",
         "skipLibCheck": true,
@@ -34,6 +37,7 @@
         "dist",
         "tests",
         "**/*.ngfactory.ts",
+        "**/*.spec.ts",
         "**/*.shim.ts"
     ],
     "angularCompilerOptions": {

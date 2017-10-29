@@ -1,28 +1,24 @@
 {
+  "extends": "../tsconfig.json",
   "compilerOptions": {
-    "sourceMap": true,
-    "declaration": false,
-    "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "noImplicitAny": false,
-    "lib": [
-      "es2016",
-      "dom"
-    ],
     "outDir": "../out-tsc/spec",
+    "baseUrl": "./",
     "module": "commonjs",
-    "target": "es6",
-    "baseUrl": "",
+    "target": "es5",
     "types": [
       "jasmine",
       "node"
-    ]
+    ],
+    "paths": {
+      "angular-traversal": ["lib/angular-traversal"],
+      "rxjs/*": ["../node_modules/rxjs/*"]
+    }
   },
   "files": [
     "test.ts"
   ],
   "include": [
-    "**/*.spec.ts"
+    "**/*.spec.ts",
+    "**/*.d.ts"
   ]
 }

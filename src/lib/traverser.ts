@@ -28,6 +28,7 @@ export class Traverser {
   }
 
   traverse(path: string, navigate: boolean = true) {
+    debugger;
     path = this.normalizer.normalize(path);
     let contextPath: string = path;
     let queryString: string = '';

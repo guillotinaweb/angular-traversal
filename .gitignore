@@ -35,6 +35,7 @@ Thumbs.db
 # test subproject and demo
 /demo
 /tests/dist
+/tests/src/lib/
 /tests/tmp
 /tests/node_modules
 /tests/.idea

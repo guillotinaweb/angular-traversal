@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Traverser } from '../dist';
+import { Traverser } from 'angular-traversal';
 import { FileComponent } from './file/file.component';
 import { FileInfoComponent } from './file-info/file-info.component';
 import { FolderComponent } from './folder/folder.component';
