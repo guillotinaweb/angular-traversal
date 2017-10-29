@@ -6,11 +6,11 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { TraversalModule, Traverser } from '../dist';
-import { Resolver } from '../dist';
-import { Marker } from '../dist';
+import { TraversalModule, Traverser } from 'angular-traversal';
+import { Resolver } from 'angular-traversal';
+import { Marker } from 'angular-traversal';
 import { TypeMarker } from './marker';
-import { Normalizer } from '../dist';
+import { Normalizer } from 'angular-traversal';
 import { FullPathNormalizer } from './normalizer';
 
 import { AppComponent } from './app.component';
@@ -26,7 +26,7 @@ export class FakeResolver1 extends Resolver {
     super();
   }
 
-  resolve(path: string): Observable<any> {
+  resolve(path: string, view: string, queryString?: string): Observable<any> {
     return Observable.create(observer => {
       observer.next({
         type: 'file',
@@ -44,7 +44,7 @@ export class FakeResolver2 extends Resolver {
     super();
   }
 
-  resolve(path: string): Observable<any> {
+  resolve(path: string, view: string, queryString?: string): Observable<any> {
     return Observable.create(observer => {
       observer.next({
         type: ['blue', 'file', 'bird'],

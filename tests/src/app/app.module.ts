@@ -3,11 +3,11 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
-import { TraversalModule } from '../dist';
-import { Resolver } from '../dist';
-import { Marker } from '../dist';
-import { Normalizer } from '../dist';
-import { BasicHttpResolver, BACKEND_BASE_URL } from '../dist';
+import { TraversalModule } from 'angular-traversal';
+import { Resolver } from 'angular-traversal';
+import { Marker } from 'angular-traversal';
+import { Normalizer } from 'angular-traversal';
+import { BasicHttpResolver, BACKEND_BASE_URL } from 'angular-traversal';
 
 import { FullPathNormalizer } from './normalizer';
 import { TypeMarker } from './marker';

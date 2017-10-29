@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Normalizer } from '../dist';
+import { Normalizer } from 'angular-traversal';
 
 @Injectable()
 export class FullPathNormalizer extends Normalizer {
