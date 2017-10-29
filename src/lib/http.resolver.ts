@@ -1,5 +1,5 @@
 import { Inject, Injectable, OpaqueToken } from '@angular/core';
-import { Http, Headers } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Resolver } from './resolver';
 
@@ -10,18 +10,17 @@ export let BACKEND_BASE_URL = new OpaqueToken('backend.base.url');
 export class BasicHttpResolver extends Resolver {
 
   constructor(
-    private http: Http,
+    private http: HttpClient,
     @Inject(BACKEND_BASE_URL) private backend: string,
   ) {
     super();
   }
 
-  resolve(path: string): Observable<any> {
-    const headers = new Headers();
+  resolve(path: string, view: string, queryString?: string): Observable<any> {
+    const headers = new HttpHeaders();
     headers.append('Accept', 'application/json');
     headers.append('Content-Type', 'application/json');
 
-    return this.http.get(this.backend + path, { headers })
-      .map(res => res.json());
+    return this.http.get(this.backend + path, { headers });
   }
 }
