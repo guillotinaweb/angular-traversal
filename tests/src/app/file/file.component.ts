@@ -16,7 +16,7 @@ export class FileComponent implements OnInit {
 
   ngOnInit() {
     this.traverser.target.subscribe(target => {
-      let context = target.context;
+      const context = target.context;
       this.name = context.name;
       this.code = atob(context.content);
       this.path = target.path.split('?')[0];

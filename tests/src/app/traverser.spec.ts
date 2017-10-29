@@ -76,7 +76,7 @@ describe('Traverser', () => {
   });
 
   it('should traverse using the current path', async(() => {
-    let fixture = TestBed.createComponent(AppComponent);
+    const fixture = TestBed.createComponent(AppComponent);
     const traverser: Traverser = TestBed.get(Traverser);
     traverser.traverse('/file1');
     traverser.target.subscribe(target => {
@@ -85,7 +85,7 @@ describe('Traverser', () => {
   }));
 
   it('should return the context object', async(() => {
-    let fixture = TestBed.createComponent(AppComponent);
+    const fixture = TestBed.createComponent(AppComponent);
     const traverser: Traverser = TestBed.get(Traverser);
     traverser.traverse('/file1');
     traverser.target.subscribe(target => {
@@ -94,7 +94,7 @@ describe('Traverser', () => {
   }));
 
   it('should use the mentionned view', async(() => {
-    let fixture = TestBed.createComponent(AppComponent);
+    const fixture = TestBed.createComponent(AppComponent);
     const traverser: Traverser = TestBed.get(Traverser);
     traverser.traverse('/file1/@@info');
     traverser.target.subscribe(target => {
@@ -104,7 +104,7 @@ describe('Traverser', () => {
   }));
 
   it('should use the view component by default', async(() => {
-    let fixture = TestBed.createComponent(AppComponent);
+    const fixture = TestBed.createComponent(AppComponent);
     const traverser: Traverser = TestBed.get(Traverser);
     traverser.traverse('/file1');
     traverser.target.subscribe(target => {
@@ -114,7 +114,7 @@ describe('Traverser', () => {
   }));
 
   it('should navigate to the requested path', async(() => {
-    let fixture = TestBed.createComponent(AppComponent);
+    const fixture = TestBed.createComponent(AppComponent);
     const traverser: Traverser = TestBed.get(Traverser);
     const location: Location = TestBed.get(Location);
     traverser.traverse('/file1');
@@ -122,7 +122,7 @@ describe('Traverser', () => {
   }));
 
   it('should get queryString at traverse', async(() => {
-    let fixture = TestBed.createComponent(AppComponent);
+    const fixture = TestBed.createComponent(AppComponent);
     const traverser: Traverser = TestBed.get(Traverser);
     traverser.traverse('/file1?format=pdf');
     traverser.target.subscribe((target: Target) => {
@@ -155,7 +155,7 @@ describe('Marker', () => {
   });
 
   it('should pick first match if marker returns a list', async(() => {
-    let fixture = TestBed.createComponent(AppComponent);
+    const fixture = TestBed.createComponent(AppComponent);
     const traverser: Traverser = TestBed.get(Traverser);
     traverser.traverse('/file1/@@info');
     traverser.target.subscribe(target => {

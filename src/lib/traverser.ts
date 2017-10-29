@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Location} from '@angular/common';
-import {BehaviorSubject, Observable} from "rxjs/Rx";
+import {BehaviorSubject, Observable} from 'rxjs/Rx';
 import {Resolver} from './resolver';
 import {Marker} from './marker';
 import {Normalizer} from './normalizer';
@@ -30,8 +30,8 @@ export class Traverser {
   traverse(path: string, navigate: boolean = true) {
     path = this.normalizer.normalize(path);
     let contextPath: string = path;
-    let queryString: string = '';
-    let view: string = 'view';
+    let queryString = '';
+    let view = 'view';
     if (path.indexOf('?') > -1) {
       queryString = contextPath.split('?')[1];
       contextPath = contextPath.split('?')[0];
@@ -54,7 +54,7 @@ export class Traverser {
       }
       this.location.go(navigateTo);
     }
-    let viewComponents: {[key: string]: any} = this.views[view];
+    const viewComponents: {[key: string]: any} = this.views[view];
     if (viewComponents) {
       let resolver;
       if (!contextPath && Object.keys(this.target.value.context).length) {
@@ -66,10 +66,10 @@ export class Traverser {
       }
       if (resolver) {
         resolver.subscribe(context => {
-          let marker = this.marker.mark(context);
+          const marker = this.marker.mark(context);
           let component;
           if (marker instanceof Array) {
-            let matches = marker.filter(m => viewComponents[m]);
+            const matches = marker.filter(m => viewComponents[m]);
             if (matches.length > 0) {
               component = viewComponents[matches[0]];
             }

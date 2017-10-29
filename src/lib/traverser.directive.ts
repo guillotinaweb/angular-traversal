@@ -43,7 +43,7 @@ export class TraverserOutlet implements OnInit, OnDestroy {
       this.viewInstance.destroy();
     }
     if (target.component) {
-      let componentFactory = this.resolver.resolveComponentFactory(
+      const componentFactory = this.resolver.resolveComponentFactory(
         target.component);
       this.viewInstance = this.container.createComponent(componentFactory);
     }
