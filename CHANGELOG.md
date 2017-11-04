@@ -1,4 +1,4 @@
-# 1.0.4 (Unreleased)
+# 1.0.4 (2017-11-04)
 
 ## New features
 
@@ -7,6 +7,8 @@
 - Use tsconfig path mapping to configure module-name-> location for test project (Sune Wøller)
 
 - Switch from angular/http to angular/common/http (HttpClient) (Sune Wøller)
+
+- Angular 5.0.0 compliancy (Eric Bréhault)
 
 # 1.0.3 (2017-09-24)
 
