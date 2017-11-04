@@ -4,7 +4,6 @@ import {
   Directive,
   OnInit,
   OnDestroy,
-  ReflectiveInjector,
   ViewContainerRef,
 } from '@angular/core';
 import { Location } from '@angular/common';

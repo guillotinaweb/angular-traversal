@@ -1,10 +1,10 @@
-import { Inject, Injectable, OpaqueToken } from '@angular/core';
+import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Resolver } from './resolver';
 
 // the actual value will be provided by the module
-export let BACKEND_BASE_URL = new OpaqueToken('backend.base.url');
+export let BACKEND_BASE_URL = new InjectionToken('backend.base.url');
 
 @Injectable()
 export class BasicHttpResolver extends Resolver {

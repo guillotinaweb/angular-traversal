@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Location} from '@angular/common';
-import {BehaviorSubject, Observable} from 'rxjs/Rx';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {Observable} from 'rxjs/Observable';
 import {Resolver} from './resolver';
 import {Marker} from './marker';
 import {Normalizer} from './normalizer';
