@@ -58,8 +58,10 @@ export class Traverser {
     const viewComponents: {[key: string]: any} = this.views[view];
     if (viewComponents) {
       let resolver;
-      if (!contextPath && Object.keys(this.target.value.context).length) {
-        // if no context path, we keep the current context if exists
+      if (!contextPath  // if we have no context path
+        && Object.keys(this.target.value.context).length > 0  // and we have context
+        && queryString === this.target.value.query.toString()) {  // and query string did not change
+        // then we keep the current context
         resolver = Observable.of(this.target.value.context);
         contextPath = this.target.value.contextPath;
       } else {
