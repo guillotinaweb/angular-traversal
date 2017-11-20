@@ -1,11 +1,12 @@
 import {Injectable} from '@angular/core';
 import {Location} from '@angular/common';
+import { HttpParams } from '@angular/common/http';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Observable} from 'rxjs/Observable';
 import {Resolver} from './resolver';
 import {Marker} from './marker';
 import {Normalizer} from './normalizer';
-import {Target} from './interfaces';
+import {Target, HttpParamsOptions} from './interfaces';
 import 'rxjs/add/observable/of';
 
 @Injectable()
@@ -23,7 +24,7 @@ export class Traverser {
       context: {},
       contextPath: '',
       path: '',
-      query: new URLSearchParams(''),
+      query: new HttpParams(),
       view: 'view',
     });
   }
@@ -89,7 +90,7 @@ export class Traverser {
               contextPath: contextPath,
               view: view,
               component: component,
-              query: new URLSearchParams(queryString || '')
+              query: new HttpParams({ fromString: queryString || '' } as HttpParamsOptions)
             });
           }
         });

@@ -2,6 +2,8 @@
 
 ## Bug fixes
 
+- Fix IE support by switching from URLSearchParams to HttpParams from @angular/common/http (Sune Wøller) 
+
 - When we change query string but not context, we request backend. (Thomas Desvenain)
 
 # 1.0.4 (2017-11-04)
