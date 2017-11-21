@@ -17,7 +17,7 @@ import { AppComponent } from './app.component';
 import { FileComponent } from './file/file.component';
 import { FolderComponent } from './folder/folder.component';
 import { FileInfoComponent } from './file-info/file-info.component';
-import { Target } from '../../../src/lib/interfaces';
+import { Target } from 'angular-traversal';
 
 @Injectable()
 export class FakeResolver1 extends Resolver {
@@ -121,6 +121,8 @@ describe('Traverser', () => {
     expect(location.path()).toBe('/file1');
   }));
 
+
+  // target.query is a HttpParams object - see https://angular.io/api/common/http/HttpParams
   it('should get queryString at traverse', async(() => {
     const fixture = TestBed.createComponent(AppComponent);
     const traverser: Traverser = TestBed.get(Traverser);
@@ -129,6 +131,34 @@ describe('Traverser', () => {
       expect(target.path).toBe('/file1?format=pdf');
       expect(target.contextPath).toBe('/file1');
       expect(target.query.get('format')).toBe('pdf');
+    });
+  }));
+
+  it('should get multiple queryString items at traverse', async(() => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const traverser: Traverser = TestBed.get(Traverser);
+    traverser.traverse('/file1?format=pdf&mykey=test');
+    traverser.target.subscribe((target: Target) => {
+      expect(target.path).toBe('/file1?format=pdf&mykey=test');
+      expect(target.contextPath).toBe('/file1');
+      expect(target.query.get('format')).toBe('pdf');
+      expect(target.query.get('mykey')).toBe('test');
+      expect(target.query.toString()).toBe('format=pdf&mykey=test');
+    });
+  }));
+
+  it('should get multiple queryString items with the same key (list items) at traverse', async(() => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const traverser: Traverser = TestBed.get(Traverser);
+    traverser.traverse('/file1?formats=pdf&formats=doc');
+    traverser.target.subscribe((target: Target) => {
+      expect(target.path).toBe('/file1?formats=pdf&formats=doc');
+      expect(target.contextPath).toBe('/file1');
+      // get the first value for param
+      expect(target.query.get('formats')).toBe('pdf');
+      // get all values for param
+      expect(target.query.getAll('formats')).toEqual(['pdf', 'doc']);
+      expect(target.query.toString()).toBe('formats=pdf&formats=doc');
     });
   }));
 
