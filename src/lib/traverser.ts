@@ -98,6 +98,10 @@ export class Traverser {
     }
   }
 
+  traverseHere() {
+    this.traverse(this.location.path());
+  }
+
   addView(name: string, target: string, component: any) {
     if (!this.views[name]) {
       this.views[name] = {};
