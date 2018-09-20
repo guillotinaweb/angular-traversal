@@ -1,3 +1,7 @@
+# 1.0.6 (2018-09-20)
+
+- traverseHere utility (Eric BREHAULT)
+
 # 1.0.5 (2018-03-20)
 
 ## Bug fixes
