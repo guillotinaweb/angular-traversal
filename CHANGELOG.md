@@ -1,3 +1,8 @@
+# 1.0.7 (Unreleased)
+
+- fix request header (Thomas Desvenain)
+
+
 # 1.0.6 (2018-09-20)
 
 - traverseHere utility (Eric BREHAULT)

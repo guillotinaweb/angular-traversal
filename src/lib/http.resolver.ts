@@ -1,5 +1,5 @@
-import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Resolver } from './resolver';
 
@@ -17,10 +17,9 @@ export class BasicHttpResolver extends Resolver {
   }
 
   resolve(path: string, view: string, queryString?: string): Observable<any> {
-    const headers = new HttpHeaders();
-    headers.append('Accept', 'application/json');
-    headers.append('Content-Type', 'application/json');
-
+    const headers = new HttpHeaders()
+      .append('Accept', 'application/json')
+      .append('Content-Type', 'application/json');
     return this.http.get(this.backend + path, { headers });
   }
 }
