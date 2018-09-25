@@ -69,7 +69,7 @@ export class Traverser {
         resolver = this.resolver.resolve(contextPath, view, queryString);
       }
       if (resolver) {
-        resolver.subscribe(context => {
+        resolver.subscribe((context: any) => {
           const marker = this.marker.mark(context);
           let component;
           if (marker instanceof Array) {
