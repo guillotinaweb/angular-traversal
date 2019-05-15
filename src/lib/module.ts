@@ -7,24 +7,24 @@ import { TraverserLink, TraverserButton } from './traverser.link';
 import { Traverser } from './traverser';
 
 @NgModule({
-  declarations: [
-    TraverserOutlet,
-    TraverserButton,
-    TraverserLink,
-  ],
-  imports: [
-    HttpClientModule,
-  ],
-  providers: [
-    Location,
-    { provide: LocationStrategy, useClass: PathLocationStrategy },
-    Traverser,
-  ],
-  exports: [
-    TraverserOutlet,
-    TraverserButton,
-    TraverserLink,
-  ]
+    declarations: [
+        TraverserOutlet,
+        TraverserButton,
+        TraverserLink,
+    ],
+    imports: [
+        HttpClientModule,
+    ],
+    providers: [
+        Location,
+        { provide: LocationStrategy, useClass: PathLocationStrategy },
+        Traverser,
+    ],
+    exports: [
+        TraverserOutlet,
+        TraverserButton,
+        TraverserLink,
+    ]
 })
 export class TraversalModule {
 }

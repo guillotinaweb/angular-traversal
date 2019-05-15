@@ -7,10 +7,9 @@ import { Traverser } from 'angular-traversal';
   styleUrls: ['./file.component.css']
 })
 export class FileComponent implements OnInit {
-
-  public name: string;
-  public code: string;
-  public path: string;
+  name = '';
+  code = '';
+  path = '';
 
   constructor(private traverser: Traverser) { }
 
