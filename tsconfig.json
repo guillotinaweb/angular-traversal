@@ -17,6 +17,14 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "traversal": [
+        "projects/traversal/src"
+      ],
+      "traversal/*": [
+        "projects/traversal/src*"
+      ]
+    }
   }
 }

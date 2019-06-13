@@ -1,0 +1,7 @@
+<ul>
+    <li *ngFor="let entry of context">
+        <a [traverseTo]="entry.url">
+            {{ entry.name }}
+        </a>
+    </li>
+</ul>

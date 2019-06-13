@@ -130,6 +130,41 @@
           }
         }
       }
+    },
+    "traversal": {
+      "root": "projects/traversal",
+      "sourceRoot": "projects/traversal/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/traversal/tsconfig.lib.json",
+            "project": "projects/traversal/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/traversal/src/test.ts",
+            "tsConfig": "projects/traversal/tsconfig.spec.json",
+            "karmaConfig": "projects/traversal/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/traversal/tsconfig.lib.json",
+              "projects/traversal/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "angular-traversal"
