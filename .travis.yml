@@ -21,7 +21,6 @@ before_install:
 install:
   - yarn install
   - yarn run install-self-peers
-  - cd ./tests && yarn install && npm install coveralls mocha-lcov-reporter && cd ..
 script:
   - yarn test
   - yarn build
