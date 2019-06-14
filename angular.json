@@ -142,6 +142,11 @@
           "options": {
             "tsConfig": "projects/traversal/tsconfig.lib.json",
             "project": "projects/traversal/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "projects/traversal/ng-package.json"
+            }
           }
         },
         "test": {

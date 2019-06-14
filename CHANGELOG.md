@@ -1,11 +1,8 @@
-# 1.1.0 (Unreleased)
+# 1.1.0 (2019-06-14)
 
-- Upgrade angular to version 7.2.0
-- Build the project using angular cli
-- Unit tests with Jest instead of Karma
-
-# 1.0.7 (Unreleased)
-
+- Upgrade angular to version 7.2.0 (Mathilde Pellerin)
+- Build the project using angular cli (Mathilde Pellerin)
+- Unit tests with Jest instead of Karma (Mathilde Pellerin)
 - fix request header (Thomas Desvenain)
 
 # 1.0.6 (2018-09-20)

@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:lib": "ng build --prod traversal",
     "test": "jest --no-cache",
     "test:watch": "jest --watch",
     "test:ci": "jest --runInBand --ci",
