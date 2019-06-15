@@ -1,3 +1,8 @@
+# 1.1.1 (2019-06-15)
+
+- Remove generated e2e tests (Mathilde Pellerin)
+- Remove protractor, karma and jasmine dependencies (as we are using jest) (Mathilde Pellerin) 
+
 # 1.1.0 (2019-06-14)
 
 - Upgrade angular to version 7.2.0 (Mathilde Pellerin)
