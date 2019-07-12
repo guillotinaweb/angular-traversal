@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Location } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, of, Observable } from 'rxjs';
 import { Resolver } from './resolver';
 import { Marker } from './marker';
 import { Normalizer } from './normalizer';
@@ -67,7 +67,7 @@ export class Traverser {
                 resolver = of(this.target.value.context);
                 contextPath = this.target.value.contextPath;
             } else {
-                resolver = this.resolver.resolve(contextPath, view, queryString);
+                resolver = this.resolve(contextPath, view, queryString);
             }
             if (resolver) {
                 resolver.subscribe((context: any) => {
@@ -108,5 +108,9 @@ export class Traverser {
             this.views[name] = {};
         }
         this.views[name][target] = component;
+    }
+
+    resolve(path: string, view?: any, queryString?: string): Observable<any> {
+        return this.resolver.resolve(path, view, queryString);
     }
 }
