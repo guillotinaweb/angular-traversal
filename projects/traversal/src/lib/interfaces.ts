@@ -6,7 +6,7 @@ export interface Target {
   context: {[key: string]: any};
   contextPath: string;
   path: string;
-  query: HttpParams;
+  query?: HttpParams;
   view: string;
 }
 
