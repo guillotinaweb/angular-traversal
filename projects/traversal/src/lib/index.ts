@@ -1,5 +1,5 @@
 export { TraversalModule } from './module';
-export { Traverser } from './traverser';
+export { Traverser, NAVIGATION_PREFIX } from './traverser';
 export { TraverserOutlet } from './traverser.directive';
 export { TraverserLink, TraverserButton } from './traverser.link';
 export { Normalizer } from './normalizer';

@@ -5,7 +5,9 @@ export interface Target {
   component: any;
   context: {[key: string]: any};
   contextPath: string;
+  prefixedContextPath: string;
   path: string;
+  prefixedPath: string;
   query?: HttpParams;
   view: string;
 }

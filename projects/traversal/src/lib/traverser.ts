@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ComponentFactoryResolver, ComponentFactory, Inject, InjectionToken, Optional } from '@angular/core';
 import { Location } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
 import { BehaviorSubject, of, Observable } from 'rxjs';
@@ -7,23 +7,33 @@ import { Marker } from './marker';
 import { Normalizer } from './normalizer';
 import { Target, HttpParamsOptions } from './interfaces';
 
-@Injectable()
+export const NAVIGATION_PREFIX = new InjectionToken<string>('traversal.prefix');
+
+@Injectable({
+    providedIn: 'root'
+})
 export class Traverser {
 
     public target: BehaviorSubject<Target>;
     private views: { [key: string]: any } = {};
+    private prefix: string;
 
     constructor(
         private location: Location,
         private resolver: Resolver,
         private marker: Marker,
         private normalizer: Normalizer,
+        private ngResolver: ComponentFactoryResolver,
+        @Optional() @Inject(NAVIGATION_PREFIX) prefix: string,
     ) {
+        this.prefix = prefix || '';
         this.target = new BehaviorSubject({
             component: null,
             context: {},
             contextPath: '',
+            prefixedContextPath: this.prefix,
             path: '',
+            prefixedPath: this.prefix,
             query: new HttpParams(),
             view: 'view',
         });
@@ -54,14 +64,15 @@ export class Traverser {
                 }
                 navigateTo = this.target.value.contextPath + navigateTo;
             }
-            this.location.go(navigateTo);
+            this.location.go(this.prefix + navigateTo);
         }
         const viewComponents: { [key: string]: any } = this.views[view];
         if (viewComponents) {
             let resolver;
             if (!contextPath  // if we have no context path
-                && Object.keys(this.target.value.context).length > 0  // and we have context
-                && queryString === this.target.value.query.toString()) {  // and query string did not change
+            && Object.keys(this.target.value.context).length > 0  // and we have context
+            // and query string did not change
+            && !!this.target.value.query && queryString === Object.assign(new HttpParams(), this.target.value.query).toString()) {
                 // then we keep the current context
                 resolver = of(this.target.value.context);
                 contextPath = this.target.value.contextPath;
@@ -87,7 +98,9 @@ export class Traverser {
                         this.target.next({
                             context,
                             path,
+                            prefixedPath: this.prefix + path,
                             contextPath,
+                            prefixedContextPath: this.prefix + contextPath,
                             view,
                             component,
                             query: new HttpParams({ fromString: queryString || '' } as HttpParamsOptions)
@@ -99,7 +112,7 @@ export class Traverser {
     }
 
     traverseHere() {
-        this.traverse(this.location.path());
+        this.traverse(this.location.path().slice(this.prefix.length));
     }
 
     addView(name: string, target: string, component: any) {
@@ -130,5 +143,9 @@ export class Traverser {
             }, current).join('/');
         }
         return path;
+    }
+
+    getComponent(component: any): ComponentFactory<unknown> {
+        return this.ngResolver.resolveComponentFactory(component);
     }
 }
