@@ -45,8 +45,9 @@ export class Traverser {
         let queryString = '';
         let view = 'view';
         if (path.indexOf('?') > -1) {
-            queryString = contextPath.split('?')[1];
-            contextPath = contextPath.split('?')[0];
+            [contextPath, queryString] = contextPath.split('?');
+        } else if (path.indexOf(';') > -1) {
+            [contextPath, queryString] = contextPath.split(';');
         }
         if (path.indexOf('@@') > -1) {
             view = contextPath.split('@@')[1];
