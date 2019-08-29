@@ -3,6 +3,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { TraverserOutlet } from './traverser.directive';
 import { TraverserLink, TraverserButton } from './traverser.link';
+import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 
 @NgModule({
     declarations: [
@@ -18,5 +19,9 @@ import { TraverserLink, TraverserButton } from './traverser.link';
         TraverserButton,
         TraverserLink,
     ],
+    providers: [
+        Location,
+        { provide: LocationStrategy, useClass: PathLocationStrategy },
+    ]
 })
 export class TraversalModule {}
