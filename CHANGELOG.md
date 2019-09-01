@@ -1,3 +1,7 @@
+# 1.2.0 (2019-09-01)
+
+- Support usage with routing (ebrehault)
+
 # 1.1.1 (2019-06-15)
 
 - Remove generated e2e tests (Mathilde Pellerin)
