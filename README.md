@@ -33,6 +33,8 @@ Let's imagine a company website which can contain two types of pages: folders or
 
 There is no way to enumerate all the possible routes for such a website: it would be too difficult to maintain (because the site structure will probably evolve regularly).
 
+And more importantly, routes are restricted to the kind of content they render (we cannot use a route meant for rendering an article to render a user profile). So everytime we generate a link to a content in our app, we are supposed to know the appropriate route. That's the opposite of the web philosophy (when rendering a link in a page, our web browser does not have to know in advance if it will open another page or download a file).
+
 That's why CMSes usually do not use routing.
 
 We can imagine another example: we want to build an application to display a Git repository and we want to render differently the folders and the files.
@@ -315,6 +317,65 @@ import { FullPathNormalizer } from './my-normalizer';
   { provide: Normalizer, useClass: FullPathNormalizer },
 ...
 ```
+
+## Using traversal and routing together
+
+Traversing can be used with regular routing.
+
+Some pathes our application can be managed with routing (example: `/login`, `/profile`, etc.), and others with traversing (like: `/files/**`).
+
+`/files` will be a route and its component will contain the `<traverser-outlet>`.
+
+In our app module, we will declare our prefix:
+
+```
+{ provide: NAVIGATION_PREFIX, useValue: '/files' },
+```
+
+And in order to make sure the transition between the 2 modes work fine, we will have to do (in app.component for example):
+
+```
+    this.router.events.pipe(
+        filter(event => event instanceof NavigationEnd),
+    ).subscribe(() => {
+        this.traverser.traverseHere();
+    });
+```
+
+Note: if we want to use routing as a secondary system within traversal, we can make our resolver and marker aware of routes, example:
+
+```
+    resolve(path: string, view: string, queryString: string): Observable<Something|{isRoute: boolean}> {
+        const level1 = path.split('/')[1] || '';
+        if (!level1 || MY_SUB_ROUTES.includes(level1)) {
+            return of({isRoute: true});
+        } else {
+            return this.somethingService.get(path);
+        }
+    }
+```
+
+and
+
+```
+    mark(context: any): string {
+        if (context.isRoute) {
+            return 'routing';
+        } else {
+            ...
+        }
+    }
+```
+
+then declare a view for the fake `routing` type:
+
+```
+traverser.addView('view', 'routing', DefaultRouterComponent);
+```
+
+(`DefaultRouterComponent` will contain the `<router-outlet>`)
+
+## Using with classical routing
 
 ## Other demo package
 
