@@ -78,7 +78,7 @@ export class Traverser {
                 resolver = of(this.target.value.context);
                 contextPath = this.target.value.contextPath;
             } else {
-                resolver = this.resolve(contextPath, view, queryString);
+                resolver = this._resolve(contextPath, view, queryString);
             }
             if (resolver) {
                 resolver.subscribe((context: any) => {
@@ -123,8 +123,12 @@ export class Traverser {
         this.views[name][target] = component;
     }
 
-    resolve(path: string, view?: any, queryString?: string): Observable<any> {
+    _resolve(path: string, view?: any, queryString?: string): Observable<any> {
         return this.resolver.resolve(path, view, queryString);
+    }
+
+    resolve(path: string, view?: any, queryString?: string): Observable<any> {
+        return this._resolve(this.normalizer.normalize(this.getFullPath(path)), view, queryString);
     }
 
     getFullPath(path: string): string {
