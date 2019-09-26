@@ -1,3 +1,7 @@
+# 1.2.1 (2019-09-26)
+
+- Normalize path before resolving when called from outside
+
 # 1.2.0 (2019-09-01)
 
 - Support usage with routing (ebrehault)
