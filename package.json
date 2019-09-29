@@ -6,6 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "build:lib": "ng build --prod traversal",
+    "build:demo": "ng build --prod --base-href /angular-traversal/dist/angular-traversal/",
     "test": "jest --no-cache",
     "test:watch": "jest --watch",
     "test:ci": "jest --runInBand --ci",

@@ -6,7 +6,7 @@
 
 ## Demo
 
-In this [demo](https://guillotinaweb.github.io/angular-traversal/demo/) we allow to navigate in any public Github repository. There is not specific routing implemented in the app, we just rely on the Github routing itself.
+In this [demo](https://guillotinaweb.github.io/angular-traversal/dist/angular-traversal/) we allow to navigate in any public Github repository. There is not specific routing implemented in the app, we just rely on the Github routing itself.
 
 ## Why routing is not always good
 
@@ -264,8 +264,8 @@ export class AppModule { }
 ## Path normalizer
 
 The main use case is to call a REST backend based on the current path.
-For instance, by calling http://localhost:4200/makinacorpus/angular-traversal/contents
-the traverser will call https://api.github.com/repos/makinacorpus/angular-traversal/contents
+For instance, by calling http://localhost:4200/guillotinaweb/angular-traversal/contents
+the traverser will call https://api.github.com/repos/guillotinaweb/angular-traversal/contents
 and use the result as the view context.
 
 But, if the result contains some path to other resources, in most cases they will be
@@ -275,7 +275,7 @@ provided as full URL, like in our case with the GitHub API, the folder items are
 {
     "name": "CHANGELOG.md",
     ...
-    "url": "https://api.github.com/repos/makinacorpus/angular-traversal/contents/CHANGELOG.md?ref=master",
+    "url": "https://api.github.com/repos/guillotinaweb/angular-traversal/contents/CHANGELOG.md?ref=master",
     ...
 }
 ```
@@ -283,13 +283,13 @@ provided as full URL, like in our case with the GitHub API, the folder items are
 So if we want to use this url to create a traversable link, we need to shorten it:
 
 ```html
-<a traverseTo="/makinacorpus/angular-traversal/contents/CHANGELOG.md?ref=master">CHANGELOG.md</a>
+<a traverseTo="/guillotinaweb/angular-traversal/contents/CHANGELOG.md?ref=master">CHANGELOG.md</a>
 ```
 
 Of course, our resolver could support full pathes, but then the displayed location in the browser
 would be:
 
-```http://localhost:4200/https://api.github.com/repos/makinacorpus/angular-traversal/contents/CHANGELOG.md?ref=master```
+```http://localhost:4200/https://api.github.com/repos/guillotinaweb/angular-traversal/contents/CHANGELOG.md?ref=master```
 
 which does work, but is pretty ugly.
 
