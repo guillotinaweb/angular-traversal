@@ -5,6 +5,7 @@ import {
     ViewContainerRef,
     Inject,
     Optional,
+    Input,
 } from '@angular/core';
 import { Location } from '@angular/common';
 import { Traverser, NAVIGATION_PREFIX } from './traverser';
@@ -14,6 +15,7 @@ import { Target } from './interfaces';
     selector: 'traverser-outlet',
 })
 export class TraverserOutlet implements OnInit, OnDestroy {
+    @Input() noAutoTraverse = false;
     private viewInstance: any;
     private prefix: string;
 
@@ -29,6 +31,11 @@ export class TraverserOutlet implements OnInit, OnDestroy {
     ngOnInit() {
         this.traverser.target.subscribe((target: Target) => this.render(target));
         this.traverser.traverse(this.location.path().slice(this.prefix.length));
+        if (!this.noAutoTraverse) {
+            this.location.subscribe(loc => {
+                this.traverser.traverse(loc.url, false);
+            });
+        }
     }
 
     ngOnDestroy() {

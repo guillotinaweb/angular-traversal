@@ -324,7 +324,13 @@ Traversing can be used with regular routing.
 
 Some pathes our application can be managed with routing (example: `/login`, `/profile`, etc.), and others with traversing (like: `/files/**`).
 
-`/files` will be a route and its component will contain the `<traverser-outlet>`.
+`/files` will be a route and its component will contain the outlet with a special input:
+
+```
+<traverser-outlet [noAutoTraverse]="true>
+```
+
+Note: with `noAutoTraverse`, we will not traverse to the new location everytime the location changes. 
 
 In our app module, we will declare our prefix:
 
