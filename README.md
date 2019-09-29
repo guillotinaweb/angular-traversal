@@ -327,7 +327,7 @@ Some pathes our application can be managed with routing (example: `/login`, `/pr
 `/files` will be a route and its component will contain the outlet with a special input:
 
 ```
-<traverser-outlet [noAutoTraverse]="true>
+<traverser-outlet [noAutoTraverse]="true">
 ```
 
 Note: with `noAutoTraverse`, we will not traverse to the new location everytime the location changes. 

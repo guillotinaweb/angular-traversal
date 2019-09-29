@@ -1,6 +1,10 @@
+# 1.2.2 (2019-09-29)
+
+- Add noAutoTraverse parameter to block traverse on location change if routing (Eric Brehault)
+
 # 1.2.1 (2019-09-26)
 
-- Normalize path before resolving when called from outside
+- Normalize path before resolving when called from outside (Mathilde Pellerin) 
 
 # 1.2.0 (2019-09-01)
 
