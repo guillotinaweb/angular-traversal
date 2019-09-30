@@ -1,3 +1,7 @@
+# 1.2.3 (2019-09-30)
+
+- Fix typing
+
 # 1.2.2 (2019-09-29)
 
 - Add noAutoTraverse parameter to block traverse on location change if routing (Eric Brehault)
