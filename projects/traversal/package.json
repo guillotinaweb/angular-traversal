@@ -1,6 +1,6 @@
 {
   "name": "angular-traversal",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "license": "MIT",
   "author": {
     "name": "Eric Brehault",
@@ -17,6 +17,13 @@
     "routing",
     "router"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guillotinaweb/angular-traversal"
+  },
+  "bugs": {
+    "url": "https://github.com/guillotinaweb/angular-traversal/issues"
+  },
   "peerDependencies": {
     "@angular/common": "^7.2.0",
     "@angular/core": "^7.2.0"

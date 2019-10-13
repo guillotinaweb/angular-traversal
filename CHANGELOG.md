@@ -1,3 +1,7 @@
+# 1.2.4 (2019-10-13)
+
+- Fix demo and package.json
+
 # 1.2.3 (2019-09-30)
 
 - Fix typing
