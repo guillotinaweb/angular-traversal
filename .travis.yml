@@ -18,7 +18,7 @@ before_deploy:
   - git config --global user.name "Travis CI"
   - export PACKAGE_VERSION=$(npm run get_version | tail -n 1)
   - echo "TAGGING $PACKAGE_VERSION..."
-  - git tag $PACKAGE_VERSION -m "Version $PACKAGE_VERSION"
+  - git tag $PACKAGE_VERSION
 deploy:
   provider: releases
   api_key:
