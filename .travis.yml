@@ -1,21 +1,29 @@
 language: node_js
 node_js:
-  - 10.15.0
-cache:
-  directories:
-    - node_modules
-language: node_js
-node_js:
 - 12.4.0
 cache:
   directories:
-    - node_modules
+  - node_modules
 dist: trusty
 install:
-  - npm install
+- npm install
 script:
-  - npm run test
-  - npm run build:lib
+- npm run test
+- npm run build:lib
 notifications:
   email:
   - ebrehault@gmail.com
+before_deploy:
+  - git config --global user.email "build@travis-ci.com"
+  - git config --global user.name "Travis CI"
+  - export PACKAGE_VERSION=$(npm run get_version | tail -n 1)
+  - echo "TAGGING $PACKAGE_VERSION..."
+  - git tag $PACKAGE_VERSION -m "Version $PACKAGE_VERSION"
+deploy:
+  provider: releases
+  api_key:
+    secure: IS/iYVUTOh/rjCvP5OHIjxcM72o+y9RieFHvPiXpFLw3BPlRgmJ+umG1LRVYANRL6l1VaMoFp110zj5qCq3/Edj+ZiT8bPb8cI2GexsfRvyOI6Jh0d752f4v4rT6mzKIPo90hcA5HocrH0UTjrbCNNe0L3U6Fblt4Cb6xvwn1oBbvxx9TW9z5Wt4Kw04Hr7BjBVpiPWxBZXwpg1yDh73ewW+VtSCpuAqX0hDBsszM1NybMjSU5uCTVJI9SFcFNsNYXvvE60zTyBys4HUEV7kj8nEtih81EYlrqbcYyLuNYPupX2aukWYyRvZ4NcL3yFEo1oNyGyHA33s3MtmOs/eWcBhgMKN5f4eyIkYGeZluPt1MGR/bWGedP1JKTLmG9wiSulhDFu+aElWssvkfxZVpUZkp1YzfrgNguAIt5F+8CbnHzQ5tE9K/LE+v805+Q5H2dWvhNed5BaJJZNvufAnsws7ZlD73RiRYCJxXYkPlAx9LyM3yq36tmI0/WNmAE5l6C/CTxFHK4y0Ss+JuUC6/cd+F5f2VrgGx04tgQ4rvDCCmj7unszsXqJHLhiM6E8F1Y5jvsE2nf9aI8rWIyK+Dwpvpm7LgoXg0zYs0hadoquIwofvy1U5wcQukUOdosd+uoN6ZzL+CcjnkiMYmK0RzccNTVRrLx9F9ZpHGqPW/eY=
+  name: Build $(date +'%d.%m.%Y %R')
+  on:
+    repo: guillotinaweb/angular-traversal
+    branch: master
