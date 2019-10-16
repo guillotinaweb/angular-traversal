@@ -1,3 +1,7 @@
+# 1.2.5 (2019-10-16)
+
+- Setup auto-tagging
+
 # 1.2.4 (2019-10-13)
 
 - Fix demo and package.json
