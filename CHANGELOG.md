@@ -1,3 +1,7 @@
+# 1.2.6 (2019-10-27)
+
+- Fix traversing on root
+
 # 1.2.5 (2019-10-16)
 
 - Setup auto-tagging
