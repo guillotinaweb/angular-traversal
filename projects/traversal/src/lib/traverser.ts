@@ -52,7 +52,7 @@ export class Traverser {
         if (path.indexOf('@@') > -1) {
             view = contextPath.split('@@')[1];
             contextPath = contextPath.split('@@')[0];
-            if (contextPath.slice(-1) === '/') {
+            if (contextPath.length > 1 && contextPath.slice(-1) === '/') {
                 contextPath = contextPath.slice(0, -1);
             }
         }
@@ -135,7 +135,7 @@ export class Traverser {
         if (path === '.') {
             path = this.target.value.contextPath;
         } else if (path.startsWith('./')) {
-            path = this.target.value.contextPath + path.slice(1);
+            path = this.target.value.contextPath === '/' ? path.slice(1) : this.target.value.contextPath + path.slice(1);
         } else if (path.startsWith('../')) {
             const current = this.target.value.contextPath.split('/');
             path = path.split('/').reduce((all, chunk) => {
