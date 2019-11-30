@@ -2,6 +2,7 @@ import { TestBed, async } from '@angular/core/testing';
 import { APP_BASE_HREF } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { skip } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -20,7 +21,6 @@ import { FileComponent } from './file/file.component';
 import { FolderComponent } from './folder/folder.component';
 import { FileInfoComponent } from './file-info/file-info.component';
 import { FileDetailsComponent } from './file/file-details.component';
-import { skip } from 'rxjs/operators';
 
 @Injectable()
 export class FakeResolver1 extends Resolver {
@@ -79,28 +79,26 @@ describe('Traverser', () => {
   });
 
   it('should traverse using the current path', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const traverser: Traverser = TestBed.get(Traverser);
+    const traverser: Traverser = TestBed.inject(Traverser);
     traverser.traverse('/file1');
-    traverser.target.subscribe(target => {
+    traverser.target.pipe(skip(1)).subscribe(target => {
       expect(target.path).toBe('/file1');
     });
   }));
 
   it('should return the context object', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const traverser: Traverser = TestBed.get(Traverser);
+    const traverser: Traverser = TestBed.inject(Traverser);
     traverser.traverse('/file1');
-    traverser.target.subscribe(target => {
+    traverser.target.pipe(skip(1)).subscribe(target => {
       expect(target.context.name).toBe('myfile.txt');
     });
   }));
 
   it('should use the mentionned view', async(() => {
     const fixture = TestBed.createComponent(AppComponent);
-    const traverser: Traverser = TestBed.get(Traverser);
+    const traverser: Traverser = TestBed.inject(Traverser);
     traverser.traverse('/file1/@@info');
-    traverser.target.subscribe(target => {
+    traverser.target.pipe(skip(1)).subscribe(target => {
       expect(target.view).toBe('info');
       expect(target.component).toBe(FileInfoComponent);
     });
@@ -108,9 +106,9 @@ describe('Traverser', () => {
 
   it('should set context in tile', async(() => {
     const fixture = TestBed.createComponent(AppComponent);
-    const traverser: Traverser = TestBed.get(Traverser);
+    const traverser: Traverser = TestBed.inject(Traverser);
     traverser.loadTile('details', '/file1');
-    traverser.tilesContexts.details.subscribe(target => {
+    traverser.tilesContexts.details.pipe(skip(1)).subscribe(target => {
       expect(target.context.name).toEqual('myfile.txt');
       expect(target.component).toBe(FileDetailsComponent);
     });
@@ -118,9 +116,9 @@ describe('Traverser', () => {
 
   it('should use the view component by default', async(() => {
     const fixture = TestBed.createComponent(AppComponent);
-    const traverser: Traverser = TestBed.get(Traverser);
+    const traverser: Traverser = TestBed.inject(Traverser);
     traverser.traverse('/file1');
-    traverser.target.subscribe(target => {
+    traverser.target.pipe(skip(1)).subscribe(target => {
       expect(target.view).toBe('view');
       expect(target.component).toBe(FileComponent);
     });
@@ -128,8 +126,8 @@ describe('Traverser', () => {
 
   it('should navigate to the requested path', async(() => {
     const fixture = TestBed.createComponent(AppComponent);
-    const traverser: Traverser = TestBed.get(Traverser);
-    const location: Location = TestBed.get(Location);
+    const traverser: Traverser = TestBed.inject(Traverser);
+    const location: Location = TestBed.inject(Location);
     traverser.traverse('/file1');
     expect(location.path()).toBe('/file1');
   }));
@@ -138,9 +136,9 @@ describe('Traverser', () => {
   // target.query is a HttpParams object - see https://angular.io/api/common/http/HttpParams
   it('should get queryString at traverse', async(() => {
     const fixture = TestBed.createComponent(AppComponent);
-    const traverser: Traverser = TestBed.get(Traverser);
+    const traverser: Traverser = TestBed.inject(Traverser);
     traverser.traverse('/file1?format=pdf');
-    traverser.target.subscribe((target: Target) => {
+    traverser.target.pipe(skip(1)).subscribe((target: Target) => {
       expect(target.path).toBe('/file1?format=pdf');
       expect(target.contextPath).toBe('/file1');
       expect(target.query.get('format')).toBe('pdf');
@@ -149,9 +147,9 @@ describe('Traverser', () => {
 
   it('should get multiple queryString items at traverse', async(() => {
     const fixture = TestBed.createComponent(AppComponent);
-    const traverser: Traverser = TestBed.get(Traverser);
+    const traverser: Traverser = TestBed.inject(Traverser);
     traverser.traverse('/file1?format=pdf&mykey=test');
-    traverser.target.subscribe((target: Target) => {
+    traverser.target.pipe(skip(1)).subscribe((target: Target) => {
       expect(target.path).toBe('/file1?format=pdf&mykey=test');
       expect(target.contextPath).toBe('/file1');
       expect(target.query.get('format')).toBe('pdf');
@@ -162,9 +160,9 @@ describe('Traverser', () => {
 
   it('should get multiple queryString items with the same key (list items) at traverse', async(() => {
     const fixture = TestBed.createComponent(AppComponent);
-    const traverser: Traverser = TestBed.get(Traverser);
+    const traverser: Traverser = TestBed.inject(Traverser);
     traverser.traverse('/file1?formats=pdf&formats=doc');
-    traverser.target.subscribe((target: Target) => {
+    traverser.target.pipe(skip(1)).subscribe((target: Target) => {
       expect(target.path).toBe('/file1?formats=pdf&formats=doc');
       expect(target.contextPath).toBe('/file1');
       // get the first value for param
@@ -198,10 +196,9 @@ describe('Marker', () => {
   });
 
   it('should pick first match if marker returns a list', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const traverser: Traverser = TestBed.get(Traverser);
+    const traverser: Traverser = TestBed.inject(Traverser);
     traverser.traverse('/file1/@@info');
-    traverser.target.subscribe(target => {
+    traverser.target.pipe(skip(1)).subscribe(target => {
       expect(target.view).toBe('info');
       expect(target.component).toBe(FileInfoComponent);
     });
