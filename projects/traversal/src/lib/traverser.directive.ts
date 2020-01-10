@@ -10,6 +10,8 @@ import {
 import { Location } from '@angular/common';
 import { Traverser, NAVIGATION_PREFIX } from './traverser';
 import { Target } from './interfaces';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Directive({
     selector: 'traverser-outlet',
@@ -18,6 +20,7 @@ export class TraverserOutlet implements OnInit, OnDestroy {
     @Input() noAutoTraverse = false;
     private viewInstance: any;
     private prefix: string;
+    private terminator: Subject<void> = new Subject();
 
     constructor(
         private traverser: Traverser,
@@ -29,7 +32,7 @@ export class TraverserOutlet implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.traverser.target.subscribe((target: Target) => this.render(target));
+        this.traverser.target.pipe(takeUntil(this.terminator)).subscribe((target: Target) => this.render(target));
         this.traverser.traverse(this.location.path().slice(this.prefix.length));
         if (!this.noAutoTraverse) {
             this.location.subscribe(loc => {
@@ -42,6 +45,7 @@ export class TraverserOutlet implements OnInit, OnDestroy {
         if (this.viewInstance) {
             this.viewInstance.destroy();
         }
+        this.terminator.next();
     }
 
     render(target: Target) {
