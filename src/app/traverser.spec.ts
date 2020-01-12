@@ -19,6 +19,8 @@ import { AppComponent } from './app.component';
 import { FileComponent } from './file/file.component';
 import { FolderComponent } from './folder/folder.component';
 import { FileInfoComponent } from './file-info/file-info.component';
+import { FileDetailsComponent } from './file/file-details.component';
+import { skip } from 'rxjs/operators';
 
 @Injectable()
 export class FakeResolver1 extends Resolver {
@@ -28,7 +30,7 @@ export class FakeResolver1 extends Resolver {
   }
 
   resolve(path: string, view: string, queryString?: string): Observable<any> {
-    return Observable.create(observer => {
+    return new Observable(observer => {
       observer.next({
         type: 'file',
         name: 'myfile.txt',
@@ -46,7 +48,7 @@ export class FakeResolver2 extends Resolver {
   }
 
   resolve(path: string, view: string, queryString?: string): Observable<any> {
-    return Observable.create(observer => {
+    return new Observable(observer => {
       observer.next({
         type: ['blue', 'file', 'bird'],
         name: 'myfile.txt',
@@ -101,6 +103,16 @@ describe('Traverser', () => {
     traverser.target.subscribe(target => {
       expect(target.view).toBe('info');
       expect(target.component).toBe(FileInfoComponent);
+    });
+  }));
+
+  it('should set comntext in tile', async(() => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const traverser: Traverser = TestBed.get(Traverser);
+    traverser.loadTile('details', '/file1');
+    traverser.tilesContexts.details.subscribe(target => {
+      expect(target.context.name).toEqual('myfile.txt');
+      expect(target.component).toBe(FileDetailsComponent);
     });
   }));
 

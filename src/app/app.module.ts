@@ -9,7 +9,9 @@ import { TypeMarker } from './marker';
 import { AppComponent } from './app.component';
 import { FileComponent } from './file/file.component';
 import { FolderComponent } from './folder/folder.component';
+import { FolderDetailsComponent } from './folder/folder-details.component';
 import { FileInfoComponent } from './file-info/file-info.component';
+import { FileDetailsComponent } from './file/file-details.component';
 import {
   BasicHttpResolver,
   BACKEND_BASE_URL,
@@ -25,7 +27,9 @@ import {
     AppComponent,
     FileComponent,
     FolderComponent,
-    FileInfoComponent
+    FileInfoComponent,
+    FolderDetailsComponent,
+    FileDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,7 +40,9 @@ import {
   entryComponents: [
     FileComponent,
     FolderComponent,
-    FileInfoComponent
+    FileInfoComponent,
+    FolderDetailsComponent,
+    FileDetailsComponent,
   ],
   providers: [
     {provide: Resolver, useClass: BasicHttpResolver},
