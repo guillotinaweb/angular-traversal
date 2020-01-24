@@ -1,4 +1,5 @@
 language: node_js
+version: 1.0
 node_js:
 - 12.4.0
 cache:
@@ -32,6 +33,7 @@ deploy:
       repo: guillotinaweb/angular-traversal
       branch: master
   - provider: npm
+    edge: true
     email: ebrehault@gmail.com
     skip_cleanup: true
     api_key:
