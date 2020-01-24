@@ -1,3 +1,7 @@
+# 1.2.7 (2020-01-24)
+
+- Auto-taggin gand auto-release on NPM
+
 # 1.2.6 (2019-10-27)
 
 - Fix traversing on root
