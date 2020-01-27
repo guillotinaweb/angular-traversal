@@ -1,6 +1,10 @@
+# 1.2.8 (2020-01-27)
+
+- Fix build and upgrade to Angular 8
+
 # 1.2.7 (2020-01-24)
 
-- Auto-taggin gand auto-release on NPM
+- Auto-tagging and auto-release on NPM
 
 # 1.2.6 (2019-10-27)
 

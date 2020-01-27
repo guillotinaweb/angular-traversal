@@ -1,4 +1,4 @@
 /*
  * Public API Surface of traversal
  */
-export * from './lib';
+export * from './lib/index';
