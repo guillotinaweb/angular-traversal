@@ -6,6 +6,7 @@ import { Resolver } from './resolver';
 import { Marker } from './marker';
 import { Normalizer } from './normalizer';
 import { Target, HttpParamsOptions } from './interfaces';
+import { take } from 'rxjs/operators';
 
 export const NAVIGATION_PREFIX = new InjectionToken<string>('traversal.prefix');
 
@@ -14,11 +15,11 @@ export const NAVIGATION_PREFIX = new InjectionToken<string>('traversal.prefix');
 })
 export class Traverser {
 
-    public target: BehaviorSubject<Target>;
+    target: BehaviorSubject<Target>;
+    tilesContexts: {[name: string]: BehaviorSubject<Target>} = {};
+    tileUpdates: Subject<{tile: string, target: Target}> = new Subject();
     private views: { [view: string]: {[target: string]: any} } = {};
-    public tilesContexts: {[name: string]: BehaviorSubject<Target>} = {};
     private tiles: { [name: string]: {[target: string]: any} } = {};
-    public tileUpdates: Subject<{tile: string, target: Target}> = new Subject();
     private prefix: string;
 
     constructor(
@@ -131,7 +132,7 @@ export class Traverser {
                 resolver = this._resolve(contextPath, viewOrTile, queryString);
             }
             if (resolver) {
-                resolver.subscribe((context: any) => {
+                resolver.pipe(take(1)).subscribe((context: any) => {
                     const marker = this.marker.mark(context);
                     let component;
                     if (marker instanceof Array) {

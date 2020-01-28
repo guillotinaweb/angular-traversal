@@ -117,11 +117,11 @@ The view component will render the main content.
 
 But our application might also involves other blocks in the page, like a header, a side panel, a menu, etc.
 
-Most of those blocks are the same whatever is the current context, like our header will probably render using the same component on all the pages of the app, even tough its content might vary depending on the context (in that case, we can subscribe to our traverse service to get the context and apply the needed changes).
+Most of those blocks are the same, whatever is the current context, like our header will probably be rendered using the same component on all the pages of the app, even tough its content might vary depending on the context (in that case, we can subscribe to our traverse service to get the context and apply the needed changes).
 
-But some blocks muight be totally different from one context to another. Let's say we have a collapsible side panel providing extra action or detail information about the current context, when we are viewing a user account, we want to dispaly the user preferences form, but when viewing a document, we want to display the modification history of this document. We do not want to implement those 2 cases in the same component. Of course we could manage it at the parent template level with `*ngIf="context.type==='user'"`, etc., but it is not scalable, hard to maintain and pretty ugly.
+But some blocks might be totally different from one context to another. Let's say we have a collapsible side panel providing extra action or detail information about the current context, when we are viewing a user account, we want to display the user preferences form, but when viewing a document, we want to display the modification history of this document. We do not want to implement those 2 cases in the same component. Of course we could manage it at the parent template level with `*ngIf="context.type==='user'"`, etc., but it is not scalable, hard to maintain and pretty ugly.
 
-In that case, we can render our detail panel with a tile. Title directives allow to define block in our parent template, each title has a name:
+In that case, we can render our detail panel with a tile. Tile directives allow to define blocks in our parent template, each title has a name:
 
 ```html
 <traverser-tile name="detail-panel"></traverser-tile>
@@ -136,13 +136,13 @@ this.traverser.addTile('detail-panel', 'document', DocumentHistoryComponent);
 
 And when we traverse to a given context, the relevant component will be used to render the tile.
 
-Note: the `noUpdateOnTraverse` allows to manage the tile content independantly from the traversing. We can load the context we want programmatically by calling:
+Note: `noUpdateOnTraverse` attribute allows to manage the tile content independantly from traversing. We can load the context we want programmatically by calling:
 
 ```typescript
 this.traverser.loadTile('details', '/news/the-rise-of-skywalker');
 ```
 
-Note: an interesting aspect of the title principle is the tile can be inserted in a template anywhere, and the corresponding module will not have any dependency with the component providing the tile content.
+Note: an interesting aspect of the tile principle is the tile directive can be located in any template, and the corresponding module will not have any dependency with the component providing the tile content.
 
 ## Usage
 
