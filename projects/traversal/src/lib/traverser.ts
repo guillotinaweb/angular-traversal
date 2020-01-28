@@ -1,11 +1,12 @@
 import { Injectable, ComponentFactoryResolver, ComponentFactory, Inject, InjectionToken, Optional } from '@angular/core';
 import { Location } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
-import { BehaviorSubject, of, Observable } from 'rxjs';
+import { BehaviorSubject, of, Observable, Subject } from 'rxjs';
 import { Resolver } from './resolver';
 import { Marker } from './marker';
 import { Normalizer } from './normalizer';
 import { Target, HttpParamsOptions } from './interfaces';
+import { take } from 'rxjs/operators';
 
 export const NAVIGATION_PREFIX = new InjectionToken<string>('traversal.prefix');
 
@@ -14,8 +15,11 @@ export const NAVIGATION_PREFIX = new InjectionToken<string>('traversal.prefix');
 })
 export class Traverser {
 
-    public target: BehaviorSubject<Target>;
-    private views: { [key: string]: any } = {};
+    target: BehaviorSubject<Target>;
+    tilesContexts: {[name: string]: BehaviorSubject<Target>} = {};
+    tileUpdates: Subject<{tile: string, target: Target}> = new Subject();
+    private views: { [view: string]: {[target: string]: any} } = {};
+    private tiles: { [name: string]: {[target: string]: any} } = {};
     private prefix: string;
 
     constructor(
@@ -27,16 +31,7 @@ export class Traverser {
         @Optional() @Inject(NAVIGATION_PREFIX) prefix: string,
     ) {
         this.prefix = prefix || '';
-        this.target = new BehaviorSubject({
-            component: null,
-            context: {},
-            contextPath: '',
-            prefixedContextPath: this.prefix,
-            path: '',
-            prefixedPath: this.prefix,
-            query: new HttpParams(),
-            view: 'view',
-        });
+        this.target = new BehaviorSubject(this.getEmptyTarget());
     }
 
     traverse(path: string, navigate: boolean = true) {
@@ -67,49 +62,7 @@ export class Traverser {
             }
             this.location.go(this.prefix + navigateTo);
         }
-        const viewComponents: { [key: string]: any } = this.views[view];
-        if (viewComponents) {
-            let resolver;
-            if (!contextPath  // if we have no context path
-            && Object.keys(this.target.value.context).length > 0  // and we have context
-            // and query string did not change
-            && !!this.target.value.query && queryString === Object.assign(new HttpParams(), this.target.value.query).toString()) {
-                // then we keep the current context
-                resolver = of(this.target.value.context);
-                contextPath = this.target.value.contextPath;
-            } else {
-                resolver = this._resolve(contextPath, view, queryString);
-            }
-            if (resolver) {
-                resolver.subscribe((context: any) => {
-                    const marker = this.marker.mark(context);
-                    let component;
-                    if (marker instanceof Array) {
-                        const matches = marker.filter(m => viewComponents[m]);
-                        if (matches.length > 0) {
-                            component = viewComponents[matches[0]];
-                        }
-                    } else {
-                        component = viewComponents[marker];
-                    }
-                    if (!component) {
-                        component = viewComponents['*'];
-                    }
-                    if (component) {
-                        this.target.next({
-                            context,
-                            path,
-                            prefixedPath: this.prefix + path,
-                            contextPath,
-                            prefixedContextPath: this.prefix + contextPath,
-                            view,
-                            component,
-                            query: new HttpParams({ fromString: queryString || '' } as HttpParamsOptions)
-                        } as Target);
-                    }
-                });
-            }
-        }
+        this.emitTarget(path, contextPath, queryString, view, this.target, this.views[view]);
     }
 
     traverseHere() {
@@ -121,6 +74,98 @@ export class Traverser {
             this.views[name] = {};
         }
         this.views[name][target] = component;
+    }
+
+    addTile(name: string, target: string, component: any) {
+        if (!this.tiles[name]) {
+            this.tiles[name] = {};
+        }
+        this.tiles[name][target] = component;
+        this.tilesContexts[name] = new BehaviorSubject(this.getEmptyTarget());
+    }
+
+    loadTile(name: string, path: string) {
+        path = this.normalizer.normalize(this.getFullPath(path));
+        let contextPath: string = path;
+        let queryString = '';
+        if (path.includes('?')) {
+            [contextPath, queryString] = contextPath.split('?');
+        }
+        this.emitTarget(path, contextPath, queryString, name, this.tilesContexts[name], this.tiles[name], true);
+    }
+
+    applyTargetToTile(name: string, target: Target) {
+        this.emitTarget(
+            target.path,
+            target.contextPath,
+            !!target.query ? target.query.toString() : '',
+            name,
+            this.tilesContexts[name],
+            this.tiles[name],
+            true,
+            target.context,
+        );
+    }
+
+    emitTarget(
+        path: string,
+        contextPath: string,
+        queryString: string,
+        viewOrTile: string,
+        targetObs: BehaviorSubject<Target>,
+        components: { [target: string]: any },
+        isTile = false,
+        currentContext?: any,
+    ) {
+        if (!!targetObs && !!components) {
+            let resolver: Observable<any>;
+            if (!!currentContext) {
+                resolver = of(currentContext);
+            } else if (!contextPath  // if we have no context path
+                && Object.keys(targetObs.value.context).length > 0  // and we have context
+                // and query string did not change
+                && !!targetObs.value.query && queryString === Object.assign(new HttpParams(), targetObs.value.query).toString()) {
+                // then we keep the current context
+                resolver = of(targetObs.value.context);
+                contextPath = targetObs.value.contextPath;
+            } else {
+                resolver = this._resolve(contextPath, viewOrTile, queryString);
+            }
+            if (resolver) {
+                resolver.pipe(take(1)).subscribe((context: any) => {
+                    const marker = this.marker.mark(context);
+                    let component;
+                    if (marker instanceof Array) {
+                        const matches = marker.filter(m => components[m]);
+                        if (matches.length > 0) {
+                            component = components[matches[0]];
+                        }
+                    } else {
+                        component = components[marker];
+                    }
+                    if (!component) {
+                        component = components['*'];
+                    }
+                    const target = !!component ? {
+                        context,
+                        path,
+                        prefixedPath: this.prefix + path,
+                        contextPath,
+                        prefixedContextPath: this.prefix + contextPath,
+                        view: viewOrTile,
+                        component,
+                        query: new HttpParams({ fromString: queryString || '' } as HttpParamsOptions)
+                    } as Target : this.getEmptyTarget();
+                    targetObs.next(target);
+                    if (isTile) {
+                        this.tileUpdates.next({
+                            tile: viewOrTile,
+                            target,
+                        });
+                    }
+                });
+            }
+        }
     }
 
     _resolve(path: string, view?: any, queryString?: string): Observable<any> {
@@ -152,5 +197,18 @@ export class Traverser {
 
     getComponent(component: any): ComponentFactory<unknown> {
         return this.ngResolver.resolveComponentFactory(component);
+    }
+
+    getEmptyTarget(): Target {
+        return {
+            component: null,
+            context: {},
+            contextPath: '',
+            prefixedContextPath: this.prefix,
+            path: '',
+            prefixedPath: this.prefix,
+            query: new HttpParams(),
+            view: 'view',
+        };
     }
 }

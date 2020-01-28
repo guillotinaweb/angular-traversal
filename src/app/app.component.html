@@ -3,5 +3,10 @@
   <button [traverseTo]="'/' + repository +'/contents/'">Go</button>
 </header>
 <section>
-  <traverser-outlet></traverser-outlet>
+    <article>
+        <traverser-outlet></traverser-outlet>
+    </article>
+    <aside>
+        <traverser-tile name="details"></traverser-tile>
+    </aside>
 </section>

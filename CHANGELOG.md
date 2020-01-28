@@ -1,3 +1,7 @@
+# 1.3.0 (2020-01-28)
+
+- Tiles support
+
 # 1.2.8 (2020-01-27)
 
 - Fix build and upgrade to Angular 8
