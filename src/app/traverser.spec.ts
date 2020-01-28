@@ -106,7 +106,7 @@ describe('Traverser', () => {
     });
   }));
 
-  it('should set comntext in tile', async(() => {
+  it('should set context in tile', async(() => {
     const fixture = TestBed.createComponent(AppComponent);
     const traverser: Traverser = TestBed.get(Traverser);
     traverser.loadTile('details', '/file1');

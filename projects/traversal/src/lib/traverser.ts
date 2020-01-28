@@ -31,7 +31,7 @@ export class Traverser {
         @Optional() @Inject(NAVIGATION_PREFIX) prefix: string,
     ) {
         this.prefix = prefix || '';
-        this.target = new BehaviorSubject(this.emptyTarget());
+        this.target = new BehaviorSubject(this.getEmptyTarget());
     }
 
     traverse(path: string, navigate: boolean = true) {
@@ -81,14 +81,14 @@ export class Traverser {
             this.tiles[name] = {};
         }
         this.tiles[name][target] = component;
-        this.tilesContexts[name] = new BehaviorSubject(this.emptyTarget());
+        this.tilesContexts[name] = new BehaviorSubject(this.getEmptyTarget());
     }
 
     loadTile(name: string, path: string) {
         path = this.normalizer.normalize(this.getFullPath(path));
         let contextPath: string = path;
         let queryString = '';
-        if (path.indexOf('?') > -1) {
+        if (path.includes('?')) {
             [contextPath, queryString] = contextPath.split('?');
         }
         this.emitTarget(path, contextPath, queryString, name, this.tilesContexts[name], this.tiles[name], true);
@@ -118,7 +118,7 @@ export class Traverser {
         currentContext?: any,
     ) {
         if (!!targetObs && !!components) {
-            let resolver: any;
+            let resolver: Observable<any>;
             if (!!currentContext) {
                 resolver = of(currentContext);
             } else if (!contextPath  // if we have no context path
@@ -155,7 +155,7 @@ export class Traverser {
                         view: viewOrTile,
                         component,
                         query: new HttpParams({ fromString: queryString || '' } as HttpParamsOptions)
-                    } as Target : this.emptyTarget();
+                    } as Target : this.getEmptyTarget();
                     targetObs.next(target);
                     if (isTile) {
                         this.tileUpdates.next({
@@ -199,7 +199,7 @@ export class Traverser {
         return this.ngResolver.resolveComponentFactory(component);
     }
 
-    emptyTarget(): Target {
+    getEmptyTarget(): Target {
         return {
             component: null,
             context: {},
