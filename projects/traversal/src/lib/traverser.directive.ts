@@ -5,7 +5,7 @@ import {
     ViewContainerRef,
     Inject,
     Optional,
-    Input,
+    Input, ChangeDetectorRef, ViewRef,
 } from '@angular/core';
 import { Location } from '@angular/common';
 import { Traverser, NAVIGATION_PREFIX } from './traverser';
@@ -27,6 +27,7 @@ export class TraverserOutlet implements OnInit, OnDestroy {
         private location: Location,
         private container: ViewContainerRef,
         @Optional() @Inject(NAVIGATION_PREFIX) prefix: string,
+        private cdr: ChangeDetectorRef,
     ) {
         this.prefix = prefix || '';
     }
@@ -55,6 +56,9 @@ export class TraverserOutlet implements OnInit, OnDestroy {
         if (target.component) {
             const componentFactory = this.traverser.getComponent(target.component);
             this.viewInstance = this.container.createComponent(componentFactory);
+        }
+        if (!(this.cdr as ViewRef).destroyed) {
+            this.cdr.detectChanges();
         }
     }
 }
