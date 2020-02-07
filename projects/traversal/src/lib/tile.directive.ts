@@ -59,7 +59,7 @@ export class TraverserTile implements OnInit, OnDestroy {
             this.viewInstance = this.container.createComponent(componentFactory);
         }
         if (!(this.cdr as ViewRef).destroyed) {
-            this.cdr.markForCheck();
+            this.cdr.detectChanges();
         }
     }
 }
