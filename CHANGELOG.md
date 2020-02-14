@@ -1,3 +1,7 @@
+# 1.3.2 (2020-02-14)
+
+- Upgrade to Angular 9
+
 # 1.3.1 (2020-02-07)
 
 - Fix change detection on traverser-outlet [mathilde-pellerin]
