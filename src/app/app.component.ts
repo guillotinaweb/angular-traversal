@@ -17,7 +17,7 @@ export class AppComponent {
 
   constructor(traverser: Traverser) {
     traverser.addView('view', 'file', FileComponent);
-    traverser.addView('info', 'file', FileInfoComponent);
+    traverser.addLazyView('info', 'file', () => import('./file-info/module').then(m => m.FileInfoModule));
     traverser.addView('view', 'dir', FolderComponent);
     traverser.addTile('details', 'file', FileDetailsComponent);
     traverser.addTile('details', 'dir', FolderDetailsComponent);

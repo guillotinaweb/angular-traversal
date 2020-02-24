@@ -1,12 +1,22 @@
-import { Injectable, ComponentFactoryResolver, ComponentFactory, Inject, InjectionToken, Optional } from '@angular/core';
+import {
+    Injectable,
+    ComponentFactoryResolver,
+    ComponentFactory,
+    Inject,
+    InjectionToken,
+    Optional,
+    Type,
+} from '@angular/core';
 import { Location } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
 import { BehaviorSubject, of, Observable, Subject } from 'rxjs';
 import { Resolver } from './resolver';
 import { Marker } from './marker';
 import { Normalizer } from './normalizer';
-import { Target, HttpParamsOptions } from './interfaces';
+import { Target, HttpParamsOptions, ModuleWithViews, ViewMapping } from './interfaces';
 import { take } from 'rxjs/operators';
+
+export type LazyView = () => Promise<Type<any>>;
 
 export const NAVIGATION_PREFIX = new InjectionToken<string>('traversal.prefix');
 
@@ -18,7 +28,8 @@ export class Traverser {
     target: BehaviorSubject<Target>;
     tilesContexts: {[name: string]: BehaviorSubject<Target>} = {};
     tileUpdates: Subject<{tile: string, target: Target}> = new Subject();
-    private views: { [view: string]: {[target: string]: any} } = {};
+    private views: { [name: string]: ViewMapping | {[target: string]: string }} = {};
+    private lazy: { [id: string]: LazyView} = {};
     private tiles: { [name: string]: {[target: string]: any} } = {};
     private prefix: string;
 
@@ -74,6 +85,28 @@ export class Traverser {
             this.views[name] = {};
         }
         this.views[name][target] = component;
+    }
+
+    addLazyView(name: string, target: string, loader: LazyView) {
+        if (!this.views[name]) {
+            this.views[name] = {};
+        }
+        const id = name + ';' + target;
+        this.views[name][target] = id;
+        this.lazy[id] = loader;
+    }
+
+    loadLazyView(id: string): Promise<Type<any>> {
+        return this.lazy[id]().then(module => {
+            const moduleViews = (module as ModuleWithViews).traverserViews;
+            moduleViews.forEach(view => {
+                this.views[view.name] = !!this.views[view.name] ?
+                    {...this.views[view.name], ...view.components} :
+                    view.components;
+            });
+            const [viewName, target] = id.split(';');
+            return this.views[viewName][target] as Type<any>;
+        });
     }
 
     addTile(name: string, target: string, component: any) {
@@ -134,7 +167,7 @@ export class Traverser {
             if (resolver) {
                 resolver.pipe(take(1)).subscribe((context: any) => {
                     const marker = this.marker.mark(context);
-                    let component;
+                    let component: Type<any> | string;
                     if (marker instanceof Array) {
                         const matches = marker.filter(m => components[m]);
                         if (matches.length > 0) {
@@ -146,25 +179,36 @@ export class Traverser {
                     if (!component) {
                         component = components['*'];
                     }
-                    const target = !!component ? {
-                        context,
-                        path,
-                        prefixedPath: this.prefix + path,
-                        contextPath,
-                        prefixedContextPath: this.prefix + contextPath,
-                        view: viewOrTile,
-                        component,
-                        query: new HttpParams({ fromString: queryString || '' } as HttpParamsOptions)
-                    } as Target : this.getEmptyTarget();
-                    targetObs.next(target);
-                    if (isTile) {
-                        this.tileUpdates.next({
-                            tile: viewOrTile,
-                            target,
+                    if (!!component) {
+                        const promise = typeof(component) === 'string' ? this.loadLazyView(component) : Promise.resolve(component);
+                        promise.then(comp => {
+                            const target = !!component ? {
+                                context,
+                                path,
+                                prefixedPath: this.prefix + path,
+                                contextPath,
+                                prefixedContextPath: this.prefix + contextPath,
+                                view: viewOrTile,
+                                component: comp,
+                                query: new HttpParams({ fromString: queryString || '' } as HttpParamsOptions)
+                            } as Target : this.getEmptyTarget();
+                            this._emit(targetObs, target, viewOrTile, isTile);
                         });
+                    } else {
+                        this._emit(targetObs, this.getEmptyTarget(), viewOrTile, isTile);
                     }
                 });
             }
+        }
+    }
+
+    _emit(targetObs: BehaviorSubject<Target>, target: Target, viewOrTile: string, isTile: boolean) {
+        targetObs.next(target);
+        if (isTile) {
+            this.tileUpdates.next({
+                tile: viewOrTile,
+                target,
+            });
         }
     }
 

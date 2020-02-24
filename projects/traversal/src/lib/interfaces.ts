@@ -1,5 +1,6 @@
 import { HttpParams } from '@angular/common/http';
 import { HttpParameterCodec } from '@angular/common/http';
+import { Type } from '@angular/core';
 
 export interface Target {
   component: any;
@@ -27,3 +28,12 @@ export interface HttpParamsOptions {
   /** Encoding codec used to parse and serialize the params. */
   encoder?: HttpParameterCodec;
 }
+
+export interface ViewMapping {
+    name: string;
+    components: {[target: string]: Type<any>};
+}
+
+export type ModuleWithViews = Type<any> & {
+    traverserViews: {name: string, components: ViewMapping}[]
+};

@@ -174,7 +174,7 @@ export class FolderEditComponent implements OnInit {
 }
 ```
 
-Warning: it must be declared in the app module **in both `declarations` and `entryComponents`**.
+Warning: before Angular 9, it must be declared in the app module **in both `declarations` and `entryComponents`**.
 
 ## Implement a marker
 
@@ -240,7 +240,7 @@ To create navigation links:
 
 ## Declare everything in the module
 
-In `declarations` we need all our view components, **and they also need to be mentionned in `entryComponents`**.
+In `declarations` we need all our view components, (and they also need to be mentionned in `entryComponents` before Angular 9).
 
 In 'imports', we need to import the TraversalModule.
 
@@ -278,11 +278,6 @@ import { TypeMarker } from './type-marker';
     FormsModule,
     HttpClientModule,
     TraversalModule,
-  ],
-  entryComponents: [
-    EditComponent,
-    HistoryComponent,
-    FolderEditComponent,
   ],
   providers: [
     { provide: Resolver, useClass: BasicHttpResolver },
@@ -414,7 +409,33 @@ traverser.addView('view', 'routing', DefaultRouterComponent);
 
 (`DefaultRouterComponent` will contain the `<router-outlet>`)
 
-## Using with classical routing
+## Lazy loading
+
+*Note: only supported since Angular 9*
+
+Similarly to Angular Router, in order to reduce our main bundle size, we can lazy load the view components.
+
+Let's say we have a specific view involving a lot of code and most users won't use it. We create this component in its own module, and we declare the views in a static property named `traverserViews`:
+
+```typescript
+@NgModule({
+    imports: [],
+    exports: [HugeDashboardComponent],
+    declarations: [HugeDashboardComponent],
+    providers: [],
+})
+export class HugeDashboardModule {
+    static traverserViews: ViewMapping[] = [
+        {name: 'dashboard', components: {'Folder': HugeDashboardComponent}},
+    ];
+}
+```
+
+The view is set:
+
+```typescript
+traverser.addLazyView('dashboard', 'Folder', () => import('./folder-dashboard/module').then(m => m.HugeDashboardModule));
+```
 
 ## Other demo package
 
