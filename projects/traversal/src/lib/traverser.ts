@@ -167,7 +167,7 @@ export class Traverser {
             if (resolver) {
                 resolver.pipe(take(1)).subscribe((context: any) => {
                     const marker = this.marker.mark(context);
-                    let component: Type<any> | string;
+                    let component: Type<any> | string = '';
                     if (marker instanceof Array) {
                         const matches = marker.filter(m => components[m]);
                         if (matches.length > 0) {
