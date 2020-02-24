@@ -141,7 +141,7 @@ describe('Traverser', () => {
     traverser.target.pipe(skip(1)).subscribe((target: Target) => {
       expect(target.path).toBe('/file1?format=pdf');
       expect(target.contextPath).toBe('/file1');
-      expect(target.query.get('format')).toBe('pdf');
+      expect(!!target.query && target.query.get('format')).toBe('pdf');
     });
   }));
 
@@ -152,9 +152,9 @@ describe('Traverser', () => {
     traverser.target.pipe(skip(1)).subscribe((target: Target) => {
       expect(target.path).toBe('/file1?format=pdf&mykey=test');
       expect(target.contextPath).toBe('/file1');
-      expect(target.query.get('format')).toBe('pdf');
-      expect(target.query.get('mykey')).toBe('test');
-      expect(target.query.toString()).toBe('format=pdf&mykey=test');
+      expect(!!target.query && target.query.get('format')).toBe('pdf');
+      expect(!!target.query && target.query.get('mykey')).toBe('test');
+      expect(!!target.query && target.query.toString()).toBe('format=pdf&mykey=test');
     });
   }));
 
@@ -166,10 +166,10 @@ describe('Traverser', () => {
       expect(target.path).toBe('/file1?formats=pdf&formats=doc');
       expect(target.contextPath).toBe('/file1');
       // get the first value for param
-      expect(target.query.get('formats')).toBe('pdf');
+      expect(!!target.query && target.query.get('formats')).toBe('pdf');
       // get all values for param
-      expect(target.query.getAll('formats')).toEqual(['pdf', 'doc']);
-      expect(target.query.toString()).toBe('formats=pdf&formats=doc');
+      expect(!!target.query && target.query.getAll('formats')).toEqual(['pdf', 'doc']);
+      expect(!!target.query && target.query.toString()).toBe('formats=pdf&formats=doc');
     });
   }));
 
