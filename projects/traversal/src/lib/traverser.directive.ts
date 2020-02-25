@@ -37,7 +37,7 @@ export class TraverserOutlet implements OnInit, OnDestroy {
         this.traverser.traverse(this.location.path().slice(this.prefix.length));
         if (!this.noAutoTraverse) {
             this.location.subscribe(loc => {
-                this.traverser.traverse(loc.url || '', false);
+                this.traverser.traverse(loc.url || '/', false); // when empty string traverse to root
             });
         }
     }
