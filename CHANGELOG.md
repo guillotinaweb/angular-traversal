@@ -1,3 +1,7 @@
+# 1.4.2 (2020-02-25)
+
+- Fix when Location.back goes back to root
+
 # 1.4.1 (2020-02-24)
 
 - Fix typing
