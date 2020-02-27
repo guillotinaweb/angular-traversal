@@ -1,6 +1,10 @@
+# 1.4.3 (2020-02-27)
+
+- Support lazy loading for tiles [ebrehault]
+
 # 1.4.2 (2020-02-25)
 
-- Fix when Location.back goes back to root
+- Fix when Location.back goes back to root [oggers]
 
 # 1.4.1 (2020-02-24)
 

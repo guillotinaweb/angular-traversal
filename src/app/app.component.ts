@@ -19,7 +19,7 @@ export class AppComponent {
     traverser.addView('view', 'file', FileComponent);
     traverser.addLazyView('info', 'file', () => import('./file-info/module').then(m => m.FileInfoModule));
     traverser.addView('view', 'dir', FolderComponent);
-    traverser.addTile('details', 'file', FileDetailsComponent);
+    traverser.addLazyTile('details', 'file', () => import('./file/module').then(m => m.FileDetailsModule));
     traverser.addTile('details', 'dir', FolderDetailsComponent);
   }
 }

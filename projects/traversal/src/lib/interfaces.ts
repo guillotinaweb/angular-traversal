@@ -35,5 +35,6 @@ export interface ViewMapping {
 }
 
 export type ModuleWithViews = Type<any> & {
-    traverserViews: {name: string, components: ViewMapping}[]
+    traverserViews?: {name: string, components: ViewMapping}[]
+    traverserTiles?: {name: string, components: ViewMapping}[]
 };

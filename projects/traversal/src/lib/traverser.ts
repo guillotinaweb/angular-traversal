@@ -96,16 +96,22 @@ export class Traverser {
         this.lazy[id] = loader;
     }
 
-    loadLazyView(id: string): Promise<Type<any>> {
+    loadLazyView(id: string, isTile = false): Promise<Type<any>> {
         return this.lazy[id]().then(module => {
-            const moduleViews = (module as ModuleWithViews).traverserViews;
+            const moduleViews = (module as ModuleWithViews).traverserViews || [];
             moduleViews.forEach(view => {
                 this.views[view.name] = !!this.views[view.name] ?
                     {...this.views[view.name], ...view.components} :
                     view.components;
             });
+            const moduleTiles = (module as ModuleWithViews).traverserTiles || [];
+            moduleTiles.forEach(tile => {
+                this.tiles[tile.name] = !!this.tiles[tile.name] ?
+                    {...this.tiles[tile.name], ...tile.components} :
+                    tile.components;
+            });
             const [viewName, target] = id.split(';');
-            return this.views[viewName][target] as Type<any>;
+            return (isTile ? this.tiles : this.views)[viewName][target] as Type<any>;
         });
     }
 
@@ -125,6 +131,16 @@ export class Traverser {
             [contextPath, queryString] = contextPath.split('?');
         }
         this.emitTarget(path, contextPath, queryString, name, this.tilesContexts[name], this.tiles[name], true);
+    }
+
+    addLazyTile(name: string, target: string, loader: LazyView) {
+        if (!this.tiles[name]) {
+            this.tiles[name] = {};
+        }
+        const id = name + ';' + target;
+        this.tiles[name][target] = id;
+        this.tilesContexts[name] = new BehaviorSubject(this.getEmptyTarget());
+        this.lazy[id] = loader;
     }
 
     applyTargetToTile(name: string, target: Target) {
@@ -180,7 +196,7 @@ export class Traverser {
                         component = components['*'];
                     }
                     if (!!component) {
-                        const promise = typeof(component) === 'string' ? this.loadLazyView(component) : Promise.resolve(component);
+                        const promise = typeof(component) === 'string' ? this.loadLazyView(component, isTile) : Promise.resolve(component);
                         promise.then(comp => {
                             const target = !!component ? {
                                 context,
