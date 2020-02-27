@@ -10,7 +10,6 @@ import { AppComponent } from './app.component';
 import { FileComponent } from './file/file.component';
 import { FolderComponent } from './folder/folder.component';
 import { FolderDetailsComponent } from './folder/folder-details.component';
-import { FileDetailsComponent } from './file/file-details.component';
 import {
   BasicHttpResolver,
   BACKEND_BASE_URL,
@@ -27,7 +26,6 @@ import {
     FileComponent,
     FolderComponent,
     FolderDetailsComponent,
-    FileDetailsComponent,
   ],
   imports: [
     BrowserModule,

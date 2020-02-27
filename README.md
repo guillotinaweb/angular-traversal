@@ -428,13 +428,17 @@ export class HugeDashboardModule {
     static traverserViews: ViewMapping[] = [
         {name: 'dashboard', components: {'Folder': HugeDashboardComponent}},
     ];
+    static traverserTiles: ViewMapping[] = [
+        {name: 'dashboard-sidepanel', components: {'Folder': HugeDashboardDetailsComponent}},
+    ];
 }
 ```
 
-The view is set:
+Lazy views and/or tiles are declared like this:
 
 ```typescript
 traverser.addLazyView('dashboard', 'Folder', () => import('./folder-dashboard/module').then(m => m.HugeDashboardModule));
+traverser.addLazyTile('dashboard-sidepanel', 'Folder', () => import('./folder-dashboard/module').then(m => m.HugeDashboardModule));
 ```
 
 ## Other demo package
