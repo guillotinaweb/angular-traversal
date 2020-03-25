@@ -354,21 +354,21 @@ Some pathes our application can be managed with routing (example: `/login`, `/pr
 
 `/files` will be a route and its component will contain the outlet with a special input:
 
-```
-<traverser-outlet [noAutoTraverse]="true">
+```html
+<traverser-outlet></traverser-outlet>
 ```
 
 Note: with `noAutoTraverse`, we will not traverse to the new location everytime the location changes. 
 
 In our app module, we will declare our prefix:
 
-```
+```typescript
 { provide: NAVIGATION_PREFIX, useValue: '/files' },
 ```
 
 And in order to make sure the transition between the 2 modes work fine, we will have to do (in app.component for example):
 
-```
+```typescript
     this.router.events.pipe(
         filter(event => event instanceof NavigationEnd),
     ).subscribe(() => {
@@ -378,7 +378,7 @@ And in order to make sure the transition between the 2 modes work fine, we will 
 
 Note: if we want to use routing as a secondary system within traversal, we can make our resolver and marker aware of routes, example:
 
-```
+```typescript
     resolve(path: string, view: string, queryString: string): Observable<Something|{isRoute: boolean}> {
         const level1 = path.split('/')[1] || '';
         if (!level1 || MY_SUB_ROUTES.includes(level1)) {
@@ -391,7 +391,7 @@ Note: if we want to use routing as a secondary system within traversal, we can m
 
 and
 
-```
+```typescript
     mark(context: any): string {
         if (context.isRoute) {
             return 'routing';
@@ -403,7 +403,7 @@ and
 
 then declare a view for the fake `routing` type:
 
-```
+```typescript
 traverser.addView('view', 'routing', DefaultRouterComponent);
 ```
 

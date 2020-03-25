@@ -71,7 +71,9 @@ export class Traverser {
                 }
                 navigateTo = this.target.value.contextPath + navigateTo;
             }
-            this.location.go(this.prefix + navigateTo);
+            if (this.location.path() !== this.prefix + navigateTo) {
+                this.location.go(this.prefix + navigateTo);
+            }
         }
         this.emitTarget(path, contextPath, queryString, view, this.target, this.views[view]);
     }
