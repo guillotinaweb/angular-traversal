@@ -1,3 +1,8 @@
+# 1.5.0 (2020-03-25)
+
+### Breaking changes
+- Remove the `[noAutoTraverse]` attribute, it is not needed anymore as `traverse()` will not update the location if it has been already set by Angular Router [ebrehault]
+
 # 1.4.3 (2020-02-27)
 
 - Support lazy loading for tiles [ebrehault]

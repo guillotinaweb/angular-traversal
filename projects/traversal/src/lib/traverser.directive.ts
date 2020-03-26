@@ -17,7 +17,6 @@ import { Subject } from 'rxjs';
     selector: 'traverser-outlet',
 })
 export class TraverserOutlet implements OnInit, OnDestroy {
-    @Input() noAutoTraverse = false;
     private viewInstance: any;
     private prefix: string;
     private terminator: Subject<void> = new Subject();
@@ -34,12 +33,11 @@ export class TraverserOutlet implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.traverser.target.pipe(takeUntil(this.terminator)).subscribe((target: Target) => this.render(target));
-        this.traverser.traverse(this.location.path().slice(this.prefix.length));
-        if (!this.noAutoTraverse) {
-            this.location.subscribe(loc => {
-                this.traverser.traverse(loc.url || '/', false); // when empty string traverse to root
-            });
-        }
+        this.traverser.traverse(this.location.path().slice(this.prefix.length), false);
+        this.location.subscribe(loc => {
+            const path = (loc.url || '').slice(this.prefix.length);
+            this.traverser.traverse(path || '/', false); // when empty string traverse to root
+        });
     }
 
     ngOnDestroy() {
