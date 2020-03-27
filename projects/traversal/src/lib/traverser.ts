@@ -135,6 +135,10 @@ export class Traverser {
         this.emitTarget(path, contextPath, queryString, name, this.tilesContexts[name], this.tiles[name], true);
     }
 
+    emptyTile(name: string) {
+        this._emit(this.tilesContexts[name], this.getEmptyTarget(), name, true);
+    }
+
     addLazyTile(name: string, target: string, loader: LazyView) {
         if (!this.tiles[name]) {
             this.tiles[name] = {};
