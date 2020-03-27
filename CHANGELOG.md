@@ -1,3 +1,8 @@
+# 1.5.1 (2020-03-27)
+
+## Improvement
+- `emptyTile`: method allowing to remove current component from a tile [mpellerin]
+
 # 1.5.0 (2020-03-25)
 
 ### Breaking changes

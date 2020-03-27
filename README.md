@@ -144,6 +144,12 @@ this.traverser.loadTile('details', '/news/the-rise-of-skywalker');
 
 Note: an interesting aspect of the tile principle is the tile directive can be located in any template, and the corresponding module will not have any dependency with the component providing the tile content.
 
+It is possible to remove the component from the tile using `emptyTile` method:
+
+```typescript
+this.traverser.emptyTile('details');
+```
+
 ## Usage
 
 ### Create a view component
