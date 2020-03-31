@@ -47,7 +47,7 @@ export class TraverserLink extends TraverserButton implements OnInit {
 
     ngOnInit() {
         if (!!this.traverseTo) {
-            this.href = this.prefix + this.normalizer.normalize(this.traverseTo);
+            this.href = this.prefix + this.normalizer.normalize(this.privateTraverser.getFullPath(this.traverseTo));
         }
     }
 }
