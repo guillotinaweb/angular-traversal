@@ -1,7 +1,11 @@
+# 1.5.2 (2020-03-31)
+
+- `a[traverseTo]` href with fullPath [CarlesLopezMagem]
+
 # 1.5.1 (2020-03-27)
 
 ## Improvement
-- `emptyTile`: method allowing to remove current component from a tile [mpellerin]
+- `emptyTile`: method allowing to remove current component from a tile [CarlesLopezMagem]
 
 # 1.5.0 (2020-03-25)
 
