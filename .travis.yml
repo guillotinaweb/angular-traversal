@@ -1,5 +1,4 @@
 language: node_js
-version: 1.0
 node_js:
 - 12.4.0
 cache:
@@ -14,35 +13,31 @@ script:
 notifications:
   email:
   - ebrehault@gmail.com
-before_deploy:
-  if [[ $TRAVIS_TAG ]]; then
-    cd dist/traversal;
-  else
-    git config --global user.email "build@travis-ci.com";
-    git config --global user.name "Travis CI";
-    export PACKAGE_VERSION=$(npm run get_version | tail -n 1);
-    if ! [ $(git tag -l "$PACKAGE_VERSION") ]; then
-      echo "TAGGING $PACKAGE_VERSION...";
-      export PUSH_TAG="ok"
-      git tag $PACKAGE_VERSION;
-    fi
-  fi
-deploy:
-  - provider: releases
-    api_key:
-      secure: IS/iYVUTOh/rjCvP5OHIjxcM72o+y9RieFHvPiXpFLw3BPlRgmJ+umG1LRVYANRL6l1VaMoFp110zj5qCq3/Edj+ZiT8bPb8cI2GexsfRvyOI6Jh0d752f4v4rT6mzKIPo90hcA5HocrH0UTjrbCNNe0L3U6Fblt4Cb6xvwn1oBbvxx9TW9z5Wt4Kw04Hr7BjBVpiPWxBZXwpg1yDh73ewW+VtSCpuAqX0hDBsszM1NybMjSU5uCTVJI9SFcFNsNYXvvE60zTyBys4HUEV7kj8nEtih81EYlrqbcYyLuNYPupX2aukWYyRvZ4NcL3yFEo1oNyGyHA33s3MtmOs/eWcBhgMKN5f4eyIkYGeZluPt1MGR/bWGedP1JKTLmG9wiSulhDFu+aElWssvkfxZVpUZkp1YzfrgNguAIt5F+8CbnHzQ5tE9K/LE+v805+Q5H2dWvhNed5BaJJZNvufAnsws7ZlD73RiRYCJxXYkPlAx9LyM3yq36tmI0/WNmAE5l6C/CTxFHK4y0Ss+JuUC6/cd+F5f2VrgGx04tgQ4rvDCCmj7unszsXqJHLhiM6E8F1Y5jvsE2nf9aI8rWIyK+Dwpvpm7LgoXg0zYs0hadoquIwofvy1U5wcQukUOdosd+uoN6ZzL+CcjnkiMYmK0RzccNTVRrLx9F9ZpHGqPW/eY=
-    name: Build $PACKAGE_VERSION
-    on:
-      repo: guillotinaweb/angular-traversal
-      branch: master
-      condition: $PUSH_TAG IS present 
-  - provider: npm
-    edge: true
-    email: ebrehault@gmail.com
-    skip_cleanup: true
-    api_key:
-      secure: C5vxAUoGXxvY3Xxt8WmhvMP/Nv33xONgQge2YnX2az8aw/B7fVKedDkfcJCiqv0tsA6gNj4MsHNQt3MJMTOWlEdHPYvnUmTF4CU1eEx0izb6TnvohOAf/dw+PzeSws+lS1yaVhH3eziI0Ud1vSlijOZbVh9ypS/GRQX0bxb8tQluaYyGWba7dXaBbxj2hAxcpO+E9qr+TiZb0Lyd7MUjacxaSeIDX/OHADYXO1udQfGj3fnRT6JC3BpEV6wjDQZqFDsCNiSZxXuIGJQcaVB8fDsW/x/AHSjqYMCstBHQGH9vFRRGAiYzpograljpHgkppZDcO0yBx/ZtUfCuHl2jXa/oZjSLfB1bZLInvjmOO0HpE+kON6rWDTw9XWTMD+jypy+4Lvj0B8EUIonjtspg4z29eRM+b5LxYtkqjORC/ErxhiWz8Kum9Ysg/uuXTNco0CpufiJjuXFXFnye2IW9Sspg92o/WouHdT+TP2IQjILSuVXZLbVo1b60ZwjYlIApmdciWxaHJCjlBaUDKM+6RPqF2HgI8QGS+o+sAjV6wr8FRwxRTqO1583xsi7Sr0Jqdq7ak1bjEvhBQ94FI63J7db7Bonw78O7GdXwEYeyhX/Cf0ncmpp/6enV3FNiN0mt4zvp+l9+xRqRLbI4sd6QZZQIBkjEmRWm2zUUaQnIyXQ=
-    on:
-      tags: true
-      repo: guillotinaweb/angular-traversal
-      branch: master
+jobs:
+  include:
+    - stage: Tagging
+      if: (branch = master) AND (tag IS blank)
+      after_success: source ./deploy.sh
+      deploy:
+        provider: releases
+        api_key:
+          secure: IS/iYVUTOh/rjCvP5OHIjxcM72o+y9RieFHvPiXpFLw3BPlRgmJ+umG1LRVYANRL6l1VaMoFp110zj5qCq3/Edj+ZiT8bPb8cI2GexsfRvyOI6Jh0d752f4v4rT6mzKIPo90hcA5HocrH0UTjrbCNNe0L3U6Fblt4Cb6xvwn1oBbvxx9TW9z5Wt4Kw04Hr7BjBVpiPWxBZXwpg1yDh73ewW+VtSCpuAqX0hDBsszM1NybMjSU5uCTVJI9SFcFNsNYXvvE60zTyBys4HUEV7kj8nEtih81EYlrqbcYyLuNYPupX2aukWYyRvZ4NcL3yFEo1oNyGyHA33s3MtmOs/eWcBhgMKN5f4eyIkYGeZluPt1MGR/bWGedP1JKTLmG9wiSulhDFu+aElWssvkfxZVpUZkp1YzfrgNguAIt5F+8CbnHzQ5tE9K/LE+v805+Q5H2dWvhNed5BaJJZNvufAnsws7ZlD73RiRYCJxXYkPlAx9LyM3yq36tmI0/WNmAE5l6C/CTxFHK4y0Ss+JuUC6/cd+F5f2VrgGx04tgQ4rvDCCmj7unszsXqJHLhiM6E8F1Y5jvsE2nf9aI8rWIyK+Dwpvpm7LgoXg0zYs0hadoquIwofvy1U5wcQukUOdosd+uoN6ZzL+CcjnkiMYmK0RzccNTVRrLx9F9ZpHGqPW/eY=
+        name: Build $PACKAGE_VERSION
+        on:
+          repo: guillotinaweb/angular-traversal
+          branch: master
+          tags: true
+    - stage: NPM release
+      if: tag IS present
+      before_deploy: cd dist/traversal
+      deploy:
+        provider: npm
+        edge: true
+        email: ebrehault@gmail.com
+        skip_cleanup: true
+        api_key:
+          secure: C5vxAUoGXxvY3Xxt8WmhvMP/Nv33xONgQge2YnX2az8aw/B7fVKedDkfcJCiqv0tsA6gNj4MsHNQt3MJMTOWlEdHPYvnUmTF4CU1eEx0izb6TnvohOAf/dw+PzeSws+lS1yaVhH3eziI0Ud1vSlijOZbVh9ypS/GRQX0bxb8tQluaYyGWba7dXaBbxj2hAxcpO+E9qr+TiZb0Lyd7MUjacxaSeIDX/OHADYXO1udQfGj3fnRT6JC3BpEV6wjDQZqFDsCNiSZxXuIGJQcaVB8fDsW/x/AHSjqYMCstBHQGH9vFRRGAiYzpograljpHgkppZDcO0yBx/ZtUfCuHl2jXa/oZjSLfB1bZLInvjmOO0HpE+kON6rWDTw9XWTMD+jypy+4Lvj0B8EUIonjtspg4z29eRM+b5LxYtkqjORC/ErxhiWz8Kum9Ysg/uuXTNco0CpufiJjuXFXFnye2IW9Sspg92o/WouHdT+TP2IQjILSuVXZLbVo1b60ZwjYlIApmdciWxaHJCjlBaUDKM+6RPqF2HgI8QGS+o+sAjV6wr8FRwxRTqO1583xsi7Sr0Jqdq7ak1bjEvhBQ94FI63J7db7Bonw78O7GdXwEYeyhX/Cf0ncmpp/6enV3FNiN0mt4zvp+l9+xRqRLbI4sd6QZZQIBkjEmRWm2zUUaQnIyXQ=
+        on:
+          tags: true
+          repo: guillotinaweb/angular-traversal
+          branch: master
