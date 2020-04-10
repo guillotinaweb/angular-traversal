@@ -7,7 +7,7 @@ import {
     Optional,
     Type,
     Compiler,
-    ApplicationRef,
+    Injector,
 } from '@angular/core';
 import { Location } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
@@ -42,7 +42,7 @@ export class Traverser {
         private normalizer: Normalizer,
         private ngResolver: ComponentFactoryResolver,
         private compiler: Compiler,
-        private app: ApplicationRef,
+        private injector: Injector,
         @Optional() @Inject(NAVIGATION_PREFIX) prefix: string,
     ) {
         this.prefix = prefix || '';
@@ -105,7 +105,7 @@ export class Traverser {
     loadLazyView(id: string, isTile = false): Promise<Type<any>> {
         return this.lazy[id]().then(module => {
             this.compiler.compileModuleAsync(module).then(factory => {
-                factory.create(this.app['_injector']);
+                factory.create(this.injector);
             });
             const moduleViews = (module as ModuleWithViews).traverserViews || [];
             moduleViews.forEach(view => {
