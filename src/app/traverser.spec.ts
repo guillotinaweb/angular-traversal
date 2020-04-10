@@ -19,8 +19,8 @@ import { FullPathNormalizer } from './normalizer';
 import { AppComponent } from './app.component';
 import { FileComponent } from './file/file.component';
 import { FolderComponent } from './folder/folder.component';
-import { FileInfoComponent } from './file-info/file-info.component';
 import { FileDetailsComponent } from './file/file-details.component';
+import { FileInfoComponent } from './file-info/file-info.component';
 
 @Injectable()
 export class FakeResolver1 extends Resolver {
@@ -66,7 +66,7 @@ describe('Traverser', () => {
         AppComponent,
         FileComponent,
         FolderComponent,
-        FileInfoComponent
+        FileInfoComponent,
       ],
       imports: [TraversalModule, FormsModule],
       providers: [
@@ -183,7 +183,7 @@ describe('Marker', () => {
         AppComponent,
         FileComponent,
         FolderComponent,
-        FileInfoComponent
+        FileInfoComponent,
       ],
       imports: [TraversalModule, FormsModule],
       providers: [

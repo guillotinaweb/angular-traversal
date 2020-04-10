@@ -18,6 +18,7 @@ import {
   Marker,
   Normalizer
 } from '../../projects/traversal/src/public-api';
+import { FileInfoModule } from './file-info/module';
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import {
     FormsModule,
     HttpClientModule,
     TraversalModule,
+    FileInfoModule,
   ],
   providers: [
     {provide: Resolver, useClass: BasicHttpResolver},
