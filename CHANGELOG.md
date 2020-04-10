@@ -1,6 +1,11 @@
-# 1.5.3 (unreleased)
+# 1.5.3 (2020-04-10)
 
+## Improvement
+- Compile lazy module on load [ebrehault]
 - Fix Travis so non-tagged version can be merged [ebrehault]
+
+## Bug fix
+- Do not break if tile does not exist [ebrehault]
 
 # 1.5.2 (2020-03-31)
 
