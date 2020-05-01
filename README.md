@@ -150,6 +150,15 @@ It is possible to remove the component from the tile using `emptyTile` method:
 this.traverser.emptyTile('details');
 ```
 
+### Traversing cycle
+
+| Step      | How | Details |
+|-------------|-----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------|
+| before      | `beforeTraverse` observable | By subscribing to `beforeTraverse`, we get a Subject and the requested path. If we send `false` to the subject, the traversing is cancelled. |
+| resolve     | `Resolver` class            | The `Resolver` class takes the requested path and obtain the corresponding object that will become the current context.                      |
+| mark        | `Marker` class              | The `Marker` class takes the context object and returns its type.                                                                            |
+| instanciate | `Traverser` service         | According the context type and the requested view, the traverser finds the corresponding component and instantiates it.                      |
+
 ## Usage
 
 ### Create a view component
@@ -447,6 +456,22 @@ traverser.addLazyView('dashboard', 'Folder', () => import('./folder-dashboard/mo
 traverser.addLazyTile('dashboard-sidepanel', 'Folder', () => import('./folder-dashboard/module').then(m => m.HugeDashboardModule));
 ```
 
-## Other demo package
+## beforeTraverse
 
-[Plone demo package](https://github.com/ebrehault/angular-traversal-demo)
+The `beforeTraverse` observable allow to run some code before traversing.
+It provides a boolean Subject and the requested path.
+
+This subject must be used to return `true` or `false`, if `false`, traversing is cancelled.
+
+Example:
+
+```typescript
+this.traverser.beforeTraverse.subscribe(([ok, path]) => {
+    if (formIsNotValid) {
+        alert('Please, fill the form before leaving the page.');
+        ok.next(false);
+    } else {
+        ok.next(true);
+    }
+});
+```

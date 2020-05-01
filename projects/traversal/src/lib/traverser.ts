@@ -11,12 +11,12 @@ import {
 } from '@angular/core';
 import { Location } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
-import { BehaviorSubject, of, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, of, Observable, Subject, combineLatest } from 'rxjs';
+import { take, withLatestFrom } from 'rxjs/operators';
 import { Resolver } from './resolver';
 import { Marker } from './marker';
 import { Normalizer } from './normalizer';
 import { Target, HttpParamsOptions, ModuleWithViews, ViewMapping } from './interfaces';
-import { take } from 'rxjs/operators';
 
 export type LazyView = () => Promise<Type<any>>;
 
@@ -28,6 +28,10 @@ export const NAVIGATION_PREFIX = new InjectionToken<string>('traversal.prefix');
 export class Traverser {
 
     target: BehaviorSubject<Target>;
+    beforeTraverse: Subject<[Subject<boolean>, string]> = new Subject();
+    traverseTo: Subject<{path: string, navigate: boolean}> = new Subject();
+    echo: Subject<boolean> = new Subject();
+    canTraverse: Subject<boolean> = new Subject();
     tilesContexts: {[name: string]: BehaviorSubject<Target>} = {};
     tileUpdates: Subject<{tile: string, target: Target}> = new Subject();
     private views: { [name: string]: ViewMapping | {[target: string]: string }} = {};
@@ -47,10 +51,37 @@ export class Traverser {
     ) {
         this.prefix = prefix || '';
         this.target = new BehaviorSubject(this.getEmptyTarget());
+        let answers: boolean[] = [];
+        this.echo.subscribe(ok => {
+            answers.push(ok);
+            if (answers.length === this.beforeTraverse.observers.length) {
+                this.canTraverse.next(answers.every(yes => yes));
+            }
+        });
+        this.traverseTo.pipe(
+            withLatestFrom(this.canTraverse)
+        ).subscribe(([traverse, ok]) => {
+            if (ok) {
+                this._traverse(traverse.path, traverse.navigate);
+            } else {
+                this.location.replaceState(this.target.getValue().path);
+            }
+            answers = [];
+        });
     }
 
     traverse(path: string, navigate: boolean = true) {
         path = this.normalizer.normalize(this.getFullPath(path));
+        const obsCount = this.beforeTraverse.observers.length;
+        if (obsCount > 0) {
+            this.beforeTraverse.next([this.echo, path]);
+        } else {
+            this.canTraverse.next(true);
+        }
+        this.traverseTo.next({path, navigate});
+    }
+
+    _traverse(path: string, navigate: boolean) {
         let contextPath: string = path;
         let queryString = '';
         let view = 'view';
@@ -80,6 +111,7 @@ export class Traverser {
             }
         }
         this.emitTarget(path, contextPath, queryString, view, this.target, this.views[view]);
+        // });
     }
 
     traverseHere() {
