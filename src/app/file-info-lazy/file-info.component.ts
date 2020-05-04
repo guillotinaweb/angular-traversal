@@ -20,11 +20,11 @@ export class FileInfoLazyComponent implements OnInit, OnDestroy {
         this.traverser.target.subscribe(target => {
             this.context = target.context;
         });
-        this.traverser.beforeTraverse.pipe(takeUntil(this.terminator)).subscribe(([ok, path]) => {
+        this.traverser.beforeTraverse.pipe(takeUntil(this.terminator)).subscribe(([canTraverse, path]) => {
             if (this.lock) {
                 console.log('Sorry, navigation is locked');
             }
-            ok.next(!this.lock);
+            canTraverse.next(!this.lock);
         });
     }
 

@@ -21,9 +21,5 @@ export class AppComponent {
         traverser.addView('view', 'dir', FolderComponent);
         traverser.addLazyTile('details', 'file', () => import('./file/module').then(m => m.FileDetailsModule));
         traverser.addTile('details', 'dir', FolderDetailsComponent);
-
-        traverser.beforeTraverse.subscribe(([ok, path]) => {
-            ok.next(true);
-        });
     }
 }

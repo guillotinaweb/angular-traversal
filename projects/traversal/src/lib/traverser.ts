@@ -111,7 +111,6 @@ export class Traverser {
             }
         }
         this.emitTarget(path, contextPath, queryString, view, this.target, this.views[view]);
-        // });
     }
 
     traverseHere() {

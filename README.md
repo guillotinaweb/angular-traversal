@@ -154,10 +154,10 @@ this.traverser.emptyTile('details');
 
 | Step      | How | Details |
 |-------------|-----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------|
-| before      | `beforeTraverse` observable | By subscribing to `beforeTraverse`, we get a Subject and the requested path. If we send `false` to the subject, the traversing is cancelled. |
-| resolve     | `Resolver` class            | The `Resolver` class takes the requested path and obtain the corresponding object that will become the current context.                      |
-| mark        | `Marker` class              | The `Marker` class takes the context object and returns its type.                                                                            |
-| instanciate | `Traverser` service         | According the context type and the requested view, the traverser finds the corresponding component and instantiates it.                      |
+| before      | `beforeTraverse` observable | By subscribing to `beforeTraverse`, we get a Subject and the requested path. If we send `false` to the subject, traversing is cancelled. |
+| resolve     | `Resolver` class            | `Resolver` class takes the requested path and obtain corresponding object that will become the current context.                      |
+| mark        | `Marker` class              | `Marker` class takes the context object and returns its type.                                                                            |
+| instanciate | `Traverser` service         | According context type and requested view, traverser finds the corresponding component and instantiates it.                      |
 
 ## Usage
 
@@ -458,7 +458,7 @@ traverser.addLazyTile('dashboard-sidepanel', 'Folder', () => import('./folder-da
 
 ## beforeTraverse
 
-The `beforeTraverse` observable allow to run some code before traversing.
+`beforeTraverse` observable allow to run some code before traversing.
 It provides a boolean Subject and the requested path.
 
 This subject must be used to return `true` or `false`, if `false`, traversing is cancelled.
@@ -466,12 +466,12 @@ This subject must be used to return `true` or `false`, if `false`, traversing is
 Example:
 
 ```typescript
-this.traverser.beforeTraverse.subscribe(([ok, path]) => {
+this.traverser.beforeTraverse.subscribe(([canTraverse, path]) => {
     if (formIsNotValid) {
         alert('Please, fill the form before leaving the page.');
-        ok.next(false);
+        canTraverse.next(false);
     } else {
-        ok.next(true);
+        canTraverse.next(true);
     }
 });
 ```
