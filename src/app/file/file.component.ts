@@ -18,7 +18,11 @@ export class FileComponent implements OnInit {
         this.traverser.target.subscribe(target => {
             const context = target.context;
             this.name = context.name;
-            this.code = atob(context.content);
+            try {
+                this.code = atob(context.content);
+            } catch {
+                // bad format
+            }
             this.path = target.path.split('?')[0];
         });
     }

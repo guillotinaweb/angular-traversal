@@ -1,21 +1,38 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Traverser } from '../../../projects/traversal/src/public-api';
+import { Subject, throwError } from 'rxjs';
+import { takeUntil, map } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-file-info-lazy',
-  templateUrl: './file-info.component.html',
-  styleUrls: ['./file-info.component.css']
+    selector: 'app-file-info-lazy',
+    templateUrl: './file-info.component.html',
+    styleUrls: ['./file-info.component.css']
 })
-export class FileInfoLazyComponent implements OnInit {
+export class FileInfoLazyComponent implements OnInit, OnDestroy {
 
-  public context: any;
+    context: any;
+    lock = false;
+    terminator: Subject<void> = new Subject();
 
-  constructor(private traverser: Traverser) { }
+    constructor(private traverser: Traverser) { }
 
-  ngOnInit() {
-    this.traverser.target.subscribe(target => {
-      this.context = target.context;
-    });
-  }
+    ngOnInit() {
+        this.traverser.target.subscribe(target => {
+            this.context = target.context;
+        });
+        this.traverser.beforeTraverse.pipe(takeUntil(this.terminator)).subscribe(([canTraverse, path]) => {
+            if (this.lock) {
+                console.log('Sorry, navigation is locked');
+            }
+            canTraverse.next(!this.lock);
+        });
+    }
 
+    toggleLock() {
+        this.lock = !this.lock;
+    }
+
+    ngOnDestroy() {
+        this.terminator.next();
+    }
 }

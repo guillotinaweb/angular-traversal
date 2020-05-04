@@ -1,3 +1,8 @@
+# 1.6.0 (2020-05-01)
+
+## New feature
+- `beforeTraverse` observable [ebrehault]
+
 # 1.5.3 (2020-04-10)
 
 ## Improvement
