@@ -1,3 +1,8 @@
+# 1.6.1 (2020-05-11)
+
+## Bug fix
+- Do not replace tile context with traversed state defined before tile instantiation [ebrehault]
+
 # 1.6.0 (2020-05-01)
 
 ## New feature
