@@ -189,19 +189,6 @@ export class Traverser {
         this.lazy[id] = loader;
     }
 
-    applyTargetToTile(name: string, target: Target) {
-        this.emitTarget(
-            target.path,
-            target.contextPath,
-            !!target.query ? target.query.toString() : '',
-            name,
-            this.tilesContexts[name],
-            this.tiles[name],
-            true,
-            target.context,
-        );
-    }
-
     emitTarget(
         path: string,
         contextPath: string,

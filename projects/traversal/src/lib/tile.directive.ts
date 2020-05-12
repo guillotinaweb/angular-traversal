@@ -10,7 +10,7 @@ import {
 import { Traverser } from './traverser';
 import { Target } from './interfaces';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, skip } from 'rxjs/operators';
 
 @Directive({
     selector: 'traverser-tile',
@@ -31,8 +31,9 @@ export class TraverserTile implements OnInit, OnDestroy {
         if (!!this.name) {
             if (!this.noUpdateOnTraverse) {
                 this.traverser.target.pipe(
-                    takeUntil(this.terminator)
-                ).subscribe((target: Target) => this.traverser.applyTargetToTile(this.name as string, target));
+                    takeUntil(this.terminator),
+                    skip(1),
+                ).subscribe((target: Target) => this.traverser.loadTile(this.name as string, target.contextPath));
             }
             const tileContext = this.traverser.tilesContexts[this.name];
             if (!!tileContext) {

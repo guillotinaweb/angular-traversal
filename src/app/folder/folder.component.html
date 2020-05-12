@@ -3,5 +3,6 @@
         <a [traverseTo]="entry.url">
             {{ entry.name }}
         </a>
+        <button (click)="openDetail(entry.url)">Details</button>
     </li>
 </ul>
