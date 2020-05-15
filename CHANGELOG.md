@@ -1,3 +1,8 @@
+# 1.6.2 (2020-05-15)
+
+## Improvement
+- Method to get query parameters easily [ebrehault]
+
 # 1.6.1 (2020-05-11)
 
 ## Bug fix

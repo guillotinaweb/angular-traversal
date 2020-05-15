@@ -12,7 +12,7 @@ import {
 import { Location } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
 import { BehaviorSubject, of, Observable, Subject, combineLatest } from 'rxjs';
-import { take, withLatestFrom } from 'rxjs/operators';
+import { take, withLatestFrom, map } from 'rxjs/operators';
 import { Resolver } from './resolver';
 import { Marker } from './marker';
 import { Normalizer } from './normalizer';
@@ -303,5 +303,25 @@ export class Traverser {
             query: new HttpParams(),
             view: 'view',
         };
+    }
+
+    getQueryParams(): Observable<{[key: string]: string}> {
+        return this.target.pipe(
+            take(1),
+            map(target => {
+                const queryParams = target.query;
+                if (!queryParams) {
+                    return {};
+                } else {
+                    return queryParams.keys().reduce((all, key) => {
+                        const value = queryParams.get(key);
+                        if (!!value) {
+                            all[key] = value;
+                        }
+                        return all;
+                    }, {});
+                }
+            })
+        );
     }
 }
