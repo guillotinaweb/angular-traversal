@@ -274,7 +274,7 @@ export class Traverser {
             path = this.target.value.contextPath;
         } else if (path.startsWith('./')) {
             path = this.target.value.contextPath === '/' ? path.slice(1) : this.target.value.contextPath + path.slice(1);
-        } else if (path.startsWith('../')) {
+        } else if (path.startsWith('../') || path === '..') {
             const current = this.target.value.contextPath.split('/');
             path = path.split('/').reduce((all, chunk) => {
                 if (chunk === '..') {
