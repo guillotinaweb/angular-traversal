@@ -1,3 +1,8 @@
+# 1.6.3 (2020-06-01)
+
+## Bug fix
+- Allow to traverse to parent folder by going to `..` [ebrehault]
+
 # 1.6.2 (2020-05-15)
 
 ## Improvement
