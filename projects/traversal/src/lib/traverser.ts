@@ -121,7 +121,7 @@ export class Traverser {
         if (!this.views[name]) {
             this.views[name] = {};
         }
-        this.views[name][target] = component;
+        (this.views[name] as {[target: string]: string})[target] = component;
     }
 
     addLazyView(name: string, target: string, loader: LazyView) {
@@ -129,7 +129,7 @@ export class Traverser {
             this.views[name] = {};
         }
         const id = name + ';' + target;
-        this.views[name][target] = id;
+        (this.views[name] as {[target: string]: string})[target] = id;
         this.lazy[id] = loader;
     }
 
@@ -313,7 +313,7 @@ export class Traverser {
                 if (!queryParams) {
                     return {};
                 } else {
-                    return queryParams.keys().reduce((all, key) => {
+                    return queryParams.keys().reduce((all: {[key: string]: string}, key) => {
                         const value = queryParams.get(key);
                         if (!!value) {
                             all[key] = value;
