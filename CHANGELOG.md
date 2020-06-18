@@ -1,3 +1,8 @@
+# 1.6.4 (2020-06-18)
+
+## Bug fix
+- Clean up implicit any [ebrehault]
+
 # 1.6.3 (2020-06-01)
 
 ## Bug fix
