@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { FileDetailsComponent } from './file-details.component';
 import { CommonModule } from '@angular/common';
-import { ViewMapping } from 'traversal//lib';
+import { ViewMapping } from '../../../projects/traversal/src/public-api';
 
 @NgModule({
     imports: [CommonModule],
