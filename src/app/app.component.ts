@@ -10,21 +10,19 @@ import { DetailService } from './service';
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css']
+    styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-
     public repository = 'guillotinaweb/angular-traversal';
 
-    constructor(
-        private traverser: Traverser,
-        public service: DetailService,
-    ) {
+    constructor(private traverser: Traverser, public service: DetailService) {
         traverser.addView('view', 'file', FileComponent);
         traverser.addView('info', 'file', FileInfoComponent);
-        traverser.addLazyView('lazy-info', 'file', () => import('./file-info-lazy/module').then(m => m.FileInfoLazyModule));
+        traverser.addLazyView('lazy-info', 'file', () =>
+            import('./file-info-lazy/module').then((m) => m.FileInfoLazyModule)
+        );
         traverser.addView('view', 'dir', FolderComponent);
-        traverser.addLazyTile('details', 'file', () => import('./file/module').then(m => m.FileDetailsModule));
+        traverser.addLazyTile('details', 'file', () => import('./file/module').then((m) => m.FileDetailsModule));
         traverser.addTile('details', 'dir', FolderDetailsComponent);
     }
 

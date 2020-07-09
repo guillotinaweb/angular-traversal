@@ -1,12 +1,4 @@
-import {
-    Directive,
-    HostBinding,
-    Input,
-    OnInit,
-    Optional,
-    Inject,
-    HostListener,
-} from '@angular/core';
+import { Directive, HostBinding, Input, OnInit, Optional, Inject, HostListener } from '@angular/core';
 import { Traverser, NAVIGATION_PREFIX } from './traverser';
 import { Normalizer } from './normalizer';
 
@@ -16,9 +8,7 @@ import { Normalizer } from './normalizer';
 export class TraverserButton {
     @Input() traverseTo?: string;
 
-    constructor(
-        private traverser: Traverser,
-    ) { }
+    constructor(private traverser: Traverser) {}
 
     @HostListener('click', ['$event'])
     onClick(event: MouseEvent) {
@@ -39,7 +29,7 @@ export class TraverserLink extends TraverserButton implements OnInit {
     constructor(
         private privateTraverser: Traverser,
         private normalizer: Normalizer,
-        @Optional() @Inject(NAVIGATION_PREFIX) prefix: string,
+        @Optional() @Inject(NAVIGATION_PREFIX) prefix: string
     ) {
         super(privateTraverser);
         this.prefix = prefix || '';

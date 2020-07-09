@@ -5,19 +5,15 @@ import { DetailService } from '../service';
 @Component({
     selector: 'app-folder',
     templateUrl: './folder.component.html',
-    styleUrls: ['./folder.component.css']
+    styleUrls: ['./folder.component.css'],
 })
 export class FolderComponent implements OnInit {
-
     public context: any;
 
-    constructor(
-        private traverser: Traverser,
-        private service: DetailService,
-    ) { }
+    constructor(private traverser: Traverser, private service: DetailService) {}
 
     ngOnInit() {
-        this.traverser.target.subscribe(target => {
+        this.traverser.target.subscribe((target) => {
             this.context = target.context;
         });
     }
@@ -26,5 +22,4 @@ export class FolderComponent implements OnInit {
         this.service.showDetail = true;
         this.traverser.loadTile('details', path);
     }
-
 }
