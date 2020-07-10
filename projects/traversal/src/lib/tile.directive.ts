@@ -1,12 +1,4 @@
-import {
-    Directive,
-    OnInit,
-    OnDestroy,
-    ViewContainerRef,
-    Input,
-    ChangeDetectorRef,
-    ViewRef,
-} from '@angular/core';
+import { Directive, OnInit, OnDestroy, ViewContainerRef, Input, ChangeDetectorRef, ViewRef } from '@angular/core';
 import { Traverser } from './traverser';
 import { Target } from './interfaces';
 import { Subject } from 'rxjs';
@@ -21,25 +13,18 @@ export class TraverserTile implements OnInit, OnDestroy {
     private viewInstance: any;
     private terminator: Subject<void> = new Subject();
 
-    constructor(
-        private traverser: Traverser,
-        private container: ViewContainerRef,
-        private cdr: ChangeDetectorRef,
-    ) {}
+    constructor(private traverser: Traverser, private container: ViewContainerRef, private cdr: ChangeDetectorRef) {}
 
     ngOnInit() {
         if (!!this.name) {
             if (!this.noUpdateOnTraverse) {
-                this.traverser.target.pipe(
-                    takeUntil(this.terminator),
-                    skip(1),
-                ).subscribe((target: Target) => this.traverser.loadTile(this.name as string, target.contextPath));
+                this.traverser.target
+                    .pipe(takeUntil(this.terminator), skip(1))
+                    .subscribe((target: Target) => this.traverser.loadTile(this.name as string, target.contextPath));
             }
             const tileContext = this.traverser.tilesContexts[this.name];
             if (!!tileContext) {
-                tileContext.pipe(
-                    takeUntil(this.terminator)
-                ).subscribe(target => this.render(target));
+                tileContext.pipe(takeUntil(this.terminator)).subscribe((target) => this.render(target));
             }
         }
     }

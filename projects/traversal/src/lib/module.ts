@@ -7,24 +7,9 @@ import { Location, LocationStrategy, PathLocationStrategy } from '@angular/commo
 import { TraverserTile } from './tile.directive';
 
 @NgModule({
-    declarations: [
-        TraverserOutlet,
-        TraverserButton,
-        TraverserLink,
-        TraverserTile,
-    ],
-    imports: [
-        HttpClientModule,
-    ],
-    exports: [
-        TraverserOutlet,
-        TraverserButton,
-        TraverserLink,
-        TraverserTile,
-    ],
-    providers: [
-        Location,
-        { provide: LocationStrategy, useClass: PathLocationStrategy },
-    ]
+    declarations: [TraverserOutlet, TraverserButton, TraverserLink, TraverserTile],
+    imports: [HttpClientModule],
+    exports: [TraverserOutlet, TraverserButton, TraverserLink, TraverserTile],
+    providers: [Location, { provide: LocationStrategy, useClass: PathLocationStrategy }],
 })
 export class TraversalModule {}

@@ -16,9 +16,9 @@ Let's think about a blog, `/` (the root) displays a list of the last blog posts,
 
 Routing allows to manage that easily with 3 routes:
 
-- `/` => use the home page template,
-- `/:year/:month/:postid` => use the post template.
-- `/:year/:month/:postid/edit` => use the post edition template.
+-   `/` => use the home page template,
+-   `/:year/:month/:postid` => use the post template.
+-   `/:year/:month/:postid/edit` => use the post edition template.
 
 And Angular provides a very good routing implementation (see [Angular Router](https://angular.io/docs/ts/latest/guide/router.html)).
 
@@ -26,10 +26,10 @@ This mechanism works perfectly for application-oriented websites (let's say an i
 
 Let's imagine a company website which can contain two types of pages: folders or simple pages:
 
-- `/about` is a page,
-- `/news` is a folder,
-- `/news/welcome-our-new-president` is a page,
-- `/news/archives` is a folder.
+-   `/about` is a page,
+-   `/news` is a folder,
+-   `/news/welcome-our-new-president` is a page,
+-   `/news/archives` is a folder.
 
 There is no way to enumerate all the possible routes for such a website: it would be too difficult to maintain (because the site structure will probably evolve regularly).
 
@@ -45,7 +45,7 @@ Note: and sometimes routing is the appropriate solution, but our backend service
 
 ## Meet traversal
 
-Traversal is another approach, it analyses the current URL from its end to its begining in order to identify **the appropriate rendering** (we name it the *view*) and **the context resource** we want to render.
+Traversal is another approach, it analyses the current URL from its end to its begining in order to identify **the appropriate rendering** (we name it the _view_) and **the context resource** we want to render.
 
 We use `@@` as a prefix to our view identifiers.
 
@@ -57,12 +57,12 @@ The default view is `view`, so `/about` is equivalent to `/about/@@view`.
 
 ## When do we use traversal
 
-- when the site/app navigation tree is not predicatable and can evolve,
-- when we trust our backend to implement the navigation tree properly, and we do not want to re-implement it manually in the frontend.
+-   when the site/app navigation tree is not predicatable and can evolve,
+-   when we trust our backend to implement the navigation tree properly, and we do not want to re-implement it manually in the frontend.
 
 ## Angular Traversal features
 
-Angular Traversal allows to associate a component to a view name for a given *context marker*, like:
+Angular Traversal allows to associate a component to a view name for a given _context marker_, like:
 
 ```javascript
 traverser.addView('view', 'Folder', FolderViewComponent);
@@ -75,6 +75,7 @@ traverser.addView('history', '*', HistoryComponent);
 ### How do we insert a view in our app?
 
 Just like the router, we specify the view rendering location using an outlet directive:
+
 ```html
 <traverser-outlet></traverser-outlet>
 ```
@@ -82,28 +83,29 @@ Just like the router, we specify the view rendering location using an outlet dir
 ### How do we create navigation links?
 
 We create navigation links using a traverse directive:
+
 ```html
 <a traverseTo="/news/2017/happy-new-year/@@edit">Edit</a>
 ```
 
 ### How the traverser will get the context from the current path?
 
-The context is obtained from a *resolver* which takes the context path (e.g. `/news/2017/happy-new-year`) as parameter and returns the corresponding context as an object.
+The context is obtained from a _resolver_ which takes the context path (e.g. `/news/2017/happy-new-year`) as parameter and returns the corresponding context as an object.
 
 In many cases, we will retrieve this context from a backend, so Angular Traversal provides a basic HTTP resolver which just makes a GET using the context path and convert the resulting JSON into an object. But we can provide a custom resolver implementation easily.
 
 The traverser will give this context object to the view component so it can be rendered.
 
-If we traverse to a view without context (like ``@@login``), we will not re-call the resolver, we will just keep the current context and change the view.
+If we traverse to a view without context (like `@@login`), we will not re-call the resolver, we will just keep the current context and change the view.
 
 ### How the traverser knows which component to use?
 
-As mentionned earlier, the view mapping is based on a *context marker* (in our example, we have `'Document'` and `'Folder'`). It is a string computed from the context object using a custom *marker* class.
+As mentionned earlier, the view mapping is based on a _context marker_ (in our example, we have `'Document'` and `'Folder'`). It is a string computed from the context object using a custom _marker_ class.
 
 For instance, if we want to associate a view according the content-type, assuming the backend JSON response contains a `type` property, our marker class would do:
 
 ```javascript
-return context.type
+return context.type;
 ```
 
 And `'*'` allows to match any context.
@@ -152,12 +154,12 @@ this.traverser.emptyTile('details');
 
 ### Traversing cycle
 
-| Step      | How | Details |
-|-------------|-----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------|
+| Step        | How                         | Details                                                                                                                                  |
+| ----------- | --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
 | before      | `beforeTraverse` observable | By subscribing to `beforeTraverse`, we get a Subject and the requested path. If we send `false` to the subject, traversing is cancelled. |
-| resolve     | `Resolver` class            | `Resolver` class takes the requested path and obtain corresponding object that will become the current context.                      |
+| resolve     | `Resolver` class            | `Resolver` class takes the requested path and obtain corresponding object that will become the current context.                          |
 | mark        | `Marker` class              | `Marker` class takes the context object and returns its type.                                                                            |
-| instanciate | `Traverser` service         | According context type and requested view, traverser finds the corresponding component and instantiates it.                      |
+| instanciate | `Traverser` service         | According context type and requested view, traverser finds the corresponding component and instantiates it.                              |
 
 ## Usage
 
@@ -170,22 +172,20 @@ import { Component, OnInit } from '@angular/core';
 import { Traverser } from 'angular-traversal';
 
 @Component({
-  selector: 'app-folder-edit',
-  templateUrl: './folder-edit.component.html',
-  styleUrls: ['./folder-edit.component.css']
+    selector: 'app-folder-edit',
+    templateUrl: './folder-edit.component.html',
+    styleUrls: ['./folder-edit.component.css'],
 })
 export class FolderEditComponent implements OnInit {
+    private context: any;
 
-  private context: any;
+    constructor(private traverser: Traverser) {}
 
-  constructor(private traverser: Traverser) { }
-
-  ngOnInit() {
-    this.traverser.target.subscribe(target => {
-      this.context = target.context;
-    });
-  }
-
+    ngOnInit() {
+        this.traverser.target.subscribe((target) => {
+            this.context = target.context;
+        });
+    }
 }
 ```
 
@@ -201,9 +201,9 @@ import { Marker } from 'angular-traversal';
 
 @Injectable()
 export class TypeMarker extends Marker {
-  mark(context: any): string {
-      return context['@type']
-  }
+    mark(context: any): string {
+        return context['@type'];
+    }
 }
 ```
 
@@ -226,29 +226,31 @@ import { FolderEditComponent } from './folder-edit/folder-edit.component';
 import { HistoryComponent } from './history/history.component';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  title = 'app works!';
+    title = 'app works!';
 
-  constructor(traverser:Traverser) {
-      traverser.addView('edit', 'Folder', FolderEditComponent);
-      traverser.addView('edit', 'Document', EditComponent);
-      traverser.addView('history', '*', HistoryComponent);
-  }
+    constructor(traverser: Traverser) {
+        traverser.addView('edit', 'Folder', FolderEditComponent);
+        traverser.addView('edit', 'Document', EditComponent);
+        traverser.addView('history', '*', HistoryComponent);
+    }
 }
 ```
 
 ## Insert the outlet and the links
 
 To insert the view rendering:
+
 ```html
 <traverser-outlet></traverser-outlet>
 ```
 
 To create navigation links:
+
 ```html
 <a traverseTo="/news/2017/happy-new-year/@@edit">Edit</a>
 ```
@@ -261,8 +263,8 @@ In 'imports', we need to import the TraversalModule.
 
 In `providers`, we need:
 
-- a resolver (if we use `BasicHttpResolver`, we also need the `BACKEND_BASE_URL` value),
-- our custom marker.
+-   a resolver (if we use `BasicHttpResolver`, we also need the `BACKEND_BASE_URL` value),
+-   our custom marker.
 
 ```typescript
 import { BrowserModule } from '@angular/platform-browser';
@@ -282,26 +284,16 @@ import { FolderEditComponent } from './folder-edit/folder-edit.component';
 import { TypeMarker } from './type-marker';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    EditComponent,
-    HistoryComponent,
-    FolderEditComponent,
-  ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    HttpClientModule,
-    TraversalModule,
-  ],
-  providers: [
-    { provide: Resolver, useClass: BasicHttpResolver },
-    { provide: BACKEND_BASE_URL, useValue: 'http://my.backend.io' },
-    { provide: Marker, useClass: TypeMarker },
-  ],
-  bootstrap: [AppComponent]
+    declarations: [AppComponent, EditComponent, HistoryComponent, FolderEditComponent],
+    imports: [BrowserModule, FormsModule, HttpClientModule, TraversalModule],
+    providers: [
+        { provide: Resolver, useClass: BasicHttpResolver },
+        { provide: BACKEND_BASE_URL, useValue: 'http://my.backend.io' },
+        { provide: Marker, useClass: TypeMarker },
+    ],
+    bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
 ```
 
 ## Path normalizer
@@ -332,27 +324,30 @@ So if we want to use this url to create a traversable link, we need to shorten i
 Of course, our resolver could support full pathes, but then the displayed location in the browser
 would be:
 
-```http://localhost:4200/https://api.github.com/repos/guillotinaweb/angular-traversal/contents/CHANGELOG.md?ref=master```
+`http://localhost:4200/https://api.github.com/repos/guillotinaweb/angular-traversal/contents/CHANGELOG.md?ref=master`
 
 which does work, but is pretty ugly.
 
 To avoid that, we can implement a Normalizer:
+
 ```typescript
 import { Injectable } from '@angular/core';
 import { Normalizer } from 'angular-traversal';
 
 @Injectable()
 export class FullPathNormalizer extends Normalizer {
-  normalize(path): string {
-    if (path.startsWith('https://api.github.com/repos')) {
-      return path.slice(28);
-    } else {
-      return path;
+    normalize(path): string {
+        if (path.startsWith('https://api.github.com/repos')) {
+            return path.slice(28);
+        } else {
+            return path;
+        }
     }
-  }
 }
 ```
+
 and provide it in the module:
+
 ```typescript
 import { Normalizer } from 'angular-traversal';
 import { FullPathNormalizer } from './my-normalizer';
@@ -373,7 +368,7 @@ Some pathes our application can be managed with routing (example: `/login`, `/pr
 <traverser-outlet></traverser-outlet>
 ```
 
-Note: with `noAutoTraverse`, we will not traverse to the new location everytime the location changes. 
+Note: with `noAutoTraverse`, we will not traverse to the new location everytime the location changes.
 
 In our app module, we will declare our prefix:
 
@@ -384,11 +379,9 @@ In our app module, we will declare our prefix:
 And in order to make sure the transition between the 2 modes work fine, we will have to do (in app.component for example):
 
 ```typescript
-    this.router.events.pipe(
-        filter(event => event instanceof NavigationEnd),
-    ).subscribe(() => {
-        this.traverser.traverseHere();
-    });
+this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
+    this.traverser.traverseHere();
+});
 ```
 
 Note: if we want to use routing as a secondary system within traversal, we can make our resolver and marker aware of routes, example:
@@ -426,7 +419,7 @@ traverser.addView('view', 'routing', DefaultRouterComponent);
 
 ## Lazy loading
 
-*Note: only supported since Angular 9*
+_Note: only supported since Angular 9_
 
 Similarly to Angular Router, in order to reduce our main bundle size, we can lazy load the view components.
 
@@ -440,11 +433,9 @@ Let's say we have a specific view involving a lot of code and most users won't u
     providers: [],
 })
 export class HugeDashboardModule {
-    static traverserViews: ViewMapping[] = [
-        {name: 'dashboard', components: {'Folder': HugeDashboardComponent}},
-    ];
+    static traverserViews: ViewMapping[] = [{ name: 'dashboard', components: { Folder: HugeDashboardComponent } }];
     static traverserTiles: ViewMapping[] = [
-        {name: 'dashboard-sidepanel', components: {'Folder': HugeDashboardDetailsComponent}},
+        { name: 'dashboard-sidepanel', components: { Folder: HugeDashboardDetailsComponent } },
     ];
 }
 ```
@@ -452,8 +443,44 @@ export class HugeDashboardModule {
 Lazy views and/or tiles are declared like this:
 
 ```typescript
-traverser.addLazyView('dashboard', 'Folder', () => import('./folder-dashboard/module').then(m => m.HugeDashboardModule));
-traverser.addLazyTile('dashboard-sidepanel', 'Folder', () => import('./folder-dashboard/module').then(m => m.HugeDashboardModule));
+traverser.addLazyView('dashboard', 'Folder', () =>
+    import('./folder-dashboard/module').then((m) => m.HugeDashboardModule)
+);
+traverser.addLazyTile('dashboard-sidepanel', 'Folder', () =>
+    import('./folder-dashboard/module').then((m) => m.HugeDashboardModule)
+);
+```
+
+If a lazy-loaded module declares several views, it might be annoying to declare all of them in our app component:
+
+```ts
+traverser.addLazyView('project-dashboard', 'Folder', () =>
+    import('./folder-dashboard/module').then((m) => m.HugeDashboardModule)
+);
+traverser.addLazyView('system-dashboard', 'Folder', () =>
+    import('./folder-dashboard/module').then((m) => m.HugeDashboardModule)
+);
+traverser.addLazyView('alerts', 'Folder', () => import('./folder-dashboard/module').then((m) => m.HugeDashboardModule));
+```
+
+To avoid that, we can use a common prefix for all our views:
+
+```ts
+export class HugeDashboardModule {
+    static traverserViews: ViewMapping[] = [
+        { name: 'dashboard/project', components: { Folder: HugeDashboard1Component } },
+        { name: 'dashboard/system', components: { Folder: HugeDashboard2Component } },
+        { name: 'dashboard/alerts', components: { Folder: HugeDashboard3Component } },
+    ];
+}
+```
+
+And then we jsut have to declare the view prefix in app component to trigger lazy loading when any of these views is requested:
+
+```ts
+traverser.addLazyView('dashboard', 'Folder', () =>
+    import('./folder-dashboard/module').then((m) => m.HugeDashboardModule)
+);
 ```
 
 ## beforeTraverse

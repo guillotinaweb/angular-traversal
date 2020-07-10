@@ -5,7 +5,9 @@ import {
     ViewContainerRef,
     Inject,
     Optional,
-    Input, ChangeDetectorRef, ViewRef,
+    Input,
+    ChangeDetectorRef,
+    ViewRef,
 } from '@angular/core';
 import { Location } from '@angular/common';
 import { Traverser, NAVIGATION_PREFIX } from './traverser';
@@ -26,7 +28,7 @@ export class TraverserOutlet implements OnInit, OnDestroy {
         private location: Location,
         private container: ViewContainerRef,
         @Optional() @Inject(NAVIGATION_PREFIX) prefix: string,
-        private cdr: ChangeDetectorRef,
+        private cdr: ChangeDetectorRef
     ) {
         this.prefix = prefix || '';
     }
@@ -34,7 +36,7 @@ export class TraverserOutlet implements OnInit, OnDestroy {
     ngOnInit() {
         this.traverser.target.pipe(takeUntil(this.terminator)).subscribe((target: Target) => this.render(target));
         this.traverser.traverse(this.location.path().slice(this.prefix.length), false);
-        this.location.subscribe(loc => {
+        this.location.subscribe((loc) => {
             const path = (loc.url || '').slice(this.prefix.length);
             this.traverser.traverse(path || '/', false); // when empty string traverse to root
         });

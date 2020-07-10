@@ -10,7 +10,5 @@ import { ViewMapping } from '../../../projects/traversal/src/public-api';
     declarations: [FileDetailsComponent],
 })
 export class FileDetailsModule {
-    static traverserTiles: ViewMapping[] = [
-        {name: 'details', components: {file: FileDetailsComponent}},
-    ];
+    static traverserTiles: ViewMapping[] = [{ name: 'details', components: { file: FileDetailsComponent } }];
 }
