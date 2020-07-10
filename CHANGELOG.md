@@ -1,3 +1,8 @@
+# 1.7.0 (2020-07-10)
+
+## New feature
+- Use view prefix to lazy load a module [ebrehault]
+
 # 1.6.5 (2020-06-29)
 
 ## Improvement

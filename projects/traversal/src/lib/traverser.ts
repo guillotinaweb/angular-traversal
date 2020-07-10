@@ -35,6 +35,7 @@ export class Traverser {
     tileUpdates: Subject<{ tile: string; target: Target }> = new Subject();
     private views: { [name: string]: ViewMapping | { [target: string]: string } } = {};
     private lazy: { [id: string]: LazyView } = {};
+    private lazyModules: { [id: string]: boolean } = {};
     private tiles: { [name: string]: { [target: string]: any } } = {};
     private prefix: string;
 
@@ -107,7 +108,14 @@ export class Traverser {
                 this.location.go(this.prefix + navigateTo);
             }
         }
-        this.emitTarget(path, contextPath, queryString, view, this.target, this.views[view]);
+        let components = this.views[view];
+        if (!components && view.includes('/')) {
+            const prefix = view.split('/')[0];
+            if (!!this.lazyModules[prefix] && this.views[prefix]) {
+                components = this.views[prefix];
+            }
+        }
+        this.emitTarget(path, contextPath, queryString, view, this.target, components);
     }
 
     traverseHere() {
@@ -128,10 +136,11 @@ export class Traverser {
         const id = name + ';' + target;
         (this.views[name] as { [target: string]: string })[target] = id;
         this.lazy[id] = loader;
+        this.lazyModules[name] = true;
     }
 
-    loadLazyView(id: string, isTile = false): Promise<Type<any>> {
-        return this.lazy[id]().then((module) => {
+    loadLazyView(moduleId: string, viewName: string, isTile = false): Promise<Type<any>> {
+        return this.lazy[moduleId]().then((module) => {
             this.compiler.compileModuleAsync(module).then((factory) => {
                 factory.create(this.injector);
             });
@@ -147,7 +156,7 @@ export class Traverser {
                     ? { ...this.tiles[tile.name], ...tile.components }
                     : tile.components;
             });
-            const [viewName, target] = id.split(';');
+            const target = moduleId.split(';')[1];
             return (isTile ? this.tiles : this.views)[viewName][target] as Type<any>;
         });
     }
@@ -184,6 +193,7 @@ export class Traverser {
         this.tiles[name][target] = id;
         this.tilesContexts[name] = new BehaviorSubject(this.getEmptyTarget());
         this.lazy[id] = loader;
+        this.lazyModules[name] = true;
     }
 
     emitTarget(
@@ -231,7 +241,7 @@ export class Traverser {
                     if (!!component) {
                         const promise =
                             typeof component === 'string'
-                                ? this.loadLazyView(component, isTile)
+                                ? this.loadLazyView(component, viewOrTile, isTile)
                                 : Promise.resolve(component);
                         promise.then((comp) => {
                             const target = !!component

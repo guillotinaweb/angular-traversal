@@ -10,5 +10,5 @@ import { ViewMapping } from '../../../projects/traversal/src/public-api';
     providers: [],
 })
 export class FileInfoLazyModule {
-    static traverserViews: ViewMapping[] = [{ name: 'lazy-info', components: { file: FileInfoLazyComponent } }];
+    static traverserViews: ViewMapping[] = [{ name: 'lazyinfo/file', components: { file: FileInfoLazyComponent } }];
 }

@@ -18,7 +18,7 @@ export class AppComponent {
     constructor(private traverser: Traverser, public service: DetailService) {
         traverser.addView('view', 'file', FileComponent);
         traverser.addView('info', 'file', FileInfoComponent);
-        traverser.addLazyView('lazy-info', 'file', () =>
+        traverser.addLazyView('lazyinfo', 'file', () =>
             import('./file-info-lazy/module').then((m) => m.FileInfoLazyModule)
         );
         traverser.addView('view', 'dir', FolderComponent);
