@@ -451,7 +451,7 @@ traverser.addLazyTile('dashboard-sidepanel', 'Folder', () =>
 );
 ```
 
-If a lazy-loaded module declares several views, it might be annoying to declare all of them in our app component:
+If a lazy-loaded module declares several views, it might be annoying to declare them all in our app component:
 
 ```ts
 traverser.addLazyView('project-dashboard', 'Folder', () =>
@@ -475,7 +475,7 @@ export class HugeDashboardModule {
 }
 ```
 
-And then we jsut have to declare the view prefix in app component to trigger lazy loading when any of these views is requested:
+And then we just have to declare the view prefix in app component to trigger lazy loading when any of these views is requested:
 
 ```ts
 traverser.addLazyView('dashboard', 'Folder', () =>
