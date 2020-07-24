@@ -118,8 +118,9 @@ export class Traverser {
         this.emitTarget(path, contextPath, queryString, view, this.target, components);
     }
 
-    traverseHere() {
-        this.traverse(this.location.path().slice(this.prefix.length));
+    traverseHere(includeHash = true) {
+        const here = this.location.path().slice(this.prefix.length);
+        this.traverse(!includeHash ? here.split('?')[0] : here);
     }
 
     addView(name: string, target: string, component: any) {
