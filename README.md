@@ -373,7 +373,7 @@ Note: with `noAutoTraverse`, we will not traverse to the new location everytime 
 In our app module, we will declare our prefix:
 
 ```typescript
-{ provide: NAVIGATION_PREFIX, useValue: '/files' },
+{ provide: NAVIGATION_PREFIX, useValue: new BehaviorSubject('/files') },
 ```
 
 And in order to make sure the transition between the 2 modes work fine, we will have to do (in app.component for example):

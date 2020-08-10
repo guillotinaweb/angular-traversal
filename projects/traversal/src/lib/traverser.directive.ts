@@ -13,31 +13,27 @@ import { Location } from '@angular/common';
 import { Traverser, NAVIGATION_PREFIX } from './traverser';
 import { Target } from './interfaces';
 import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 
 @Directive({
     selector: 'traverser-outlet',
 })
 export class TraverserOutlet implements OnInit, OnDestroy {
     private viewInstance: any;
-    private prefix: string;
     private terminator: Subject<void> = new Subject();
 
     constructor(
         private traverser: Traverser,
         private location: Location,
         private container: ViewContainerRef,
-        @Optional() @Inject(NAVIGATION_PREFIX) prefix: string,
         private cdr: ChangeDetectorRef
-    ) {
-        this.prefix = prefix || '';
-    }
+    ) {}
 
     ngOnInit() {
         this.traverser.target.pipe(takeUntil(this.terminator)).subscribe((target: Target) => this.render(target));
-        this.traverser.traverse(this.location.path().slice(this.prefix.length), false);
+        this.traverser.traverse(this.location.path().replace('/' + this.traverser.getPrefix(), ''), false);
         this.location.subscribe((loc) => {
-            const path = (loc.url || '').slice(this.prefix.length);
+            const path = (loc.url || '').replace('/' + this.traverser.getPrefix(), '');
             this.traverser.traverse(path || '/', false); // when empty string traverse to root
         });
     }

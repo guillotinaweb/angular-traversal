@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { Location } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
-import { BehaviorSubject, of, Observable, Subject, combineLatest } from 'rxjs';
+import { BehaviorSubject, of, Observable, Subject } from 'rxjs';
 import { take, withLatestFrom, map } from 'rxjs/operators';
 import { Resolver } from './resolver';
 import { Marker } from './marker';
@@ -20,7 +20,7 @@ import { Target, HttpParamsOptions, ModuleWithViews, ViewMapping } from './inter
 
 export type LazyView = () => Promise<Type<any>>;
 
-export const NAVIGATION_PREFIX = new InjectionToken<string>('traversal.prefix');
+export const NAVIGATION_PREFIX = new InjectionToken<BehaviorSubject<string>>('traversal.prefix');
 
 @Injectable({
     providedIn: 'root',
@@ -37,7 +37,6 @@ export class Traverser {
     private lazy: { [id: string]: LazyView } = {};
     private lazyModules: { [id: string]: boolean } = {};
     private tiles: { [name: string]: { [target: string]: any } } = {};
-    private prefix: string;
 
     constructor(
         private location: Location,
@@ -47,9 +46,8 @@ export class Traverser {
         private ngResolver: ComponentFactoryResolver,
         private compiler: Compiler,
         private injector: Injector,
-        @Optional() @Inject(NAVIGATION_PREFIX) prefix: string
+        @Optional() @Inject(NAVIGATION_PREFIX) private prefix: BehaviorSubject<string>
     ) {
-        this.prefix = prefix || '';
         this.target = new BehaviorSubject(this.getEmptyTarget());
         let answers: boolean[] = [];
         this.echo.subscribe((ok) => {
@@ -104,8 +102,8 @@ export class Traverser {
                 }
                 navigateTo = this.target.value.contextPath + navigateTo;
             }
-            if (this.location.path() !== this.prefix + navigateTo) {
-                this.location.go(this.prefix + navigateTo);
+            if (this.location.path() !== this.getPrefix() + navigateTo) {
+                this.location.go(this.getPrefix() + navigateTo);
             }
         }
         let components = this.views[view];
@@ -119,7 +117,7 @@ export class Traverser {
     }
 
     traverseHere(includeHash = true) {
-        const here = this.location.path().slice(this.prefix.length);
+        const here = this.location.path().replace('/' + this.getPrefix(), '');
         this.traverse(!includeHash ? here.split('?')[0] : here);
     }
 
@@ -249,9 +247,9 @@ export class Traverser {
                                 ? ({
                                       context,
                                       path,
-                                      prefixedPath: this.prefix + path,
+                                      prefixedPath: this.getPrefix() + path,
                                       contextPath,
-                                      prefixedContextPath: this.prefix + contextPath,
+                                      prefixedContextPath: this.getPrefix() + contextPath,
                                       view: viewOrTile,
                                       component: comp,
                                       query: new HttpParams({ fromString: queryString || '' } as HttpParamsOptions),
@@ -317,9 +315,9 @@ export class Traverser {
             component: null,
             context: {},
             contextPath: '',
-            prefixedContextPath: this.prefix,
+            prefixedContextPath: this.getPrefix(),
             path: '',
-            prefixedPath: this.prefix,
+            prefixedPath: this.getPrefix(),
             query: new HttpParams(),
             view: 'view',
         };
@@ -343,5 +341,13 @@ export class Traverser {
                 }
             })
         );
+    }
+
+    getPrefix(): string {
+        return !!this.prefix ? this.prefix.getValue() : '';
+    }
+
+    setPrefix(prefix: string) {
+        this.prefix.next(prefix);
     }
 }
