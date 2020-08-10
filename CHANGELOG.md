@@ -1,3 +1,9 @@
+# 1.8.0 (2020-08-10)
+
+## New feature
+
+-   Allow to change navigation prefix at runtime [ebrehault]
+
 # 1.7.1 (2020-07-24)
 
 ## Improvement
