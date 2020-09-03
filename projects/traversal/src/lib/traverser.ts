@@ -323,7 +323,7 @@ export class Traverser {
         };
     }
 
-    getQueryParams(): Observable<{ [key: string]: string }> {
+    getQueryParams<T = string>(): Observable<{ [key: string]: T }> {
         return this.target.pipe(
             take(1),
             map((target) => {
@@ -331,13 +331,20 @@ export class Traverser {
                 if (!queryParams) {
                     return {};
                 } else {
-                    return queryParams.keys().reduce((all: { [key: string]: string }, key) => {
-                        const value = queryParams.get(key);
-                        if (!!value) {
-                            all[key] = value;
-                        }
-                        return all;
-                    }, {});
+                    return queryParams
+                        .keys()
+                        .reduce((all: { [key: string]: T }, key) => {
+                            const value = queryParams.getAll(key);
+                            if (!value) {
+                                return all;
+                            }
+                            if (value.length > 1) {
+                                all[key] = value as unknown as T;
+                            } else {
+                                all[key] = value[0] as unknown as T;
+                            }
+                            return all;
+                        }, {});
                 }
             })
         );
