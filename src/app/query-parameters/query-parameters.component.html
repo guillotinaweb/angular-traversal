@@ -1,0 +1,8 @@
+<ul>
+    <li *ngFor="let paramKey of parameterKeys">
+        <strong>{{ paramKey }}</strong>
+        <small>
+            {{parameters[paramKey]}}
+        </small>
+    </li>
+</ul>

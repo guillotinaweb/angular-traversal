@@ -9,12 +9,14 @@ import { DetailService } from '../service';
 })
 export class FolderComponent implements OnInit {
     public context: any;
+    public path: string = '';
 
     constructor(private traverser: Traverser, private service: DetailService) {}
 
     ngOnInit() {
         this.traverser.target.subscribe((target) => {
             this.context = target.context;
+            this.path = target.contextPath;
         });
     }
 

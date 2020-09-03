@@ -21,6 +21,9 @@ export class AppComponent {
         traverser.addLazyView('lazyinfo', 'file', () =>
             import('./file-info-lazy/module').then((m) => m.FileInfoLazyModule)
         );
+        traverser.addLazyView('query-parameters', 'dir', () =>
+            import('./query-parameters/query-parameters.module').then((m) => m.QueryParametersModule),
+        );
         traverser.addView('view', 'dir', FolderComponent);
         traverser.addLazyTile('details', 'file', () => import('./file/module').then((m) => m.FileDetailsModule));
         traverser.addTile('details', 'dir', FolderDetailsComponent);

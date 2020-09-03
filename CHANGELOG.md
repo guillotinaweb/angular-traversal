@@ -1,3 +1,9 @@
+# 1.9.0 (2020-09-03)
+
+## Improvement
+
+- Refactoring `getQueryParams` in order to support array of parameters and providing a sample of usage [faustoonna]
+
 # 1.8.0 (2020-08-10)
 
 ## New feature

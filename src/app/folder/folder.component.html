@@ -1,8 +1,13 @@
-<ul>
-    <li *ngFor="let entry of context">
-        <a [traverseTo]="entry.url">
-            {{ entry.name }}
-        </a>
-        <button (click)="openDetail(entry.url)">Details</button>
-    </li>
-</ul>
+<div>
+    <a [traverseTo]="path+'/@@query-parameters?param1=value1&param1=value2&param2=value3'">
+        List params
+    </a>
+    <ul>
+        <li *ngFor="let entry of context">
+            <a [traverseTo]="entry.url">
+                {{ entry.name }}
+            </a>
+            <button (click)="openDetail(entry.url)">Details</button>
+        </li>
+    </ul>
+</div>
