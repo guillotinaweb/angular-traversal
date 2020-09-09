@@ -31,9 +31,9 @@ export class TraverserOutlet implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.traverser.target.pipe(takeUntil(this.terminator)).subscribe((target: Target) => this.render(target));
-        this.traverser.traverse(this.location.path().replace('/' + this.traverser.getPrefix(), ''), false);
+        this.traverser.traverse(this.location.path().replace(this.traverser.getPrefix(), ''), false);
         this.location.subscribe((loc) => {
-            const path = (loc.url || '').replace('/' + this.traverser.getPrefix(), '');
+            const path = (loc.url || '').replace(this.traverser.getPrefix(), '');
             this.traverser.traverse(path || '/', false); // when empty string traverse to root
         });
     }
