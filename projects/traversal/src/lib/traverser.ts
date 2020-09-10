@@ -355,6 +355,6 @@ export class Traverser {
     }
 
     setPrefix(prefix: string) {
-        this.prefix.next(prefix);
+        this.prefix.next(prefix.startsWith('/') ? prefix : `/${prefix}`);
     }
 }

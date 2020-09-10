@@ -1,3 +1,8 @@
+# 1.9.1 (2020-09-09)
+
+## Bug fix
+- Fix traversed path when prefix is null [ebrehault] 
+
 # 1.9.0 (2020-09-03)
 
 ## Improvement
