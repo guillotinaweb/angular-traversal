@@ -117,7 +117,7 @@ export class Traverser {
     }
 
     traverseHere(includeHash = true) {
-        const here = this.location.path().replace('/' + this.getPrefix(), '');
+        const here = this.location.path().replace(this.getPrefix(), '');
         this.traverse(!includeHash ? here.split('?')[0] : here);
     }
 
@@ -331,20 +331,18 @@ export class Traverser {
                 if (!queryParams) {
                     return {};
                 } else {
-                    return queryParams
-                        .keys()
-                        .reduce((all: { [key: string]: T }, key) => {
-                            const value = queryParams.getAll(key);
-                            if (!value) {
-                                return all;
-                            }
-                            if (value.length > 1) {
-                                all[key] = value as unknown as T;
-                            } else {
-                                all[key] = value[0] as unknown as T;
-                            }
+                    return queryParams.keys().reduce((all: { [key: string]: T }, key) => {
+                        const value = queryParams.getAll(key);
+                        if (!value) {
                             return all;
-                        }, {});
+                        }
+                        if (value.length > 1) {
+                            all[key] = (value as unknown) as T;
+                        } else {
+                            all[key] = (value[0] as unknown) as T;
+                        }
+                        return all;
+                    }, {});
                 }
             })
         );

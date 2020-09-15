@@ -1,13 +1,20 @@
+# 1.9.2 (2020-09-15)
+
+## Bug fix
+
+-   Fix `traverseHere()` when using prefix [ebrehault]
+
 # 1.9.1 (2020-09-09)
 
 ## Bug fix
-- Fix traversed path when prefix is null [ebrehault] 
+
+-   Fix traversed path when prefix is null [ebrehault]
 
 # 1.9.0 (2020-09-03)
 
 ## Improvement
 
-- Refactoring `getQueryParams` in order to support array of parameters and providing a sample of usage [faustoonna]
+-   Refactoring `getQueryParams` in order to support array of parameters and providing a sample of usage [faustoonna]
 
 # 1.8.0 (2020-08-10)
 
