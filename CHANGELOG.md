@@ -1,3 +1,9 @@
+# 1.9.3 (2020-11-27)
+
+## Improvement
+
+-   Upgrade to Angular 11 [ebrehault]
+
 # 1.9.2 (2020-09-15)
 
 ## Bug fix

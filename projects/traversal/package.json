@@ -1,6 +1,6 @@
 {
     "name": "angular-traversal",
-    "version": "1.9.2",
+    "version": "1.9.3",
     "license": "MIT",
     "author": {
         "name": "Eric Brehault",
@@ -27,8 +27,8 @@
         "url": "https://github.com/guillotinaweb/angular-traversal/issues"
     },
     "peerDependencies": {
-        "@angular/common": "^9.0.1",
-        "@angular/core": "^9.0.1"
+        "@angular/common": "^11.0.2",
+        "@angular/core": "^11.0.2"
     },
     "private": false,
     "dependencies": {
