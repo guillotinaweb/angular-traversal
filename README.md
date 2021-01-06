@@ -6,7 +6,7 @@
 
 ## Demo
 
-In this [demo](https://guillotinaweb.github.io/angular-traversal/dist/angular-traversal/) we allow to navigate in any public Github repository. There is not specific routing implemented in the app, we just rely on the Github routing itself.
+In this [demo](https://guillotinaweb.github.io/angular-traversal/) we allow to navigate in any public Github repository. There is not specific routing implemented in the app, we just rely on the Github routing itself.
 
 ## Why routing is not always good
 
