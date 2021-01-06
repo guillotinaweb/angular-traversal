@@ -1,0 +1,30 @@
+name: Deploy
+env:
+    CI: true
+on:
+    push:
+        branches:
+            - master
+jobs:
+    release:
+        runs-on: ubuntu-latest
+        steps:
+            - name: checkout
+              uses: actions/checkout@v2
+            - name: setup Node
+              uses: actions/setup-node@v1
+            - name: Github pages
+              uses: JamesIves/github-pages-deploy-action@3.7.1
+              with:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  BRANCH: gh-pages
+                  FOLDER: .
+                  CLEAN: true
+            - name: Tag
+              run: ./tag-version.sh
+            - run: npm install && npm run build:lib
+            - name: Publish
+              uses: JS-DevTools/npm-publish@v1
+              with:
+                  token: ${{ secrets.NPM_TOKEN }}
+                  package: ./dist/traversal/package.json
