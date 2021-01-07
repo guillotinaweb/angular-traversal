@@ -327,7 +327,7 @@ export class Traverser {
         return this.target.pipe(
             take(1),
             map((target) => {
-                const queryParams = target.query;
+                const queryParams = Object.assign(new HttpParams(), target.query);
                 if (!queryParams) {
                     return {};
                 } else {
