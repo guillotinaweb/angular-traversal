@@ -1,3 +1,9 @@
+# 1.9.4 (2021-01-07)
+
+## Bug fix
+
+-   Do not mutate HttpParams [ebrehault]
+
 # 1.9.3 (2020-11-27)
 
 ## Improvement
