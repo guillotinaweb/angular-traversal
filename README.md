@@ -2,7 +2,7 @@
 
 **When routing is not good enough**
 
-[![Build Status](https://travis-ci.org/guillotinaweb/angular-traversal.svg?branch=master)](https://travis-ci.org/guillotinaweb/angular-traversal)
+[![Build Status](https://github.com/guillotinaweb/angular-traversal/workflows/CI/badge.svg)](https://github.com/guillotinaweb/angular-traversal/actions?query=workflow%3ACI)
 
 ## Demo
 
