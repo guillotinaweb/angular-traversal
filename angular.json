@@ -18,7 +18,7 @@
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.app.json",
+            "tsconfig": "src/tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
               "src/assets"
@@ -80,7 +80,7 @@
           "options": {
             "main": "src/test.ts",
             "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.spec.json",
+            "tsconfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
             "styles": [
               "src/styles.css"
@@ -95,7 +95,7 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": [
+            "tsconfig": [
               "src/tsconfig.app.json",
               "src/tsconfig.spec.json"
             ],
@@ -126,7 +126,7 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": "e2e/tsconfig.e2e.json",
+            "tsconfig": "e2e/tsconfig.e2e.json",
             "exclude": [
               "**/node_modules/**"
             ]
@@ -143,13 +143,13 @@
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "tsConfig": "projects/traversal/tsconfig.lib.json",
+            "tsconfig": "projects/traversal/tsconfig.lib.json",
             "project": "projects/traversal/ng-package.json"
           },
           "configurations": {
             "production": {
               "project": "projects/traversal/ng-package.json"
-            ,              "tsConfig": "projects/traversal/tsconfig.lib.prod.json"
+            ,              "tsconfig": "projects/traversal/tsconfig.lib.prod.json"
 }
           }
         },
@@ -157,14 +157,14 @@
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "main": "projects/traversal/src/test.ts",
-            "tsConfig": "projects/traversal/tsconfig.spec.json",
+            "tsconfig": "projects/traversal/tsconfig.spec.json",
             "karmaConfig": "projects/traversal/karma.conf.js"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": [
+            "tsconfig": [
               "projects/traversal/tsconfig.lib.json",
               "projects/traversal/tsconfig.spec.json"
             ],
