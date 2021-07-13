@@ -1,3 +1,9 @@
+# 1.9.6 (2021-07-13)
+
+## Improvement
+
+-   Provide services in root [ebrehault]
+
 # 1.9.5 (2021-05-20)
 
 ## Improvement
