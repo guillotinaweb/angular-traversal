@@ -13,13 +13,14 @@ describe('BasicHttpResolver', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [HttpClientTestingModule],
-            providers: [
-                { provide: Resolver, useClass: BasicHttpResolver },
-                { provide: APP_BASE_HREF, useValue: '/' },
-                { provide: BACKEND_BASE_URL, useValue: 'http://fake/backend' },
-            ],
-        });
+    imports: [HttpClientTestingModule],
+    providers: [
+        { provide: Resolver, useClass: BasicHttpResolver },
+        { provide: APP_BASE_HREF, useValue: '/' },
+        { provide: BACKEND_BASE_URL, useValue: 'http://fake/backend' },
+    ],
+    teardown: { destroyAfterEach: false }
+});
 
         resolver = TestBed.get(Resolver);
     });

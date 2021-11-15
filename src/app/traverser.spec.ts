@@ -59,15 +59,16 @@ export class FakeResolver2 extends Resolver {
 describe('Traverser', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
-            declarations: [AppComponent, FileComponent, FolderComponent, FileInfoComponent],
-            imports: [TraversalModule, FormsModule],
-            providers: [
-                { provide: Resolver, useClass: FakeResolver1 },
-                { provide: Marker, useClass: TypeMarker },
-                { provide: Normalizer, useClass: FullPathNormalizer },
-                { provide: APP_BASE_HREF, useValue: '/' },
-            ],
-        });
+    declarations: [AppComponent, FileComponent, FolderComponent, FileInfoComponent],
+    imports: [TraversalModule, FormsModule],
+    providers: [
+        { provide: Resolver, useClass: FakeResolver1 },
+        { provide: Marker, useClass: TypeMarker },
+        { provide: Normalizer, useClass: FullPathNormalizer },
+        { provide: APP_BASE_HREF, useValue: '/' },
+    ],
+    teardown: { destroyAfterEach: false }
+});
     });
 
     it('should traverse using the current path', async(() => {
@@ -168,15 +169,16 @@ describe('Traverser', () => {
 describe('Marker', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
-            declarations: [AppComponent, FileComponent, FolderComponent, FileInfoComponent],
-            imports: [TraversalModule, FormsModule],
-            providers: [
-                { provide: Resolver, useClass: FakeResolver2 },
-                { provide: Marker, useClass: TypeMarker },
-                { provide: Normalizer, useClass: FullPathNormalizer },
-                { provide: APP_BASE_HREF, useValue: '/' },
-            ],
-        });
+    declarations: [AppComponent, FileComponent, FolderComponent, FileInfoComponent],
+    imports: [TraversalModule, FormsModule],
+    providers: [
+        { provide: Resolver, useClass: FakeResolver2 },
+        { provide: Marker, useClass: TypeMarker },
+        { provide: Normalizer, useClass: FullPathNormalizer },
+        { provide: APP_BASE_HREF, useValue: '/' },
+    ],
+    teardown: { destroyAfterEach: false }
+});
     });
 
     it('should pick first match if marker returns a list', async(() => {
