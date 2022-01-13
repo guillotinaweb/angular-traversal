@@ -1,3 +1,9 @@
+# 1.9.7 (2021-11-25)
+
+## Improvement
+
+-   Upgrade to Angular 13 [ebrehault]
+
 # 1.9.6 (2021-07-13)
 
 ## Improvement
